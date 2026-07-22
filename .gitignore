@@ -9,6 +9,7 @@ scratch_*
 *.backup.csv
 # regenerated each run before use (no need to persist)
 club_fixtures.csv
+clubelo_cache.json
 # NOTE: predictions_pending.csv and track_record_live.csv are intentionally
 # NOT ignored — they must persist across CI runs (log now, grade later).
 

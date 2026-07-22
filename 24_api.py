@@ -31,6 +31,11 @@ from fastapi import FastAPI, Header, HTTPException, Query
 from pydantic import BaseModel, Field
 from cosmic_reading import cosmic_reading
 
+# clubelo-powered European fallback (digit-prefixed module -> load by path)
+import importlib.util as _il
+_es = _il.spec_from_file_location("euro_predict", "27_euro_predict.py")
+euro = _il.module_from_spec(_es); _es.loader.exec_module(euro)
+
 # ---------------------------------------------------------------------------
 # load engines once at startup
 # ---------------------------------------------------------------------------
@@ -264,6 +269,37 @@ def _do_predict(home, away, date, kind, division, neutral, odds, cosmic=False):
     # --- coverage guard: refuse rather than return a confident wrong answer ---
     covered, reason = coverage(home, away, kind, division)
     if not covered:
+        # extended coverage: clubelo rates ~600 European clubs on one scale, so
+        # try a real strength-based prediction before giving up (clubs only).
+        if kind == "club":
+            try:
+                ep = euro.predict(home, away, d.date().isoformat(),
+                                  odds=tuple(odds) if odds else None, verbose=False)
+                res = {
+                    "matchup": {"home": home, "away": away, "date": d.date().isoformat()},
+                    "covered": True, "coverage_source": "clubelo-extended",
+                    "one_x_two": {"home": ep["one_x_two"][0], "draw": ep["one_x_two"][1],
+                                  "away": ep["one_x_two"][2]},
+                    "one_x_two_model": {"home": ep["model_only"][0], "draw": ep["model_only"][1],
+                                        "away": ep["model_only"][2]},
+                    "over_under_2_5": {"over": ep["over25"], "under": round(1 - ep["over25"], 3)},
+                    "likely_scores": ep["top_scores"],
+                    "pick": {"selection": ep["pick"], "probability": max(ep["one_x_two"])},
+                    "elo": {"home": ep["elo_home"], "away": ep["elo_away"]},
+                    "market": None if ep["market"] is None else {
+                        "home": ep["market"][0], "draw": ep["market"][1], "away": ep["market"][2]},
+                    "competition": {"kind": "club", "note": "outside our 12 core leagues"},
+                    "meta": {"generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                             "disclaimer": DISCLAIMER,
+                             "coverage_note": "Uses clubelo.com pan-European ratings, not our "
+                                              "trained engine — strength-based, lower resolution "
+                                              "than our 12 core leagues."},
+                }
+                if cosmic:
+                    res["cosmic_reading"] = cosmic_reading(home, away, d)
+                return res
+            except Exception:
+                pass    # clubelo has no rating for a team -> genuine not-covered below
         resp = {
             "matchup": {"home": home, "away": away, "date": d.date().isoformat()},
             "covered": False,
