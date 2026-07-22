@@ -35,6 +35,9 @@ from cosmic_reading import cosmic_reading
 import importlib.util as _il
 _es = _il.spec_from_file_location("euro_predict", "27_euro_predict.py")
 euro = _il.module_from_spec(_es); _es.loader.exec_module(euro)
+gpc = euro.gpc                                    # reuse the loaded club-genesis module
+
+CARDS = joblib.load("cards_engine.pkl")           # cards / bookings model
 
 # ---------------------------------------------------------------------------
 # load engines once at startup
@@ -133,6 +136,33 @@ def build_row_intl(home, away, date, neutral, importance=30):
 def _market_probs(oh, od, oa):
     inv = np.array([1.0 / oh, 1.0 / od, 1.0 / oa])
     return inv / inv.sum()
+
+
+def cards_predict(home, away, div):
+    """Total-cards expectation + over/under lines for a covered club match.
+    Referee is unknown at predict time (NaN) — the model handles that natively."""
+    st, lc = CARDS["state"], CARDS["league_codes"]
+    if div not in lc or home not in st["tcards"] or away not in st["tcards"]:
+        return None
+    he = st["elo"].get(home, gpc.BASE_ELO); ae = st["elo"].get(away, gpc.BASE_ELO)
+    exp_h = 1.0 / (1.0 + 10 ** ((ae - (he + gpc.HOME_ADV)) / 400.0))
+
+    def roll(t, n):
+        h = st["tcards"].get(t, [])
+        return float(np.mean(h[-n:])) if h else np.nan
+
+    row = {"league": lc[div], "imp": gpc.k_factor(div),
+           "ELO_Diff": he - ae, "ELO_AbsDiff": abs(he - ae), "ELO_Exp": exp_h,
+           "H_cards5": roll(home, 5), "A_cards5": roll(away, 5),
+           "H_cards10": roll(home, 10), "A_cards10": roll(away, 10),
+           "ref_avg": np.nan, "ref_n": 0}
+    X = pd.DataFrame([row])[CARDS["features"]]
+    lam = float(np.clip(CARDS["model"].predict(X)[0], 1, 12))
+    out = {"expected_cards": round(lam, 2)}
+    for L in CARDS["lines"]:
+        p = float(1 - poisson.cdf(int(L), lam))
+        out[f"over_{str(L).replace('.', '_')}"] = round(p, 3)
+    return out
 
 
 def predict_core(engine, X, kind, odds):
@@ -320,6 +350,9 @@ def _do_predict(home, away, date, kind, division, neutral, odds, cosmic=False):
         body = predict_core(CLUB, X, "club", odds)
         body["competition"] = {"kind": "club", "division": div,
                                "league": DIV_NAMES.get(div, div)}
+        c = cards_predict(home, away, div)
+        if c:
+            body["cards"] = c
     else:
         X = build_row_intl(home, away, d, neutral)
         body = predict_core(INTL, X, "international", odds)

@@ -1,0 +1,20 @@
+ASTROPITCH CARDS / BOOKINGS MODEL - HOLDOUT REPORT
+==============================================================
+Matches: 41,486 (card data) | Train 35,486 | Holdout 6,000
+Mean cards/game: 4.25
+
+TOTAL-CARDS accuracy (MAE, lower better)
+  Baseline (mean)      : 1.851
+  Model (no referee)   : 1.768
+  Model (with referee) : 1.771
+
+OVER/UNDER lines (model vs base-rate Brier, lower better)
+  Over 3.5: acc 60.7%  Brier 0.233 (base 0.245)
+  Over 4.5: acc 62.2%  Brier 0.228 (base 0.240)
+  Over 5.5: acc 75.2%  Brier 0.178 (base 0.187)
+
+Referee is feature #4/11 by importance.
+==============================================================
+This is a NEW market: no sharp public line competes on cards the way it does on
+1X2. Referee assignment (announced pre-match) is the key live input.
+Saved: cards_engine.pkl

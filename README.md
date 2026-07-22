@@ -45,7 +45,7 @@ python 24_api.py          # -> http://127.0.0.1:8000/docs
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /v1/predict` | 1X2, O/U 2.5, xG, exact-score distribution (add `&cosmic=true` for the reading) |
+| `GET /v1/predict` | 1X2, O/U 2.5, xG, exact-score distribution, **cards over/under** (add `&cosmic=true` for the reading) |
 | `GET /v1/cosmic` | entertainment-only astrology/numerology reading (works for any teams) |
 | `GET /v1/teams` · `GET /v1/leagues` | discover supported teams & leagues |
 | `GET /health` · `GET /docs` | status & interactive docs |
