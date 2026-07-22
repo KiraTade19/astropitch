@@ -231,6 +231,27 @@ def _resolve_kind(home, away, kind):
     return "club"
 
 
+def coverage(home, away, kind, division):
+    """Only predict when BOTH teams are known and comparable. Prevents confident
+    wrong answers from unknown teams or name collisions (e.g. Conf. League 'Inter'
+    resolving to Inter Milan). Returns (covered: bool, reason: str|None)."""
+    if kind == "international":
+        unknown = [t for t in (home, away) if t not in INTL_TEAMS]
+        if unknown:
+            return False, f"not in our international database: {', '.join(unknown)}"
+        return True, None
+    unknown = [t for t in (home, away) if t not in CLUB_TEAMS]
+    if unknown:
+        return False, (f"outside our 12 supported leagues: {', '.join(unknown)}. "
+                       f"We cover top divisions only, not lower/other-country clubs.")
+    dh, da = TEAM_DIV.get(home), TEAM_DIV.get(away)
+    if dh != da:
+        return False, (f"cross-competition tie: {home} plays {DIV_NAMES.get(dh, dh)}, "
+                       f"{away} plays {DIV_NAMES.get(da, da)}. Our ratings are within-league "
+                       f"and not comparable across different leagues.")
+    return True, None
+
+
 def _do_predict(home, away, date, kind, division, neutral, odds, cosmic=False):
     try:
         d = pd.to_datetime(date)
@@ -239,26 +260,38 @@ def _do_predict(home, away, date, kind, division, neutral, odds, cosmic=False):
     if odds is not None and (len(odds) != 3 or min(odds) <= 1.0):
         raise HTTPException(422, "odds must be three decimal prices > 1.0 [home, draw, away]")
     kind = _resolve_kind(home, away, kind)
-    warnings = []
+
+    # --- coverage guard: refuse rather than return a confident wrong answer ---
+    covered, reason = coverage(home, away, kind, division)
+    if not covered:
+        resp = {
+            "matchup": {"home": home, "away": away, "date": d.date().isoformat()},
+            "covered": False,
+            "reason": reason,
+            "prediction": None,
+            "supported": {"club_leagues": sorted(DIV_NAMES.values()),
+                          "international": True,
+                          "note": "Use /v1/teams to see supported teams."},
+            "meta": {"generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                     "disclaimer": DISCLAIMER},
+        }
+        if cosmic:                                  # cosmic works for ANY teams
+            resp["cosmic_reading"] = cosmic_reading(home, away, d)
+        return resp
+
     if kind == "club":
         X, div = build_row_club(home, away, d, division)
-        for t in (home, away):
-            if t not in CLUB_TEAMS:
-                warnings.append(f"'{t}' unseen; using baseline rating {BASE_ELO:.0f}")
         body = predict_core(CLUB, X, "club", odds)
         body["competition"] = {"kind": "club", "division": div,
                                "league": DIV_NAMES.get(div, div)}
     else:
         X = build_row_intl(home, away, d, neutral)
-        for t in (home, away):
-            if t not in INTL_TEAMS:
-                warnings.append(f"'{t}' unseen; using baseline rating {BASE_ELO:.0f}")
         body = predict_core(INTL, X, "international", odds)
         body["competition"] = {"kind": "international", "neutral": neutral}
     result = {
         "matchup": {"home": home, "away": away, "date": d.date().isoformat()},
+        "covered": True,
         **body,
-        "warnings": warnings,
         "meta": {"generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                  "disclaimer": DISCLAIMER},
     }
