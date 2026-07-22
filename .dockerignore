@@ -1,21 +1,12 @@
-# keep the image tiny — the API only needs the code + the two .pkl engines
-*.csv
-*.txt
-*.md
-*.json
-*.log
-archive/
-.venv/
-__pycache__/
-.idea/
-*.backup.csv
-15_genesis_pro.py
-16_predict_pro.py
-17_odds_value.py
-21_club_genesis.py
-22_update_club_data.py
-23_track_record.py
-batch_predict.py
-elo_ratings.py
-real_international_data.py
-simulate_tournament.py
+# Allowlist: ignore everything, then permit ONLY what the API image needs.
+# (Robust — no broad *.txt / *.json patterns that could hide a required file.)
+*
+!requirements.txt
+!app.py
+!24_api.py
+!esoteric_features.py
+!cosmic_reading.py
+!27_euro_predict.py
+!21_club_genesis.py
+!club_engine.pkl
+!pro_engine.pkl
