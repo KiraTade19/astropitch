@@ -36,6 +36,23 @@ ESO = dict(only_acc=0.446, only_ll=1.058, base_acc=0.502, base_ll=0.999,
 DEMO = cosmic_reading("Real Madrid", "Barcelona",
                       datetime.date.today() + datetime.timedelta(days=14))
 
+# ---- live record (grows once the season starts; empty off-season) ----
+import os
+LIVE = None
+if os.path.exists("track_record_live.csv"):
+    lv = pd.read_csv("track_record_live.csv")
+    if len(lv):
+        lb = lv[lv["bet_side"].notna() & (lv["bet_side"] != "")]
+        has_clv = len(lb) and lb["clv"].notna().any()
+        LIVE = dict(n=len(lv), acc=lv["hit_1x2"].mean(), ll=lv["logloss"].mean(),
+                    clv=(lb["clv"].dropna().mean() * 100) if has_clv else None,
+                    span=f"{lv['date'].min()} to {lv['date'].max()}")
+_live_clv = f"{LIVE['clv']:+.2f}% CLV" if (LIVE and LIVE['clv'] is not None) else "CLV building"
+LIVE_HTML = "" if not LIVE else (
+    f'<div class="note" style="border-color:var(--grn)"><b>Live since launch:</b> '
+    f'{LIVE["n"]:,} predictions graded ({LIVE["span"]}) &mdash; {LIVE["acc"]*100:.1f}% 1X2, '
+    f'{LIVE["ll"]:.3f} log-loss, {_live_clv}. Logged pre-kickoff, graded automatically.</div>')
+
 CSS = """
 :root{
   --bg:#0b0f24;--bg2:#141a38;--card:#161d40;--line:#2a3566;--line2:#3a4680;
@@ -147,6 +164,7 @@ def build():
     {stat(f"{TR['score']*100:.1f}%","exact score top-1","g")}
     {stat(f"{TR['ou']*100:.1f}%","over/under 2.5")}
   </div>
+  {LIVE_HTML}
   <div class="note">
     <b>We don't claim to beat the bookmaker.</b> On these {TR['n']:,} matches the closing line
     scored {MARKET['acc']*100:.1f}% / {MARKET['ll']:.3f} log-loss &mdash; sharper than us, as an efficient market should be.

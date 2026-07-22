@@ -4,11 +4,13 @@ __pycache__/
 .idea/
 *.log
 
-# scratch + backups + regenerable outputs
+# scratch + backups
 scratch_*
 *.backup.csv
-predictions_pending.csv
+# regenerated each run before use (no need to persist)
 club_fixtures.csv
+# NOTE: predictions_pending.csv and track_record_live.csv are intentionally
+# NOT ignored — they must persist across CI runs (log now, grade later).
 
 # archived legacy code
 archive/

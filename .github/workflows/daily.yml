@@ -1,0 +1,51 @@
+name: Daily predictions & track record
+
+# Runs every morning during the season: refresh results, grade yesterday's
+# logged predictions, log today's fixtures, and rebuild the public site.
+# Off-season this is a harmless no-op (nothing to grade/predict).
+on:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC daily
+  workflow_dispatch: {}         # allow manual "Run workflow"
+
+permissions:
+  contents: write               # needed to commit refreshed data/site back
+
+concurrency:
+  group: daily-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh results + fixtures
+        run: python 22_update_club_data.py
+
+      - name: Grade logged predictions, then log upcoming fixtures
+        run: python 23_track_record.py live
+
+      - name: Rebuild public site
+        run: python 26_build_site.py
+
+      - name: Commit any changes
+        run: |
+          git config user.name  "astropitch-bot"
+          git config user.email "astropitch-bot@users.noreply.github.com"
+          git add -A          # stages all non-ignored changes; robust if files are absent
+          if git diff --cached --quiet; then
+            echo "No changes today."
+          else
+            git commit -m "Automated: refresh results, grade predictions, rebuild site [skip ci]"
+            git push
+          fi

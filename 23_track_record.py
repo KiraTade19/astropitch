@@ -43,6 +43,7 @@ FIXTURES_CSV = "club_fixtures.csv"
 PENDING_CSV = "predictions_pending.csv"
 TRACK_TXT = "track_record.txt"
 TRACK_CSV = "track_record.csv"
+TRACK_LIVE_CSV = "track_record_live.csv"   # graded live predictions accumulate here
 
 BACKFILL_N = 4000          # most-recent matches to grade
 VALUE_EDGE = 0.03          # model_prob - market_prob threshold to call a "value" bet
@@ -278,9 +279,84 @@ def predict_upcoming():
         print(f"\nLogged {logged} pre-kickoff predictions -> {PENDING_CSV}")
 
 
+def grade_pending():
+    """Settle logged pre-kickoff predictions against results now in club_raw.csv,
+    accumulating an honest LIVE track record (with CLV) that grows every week."""
+    if not os.path.exists(PENDING_CSV):
+        print("\nNo pending predictions to grade.")
+        return
+    pend = pd.read_csv(PENDING_CSV)
+    if "status" in pend.columns:
+        pend = pend[pend["status"] == "pending"]
+    if pend.empty:
+        print("\nNo pending predictions to grade.")
+        return
+    res = load_clean_club()
+
+    graded, still = [], []
+    for p in pend.itertuples(index=False):
+        pdate = pd.to_datetime(p.date)
+        m = res[(res["Div"] == p.div) & (res["HomeTeam"] == p.home) &
+                (res["AwayTeam"] == p.away) &
+                (res["Date"] >= pdate - pd.Timedelta(days=3)) &
+                (res["Date"] <= pdate + pd.Timedelta(days=3))].dropna(subset=["FTHG", "FTAG"])
+        if m.empty:                       # not played yet -> keep pending
+            still.append(p._asdict())
+            continue
+        row = m.iloc[0]
+        hg, ag = int(row["FTHG"]), int(row["FTAG"])
+        probs = np.array([p.pH, p.pD, p.pA])
+        y = 0 if hg > ag else (1 if hg == ag else 2)
+        pick = int(probs.argmax())
+        over = int(hg + ag > 2.5)
+
+        clv = roi = np.nan
+        bet = ""
+        if not pd.isna(p.openH):
+            mkt_open = implied(p.openH, p.openD, p.openA)
+            side = int((probs - mkt_open).argmax())
+            open_odds = [p.openH, p.openD, p.openA][side]
+            close_odds = [row["closeH"], row["closeD"], row["closeA"]][side]
+            if (probs - mkt_open)[side] > VALUE_EDGE and open_odds >= MIN_ODDS:
+                bet = ["H", "D", "A"][side]
+                roi = (open_odds - 1.0) if side == y else -1.0
+                if not pd.isna(close_odds) and close_odds > 1.01:
+                    clv = open_odds / close_odds - 1.0
+
+        graded.append(dict(
+            date=p.date, div=p.div, home=p.home, away=p.away,
+            pH=p.pH, pD=p.pD, pA=p.pA, pick=["H", "D", "A"][pick], p_over=p.p_over,
+            score_pick=p.score_pick, actual=f"{hg}-{ag}", result=["H", "D", "A"][y],
+            hit_1x2=int(pick == y), hit_score=int(p.score_pick == f"{hg}-{ag}"),
+            hit_ou=int((p.p_over > 0.5) == bool(over)),
+            logloss=round(float(-np.log(max(probs[y], 1e-9))), 4),
+            bet_side=bet, clv=None if np.isnan(clv) else round(float(clv), 4),
+            roi=None if np.isnan(roi) else round(float(roi), 4),
+            graded_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        ))
+
+    if graded:
+        g = pd.DataFrame(graded)
+        if os.path.exists(TRACK_LIVE_CSV):
+            g = pd.concat([pd.read_csv(TRACK_LIVE_CSV), g], ignore_index=True) \
+                  .drop_duplicates(subset=["date", "div", "home", "away"], keep="first")
+        g.to_csv(TRACK_LIVE_CSV, index=False)
+    if still:
+        pd.DataFrame(still).to_csv(PENDING_CSV, index=False)
+    elif os.path.exists(PENDING_CSV):
+        os.remove(PENDING_CSV)
+    print(f"\nGraded {len(graded)} match(es) -> {TRACK_LIVE_CSV}; {len(still)} still pending.")
+
+
 if __name__ == "__main__":
+    import sys
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "all"
     print("=" * 66)
-    print(" ASTROPITCH V12 - TRACK RECORD ENGINE")
+    print(f" ASTROPITCH V12 - TRACK RECORD ENGINE  [{cmd}]")
     print("=" * 66)
-    backfill()
-    predict_upcoming()
+    if cmd in ("backfill", "all"):
+        backfill()
+    if cmd in ("grade", "live", "all"):
+        grade_pending()
+    if cmd in ("predict", "live", "all"):
+        predict_upcoming()
