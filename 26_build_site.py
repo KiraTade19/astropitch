@@ -16,6 +16,7 @@ import pandas as pd
 from cosmic_reading import cosmic_reading
 
 OUT = "docs/index.html"
+API_URL = "https://astropitch-api.onrender.com"   # live API (Render)
 
 # ---- real track-record numbers (computed live so the site can't lie) ----
 r = pd.read_csv("track_record.csv")
@@ -215,7 +216,7 @@ def build():
   </div>
   <div class="card" style="text-align:center">
     <p style="color:var(--mut)">Build on the data.</p>
-    <a class="cta" href="/docs">Explore the API &rarr;</a>
+    <a class="cta" href="{API_URL}/docs">Explore the API &rarr;</a>
   </div>
 </section>
 </main>
