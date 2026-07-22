@@ -1,0 +1,30 @@
+ASTROPITCH - ESOTERIC INCLUSION TEST  (holdout 4,000, 2025-26 season)
+======================================================================
+1X2 result (log-loss lower = better; the honest scoreboard)
+  Always-Home baseline      : acc 0.430
+  ESOTERIC ONLY             : acc 0.446   logloss 1.058
+  BASE (real features)      : acc 0.502   logloss 0.999
+  BASE + ESOTERIC (all 40)  : acc 0.503   logloss 0.999
+
+  Esoteric's effect on the real model:
+     accuracy  +0.0017
+     log-loss  +0.0007   (NO EFFECT)
+     esoteric share of model gain: 41.1%
+
+Top esoteric features by gain (if the model used any):
+     eso_H_master           gain      5.9
+     eso_saturn_zodiac      gain      5.4
+     eso_cn_animal          gain      5.3
+     eso_jupiter_zodiac     gain      5.1
+     eso_mars_retro         gain      4.8
+     eso_venus_retro        gain      4.8
+     eso_H_pyth             gain      4.8
+     eso_saturn_retro       gain      4.7
+     eso_H_express          gain      4.7
+     eso_A_express          gain      4.7
+======================================================================
+READ: 'ESOTERIC ONLY' vs Always-Home shows if astrology/numerology predicts at
+all alone. BASE+ESOTERIC vs BASE shows if it adds anything to a real model.
+Per our priors this should be ~NO EFFECT - and now it's measured, not assumed.
+The 40 features remain available (esoteric_features.py) for the cosmic-reading
+brand layer, presented as clearly-labeled entertainment + transparent science.

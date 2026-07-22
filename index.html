@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroPitch V11 | AI Market Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090c15;
+            --surface: #141a27;
+            --surface-hover: #1e2638;
+            --brand-green: #00fa70;
+            --brand-green-glow: rgba(0, 250, 112, 0.2);
+            --brand-pink: #f51767;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #2a3441;
+            --glass: rgba(20, 26, 39, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-light);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 250, 112, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(245, 23, 103, 0.05), transparent 25%);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(9, 12, 21, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span { color: var(--brand-green); }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-muted);
+        }
+        
+        .sys-status { color: var(--brand-green); font-weight: 700; }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0 20px;
+        }
+
+        .tab-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 250, 112, 0.1);
+            border-color: var(--brand-green);
+            color: var(--brand-green);
+            box-shadow: 0 0 15px var(--brand-green-glow);
+        }
+
+        /* GRID VIEW */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        /* MATCH CARD */
+        .match-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-4px);
+            border-color: #3f4e63;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .card-body { padding: 20px; }
+
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .flag {
+            width: 28px;
+            height: 20px;
+            border-radius: 3px;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .odds-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .odd-box {
+            background: #1a2235;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            text-align: center;
+            min-width: 65px;
+        }
+
+        .odd-box.highlight {
+            border-color: var(--brand-green);
+            background: rgba(0, 250, 112, 0.05);
+            color: var(--brand-green);
+        }
+
+        .action-row {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-predict {
+            flex: 1;
+            background: #39b54a; /* Bookie green style */
+            background: linear-gradient(135deg, #2fa340, #39b54a);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-predict:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 181, 74, 0.3);
+        }
+
+        /* AI RESULT DROPDOWN */
+        .ai-result {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 250, 112, 0.03);
+            border-top: 1px dashed var(--brand-green);
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .res-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .res-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .res-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .res-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .exact-score { color: #fbbf24; }
+        .val-verdict { font-size: 0.9rem; margin-top: 15px; text-align: center; font-weight: 700; padding: 10px; border-radius: 6px;}
+        .val-good { background: rgba(0,250,112,0.1); color: var(--brand-green); border: 1px solid var(--brand-green); }
+        .val-warn { background: rgba(245,23,103,0.1); color: var(--brand-pink); border: 1px solid var(--brand-pink); }
+        .val-neut { background: rgba(148,163,184,0.1); color: var(--text-light); border: 1px solid var(--text-muted); }
+
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(0, 250, 112, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--brand-green);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .market-grid { grid-template-columns: 1fr; }
+            .header-stats { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">ASTROPITCH <span>V11</span></div>
+        <div class="header-stats">
+            <div>API STATUS: <span class="sys-status">ONLINE 🟢</span></div>
+            <div>MODELS: <span>WC-TRI-BRAIN ACTIVE</span></div>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active">Live Market (Automated)</button>
+        <button class="tab-btn" onclick="alert('Switching to standard terminal...')">Manual Terminal</button>
+    </div>
+
+    <div class="container">
+        <div class="market-grid" id="market-grid">
+            <!-- Cards generated by JS -->
+        </div>
+    </div>
+
+    <script>
+        const matches = [
+            { id: 1, home: "Panama", away: "Croatia", flagH: "pa", flagA: "hr", oh: "7.40", od: "4.80", oa: "1.46", date: "2026/06/24 02:00:00", venue: "BMO Field, Toronto" },
+            { id: 2, home: "Colombia", away: "DR Congo", flagH: "co", flagA: "cd", oh: "1.57", od: "4.10", oa: "6.80", date: "2026/06/24 05:00:00", venue: "Estadio Akron, Guadalajara" },
+            { id: 3, home: "Switzerland", away: "Canada", flagH: "ch", flagA: "ca", oh: "2.42", od: "3.15", oa: "3.35", date: "2026/06/24 22:00:00", venue: "BC Place, Vancouver" },
+            { id: 4, home: "Bosnia & Herzegovina", away: "Qatar", flagH: "ba", flagA: "qa", oh: "1.41", od: "5.20", oa: "7.60", date: "2026/06/24 22:00:00", venue: "Lumen Field, Seattle" },
+            { id: 5, home: "Scotland", away: "Brazil", flagH: "gb-sct", flagA: "br", oh: "8.60", od: "5.20", oa: "1.39", date: "2026/06/25 01:00:00", venue: "Hard Rock Stadium, Miami" },
+            { id: 6, home: "Morocco", away: "Haiti", flagH: "ma", flagA: "ht", oh: "1.19", od: "7.60", oa: "17.00", date: "2026/06/25 01:00:00", venue: "Mercedes-Benz Stadium, Atlanta" },
+            { id: 7, home: "Czechia", away: "Mexico", flagH: "cz", flagA: "mx", oh: "3.70", od: "3.75", oa: "2.02", date: "2026/06/25 04:00:00", venue: "Estadio Azteca, Mexico City" },
+            { id: 8, home: "South Africa", away: "South Korea", flagH: "za", flagA: "kr", oh: "5.20", od: "3.85", oa: "1.73", date: "2026/06/25 04:00:00", venue: "Estadio BBVA, Monterrey" },
+            { id: 9, home: "Curacao", away: "Ivory Coast", flagH: "cw", flagA: "ci", oh: "18.00", od: "8.20", oa: "1.17", date: "2026/06/25 23:00:00", venue: "Lincoln Financial Field, Philadelphia" },
+            { id: 10, home: "Ecuador", away: "Germany", flagH: "ec", flagA: "de", oh: "3.75", od: "3.95", oa: "1.97", date: "2026/06/25 23:00:00", venue: "MetLife Stadium, New York" }
+        ];
+
+        const grid = document.getElementById('market-grid');
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit' };
+            return d.toLocaleDateString('en-GB', options);
+        }
+
+        matches.forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'match-card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <span>${formatDate(m.date)}</span>
+                    <span>${m.venue.split(',')[1] || m.venue}</span>
+                </div>
+                <div class="card-body">
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://flagcdn.com/w40/${m.flagH}.png" class="flag" alt="${m.home}">
+                            ${m.home}
+                        </div>
+                        <div class="odds-container">
+                            <div class="odd-box">${m.oh}</div>
+                        </div>
+                    </div>
+                    <div class="team-row">
+                        <div class="team-info" style="font-size:0.9rem; color:var(--text-muted); margin-left:40px;">Draw</div>
+                        <div class="odds-container">
+                            <div class="odd-box" style="background:transparent; color:var(--text-muted); border-color:transparent;">${m.od}</div>
+                        </div>
+                    </div>
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://flagcdn.com/w40/${m.flagA}.png" class="flag" alt="${m.away}">
+                            ${m.away}
+                        </div>
+                        <div class="odds-container">
+                            <div class="odd-box">${m.oa}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-row">
+                    <button class="btn-predict" id="btn-${m.id}" onclick="runPrediction(${m.id})">Ignite Tri-Brain AI</button>
+                    <div class="loader" id="loader-${m.id}"></div>
+                </div>
+                <div class="ai-result" id="res-${m.id}">
+                    <div class="res-grid">
+                        <div class="res-box">
+                            <div class="res-label">Exact Score Synth</div>
+                            <div class="res-val exact-score" id="score-${m.id}">--</div>
+                        </div>
+                        <div class="res-box">
+                            <div class="res-label">O/U 2.5 Market</div>
+                            <div class="res-val" id="ou-${m.id}">--</div>
+                        </div>
+                        <div class="res-box">
+                            <div class="res-label">Home Win %</div>
+                            <div class="res-val" id="hprob-${m.id}">--</div>
+                        </div>
+                        <div class="res-box">
+                            <div class="res-label">Away Win %</div>
+                            <div class="res-val" id="aprob-${m.id}">--</div>
+                        </div>
+                    </div>
+                    <div class="val-verdict val-neut" id="verdict-${m.id}">AWAITING CALCULATION</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        async function runPrediction(id) {
+            const m = matches.find(x => x.id === id);
+            const btn = document.getElementById(`btn-${id}`);
+            const loader = document.getElementById(`loader-${id}`);
+            const resContainer = document.getElementById(`res-${id}`);
+
+            btn.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Clean names to match Python dictionary mappings
+            let hName = m.home.replace(" & Herzegovina", " and Herzegovina").replace("DR Congo", "Congo DR").replace("Curacao", "Curaçao");
+            let aName = m.away.replace(" & Herzegovina", " and Herzegovina").replace("DR Congo", "Congo DR").replace("Curacao", "Curaçao");
+
+            const payload = {
+                home: hName,
+                away: aName,
+                odds_home: parseFloat(m.oh),
+                odds_draw: parseFloat(m.od),
+                odds_away: parseFloat(m.oa),
+                odds_over25: 1.90,
+                odds_under25: 1.90,
+                venue: m.venue,
+                stage: "World Cup Group",
+                date_utc: m.date
+            };
+
+            try {
+                // Fetch from FastAPI engine running on port 8001
+                const response = await fetch('http://127.0.0.1:8001/world-cup', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+
+                // Populate UI
+                document.getElementById(`score-${id}`).innerText = `${data.exact_score} (${data.score_confidence})`;
+                document.getElementById(`ou-${id}`).innerText = `O: ${data.over_prob} | U: ${data.under_prob}`;
+                document.getElementById(`hprob-${id}`).innerText = data.home_prob;
+                document.getElementById(`aprob-${id}`).innerText = data.away_prob;
+
+                const vBox = document.getElementById(`verdict-${id}`);
+                const verdictRaw = data.verdict_1x2;
+                
+                vBox.innerText = verdictRaw.replace("🔥 ", "").replace("⚖️ ", "");
+                
+                if (verdictRaw.includes("VALUE BET")) {
+                    vBox.className = "val-verdict val-good";
+                } else if (verdictRaw.includes("UNPREDICTABLE")) {
+                    vBox.className = "val-verdict val-warn";
+                } else {
+                    vBox.className = "val-verdict val-neut";
+                }
+
+                loader.style.display = 'none';
+                resContainer.style.display = 'block';
+                
+            } catch(e) {
+                alert("Engine Offline! Please ensure Python API is running on Port 8001.");
+                loader.style.display = 'none';
+                btn.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

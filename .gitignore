@@ -1,0 +1,35 @@
+# envs / caches / editor
+.venv/
+__pycache__/
+.idea/
+*.log
+
+# scratch + backups + regenerable outputs
+scratch_*
+*.backup.csv
+predictions_pending.csv
+club_fixtures.csv
+
+# archived legacy code
+archive/
+
+# legacy models & encoders (pre-V12; their scripts are archived)
+v7_*
+v8_*
+v10_*
+v11_*
+wc_*
+
+# legacy training data & outputs
+esoteric_training_data.csv
+hybrid_esoteric_training.csv
+mass_esoteric_training.csv
+master_europe_training.csv
+precision_hybrid_training.csv
+v*_output.txt
+outright*.txt
+predictions_v3.txt
+batch_output.txt
+output.md
+output.txt
+match_predictions.txt

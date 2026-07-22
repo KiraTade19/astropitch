@@ -1,0 +1,11 @@
+REAL CLOSING-ODDS VALUE  (holdout 5,000 matches, log-loss = lower better)
+==================================================================
+  1. ELO-only            logloss 0.9891   acc 0.531
+  2. Model (ELO+form)    logloss 0.9928   acc 0.518
+  3. Market-only (closing) logloss 0.9496   acc 0.551
+  4. Model + Market (feat) logloss 0.9634   acc 0.539
+  5. Blend market^1.0*model  logloss 0.9496   acc 0.551
+==================================================================
+Edge of real odds over pure model: +0.0294 logloss
+Gap of model vs sharp market:      +0.0432 logloss
+Best blend vs market-only:         +0.0000 logloss  (w_market=1.0)

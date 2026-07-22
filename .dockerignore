@@ -1,0 +1,21 @@
+# keep the image tiny — the API only needs the code + the two .pkl engines
+*.csv
+*.txt
+*.md
+*.json
+*.log
+archive/
+.venv/
+__pycache__/
+.idea/
+*.backup.csv
+15_genesis_pro.py
+16_predict_pro.py
+17_odds_value.py
+21_club_genesis.py
+22_update_club_data.py
+23_track_record.py
+batch_predict.py
+elo_ratings.py
+real_international_data.py
+simulate_tournament.py

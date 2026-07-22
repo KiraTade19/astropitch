@@ -1,0 +1,15 @@
+# One-click deploy config for Render (free tier). Docker path = reliable xgboost.
+# After pushing this repo to GitHub: Render Dashboard -> New -> Blueprint -> pick repo.
+services:
+  - type: web
+    name: astropitch-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      # leave unset for open dev mode; set to require X-API-Key with a daily quota
+      - key: ASTROPITCH_API_KEYS
+        sync: false
+      - key: ASTROPITCH_FREE_DAILY
+        value: "100"
