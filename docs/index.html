@@ -45,6 +45,14 @@ h1 em{font-style:normal;color:var(--rust)}
 #orb:active{cursor:grabbing}
 .orbcap{position:absolute;left:14px;bottom:12px;font-family:"IBM Plex Mono",monospace;
   font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+#tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--ink);color:var(--paper);padding:8px 11px;font-size:12px;
+  font-family:"IBM Plex Mono",monospace;white-space:nowrap;transform:translate(-50%,-140%);
+  z-index:3;line-height:1.45}
+#tip b{color:#fff;font-weight:600}
+.orbnote{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  line-height:1.7;color:var(--mut);letter-spacing:.02em}
+.orbnote b{color:var(--ink)}
 
 /* ---------- SECTIONS ---------- */
 section{padding:88px 0;border-bottom:1px solid var(--line)}
@@ -59,7 +67,7 @@ h2{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.06;
   margin-top:44px;border:1px solid var(--line);border-right:0;border-bottom:0}
 .cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 26px}
 .cell .v{font-family:"IBM Plex Mono",monospace;font-size:36px;font-weight:600;
-  line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  line-height:1;letter-spacing:-.03em}
 .cell .l{color:var(--mut);font-size:13.5px;margin-top:12px;line-height:1.45}
 .rust{color:var(--rust)}
 
@@ -112,9 +120,15 @@ footer strong{color:var(--ink)}
       <a class="btn ghost" href="#record">See the receipts</a>
     </div>
   </div>
-  <div class="orbwrap">
-    <canvas id="orb" aria-hidden="true"></canvas>
-    <div class="orbcap">Drag to orbit</div>
+  <div>
+    <div class="orbwrap">
+      <canvas id="orb" role="img" aria-label="Orbital chart of 355 European club ratings; orbital radius encodes each club's rating, inner orbits are stronger."></canvas>
+      <div id="tip"></div>
+      <div class="orbcap">Drag to rotate · hover a club</div>
+    </div>
+    <div class="orbnote">Every dot is a real club our engine rates — <b>355</b> of them.
+      Orbital radius = rating; inner orbits are stronger. Ring labels mark
+      <b>1867</b> (strongest, Arsenal), <b>1472</b> (median) and <b>1258</b> (weakest).</div>
   </div>
 </div></div></header>
 
@@ -198,10 +212,15 @@ footer strong{color:var(--ink)}
   Track record rebuilt 2026-07-23 from live data.
 </footer>
 
+<script>window.CLUBS=[["Arsenal",1867,"England Premier League"],["Sp Lisbon",1859,"Portugal Primeira Liga"],["Bayern Munich",1857,"Germany Bundesliga"],["Benfica",1848,"Portugal Primeira Liga"],["PSV Eindhoven",1843,"Netherlands Eredivisie"],["Man City",1843,"England Premier League"],["Galatasaray",1840,"Turkey Super Lig"],["Porto",1836,"Portugal Primeira Liga"],["Fenerbahce",1812,"Turkey Super Lig"],["Olympiakos",1811,"Greece Super League"],["Inter",1807,"Italy Serie A"],["Barcelona",1805,"Spain La Liga"],["AEK",1796,"Greece Super League"],["Paris SG",1795,"France Ligue 1"],["Celtic",1789,"Scotland Premiership"],["Club Brugge",1778,"Belgium Pro League"],["St. Gilloise",1775,"Belgium Pro League"],["Real Madrid",1766,"Spain La Liga"],["PAOK",1760,"Greece Super League"],["Man United",1751,"England Premier League"],["Liverpool",1744,"England Premier League"],["Aston Villa",1735,"England Premier League"],["Feyenoord",1726,"Netherlands Eredivisie"],["Napoli",1718,"Italy Serie A"],["Bournemouth",1718,"England Premier League"],["Dortmund",1710,"Germany Bundesliga"],["Panathinaikos",1710,"Greece Super League"],["Rangers",1704,"Scotland Premiership"],["Juventus",1699,"Italy Serie A"],["Roma",1695,"Italy Serie A"],["Leverkusen",1690,"Germany Bundesliga"],["Sp Braga",1689,"Portugal Primeira Liga"],["Lens",1681,"France Ligue 1"],["Trabzonspor",1681,"Turkey Super Lig"],["Brighton",1677,"England Premier League"],["Brentford",1677,"England Premier League"],["Chelsea",1676,"England Premier League"],["Lille",1675,"France Ligue 1"],["Ajax",1674,"Netherlands Eredivisie"],["Milan",1664,"Italy Serie A"],["Newcastle",1663,"England Premier League"],["Hearts",1659,"Scotland Premiership"],["Como",1659,"Italy Serie A"],["Villarreal",1658,"Spain La Liga"],["Besiktas",1656,"Turkey Super Lig"],["Twente",1654,"Netherlands Eredivisie"],["Leeds",1653,"England Premier League"],["RB Leipzig",1653,"Germany Bundesliga"],["Atalanta",1653,"Italy Serie A"],["Stuttgart",1652,"Germany Bundesliga"],["Fulham",1652,"England Premier League"],["Nott'm Forest",1651,"England Premier League"],["Ath Madrid",1648,"Spain La Liga"],["Buyuksehyr",1645,"Turkey Super Lig"],["Everton",1642,"England Premier League"],["Marseille",1640,"France Ligue 1"],["Lyon",1635,"France Ligue 1"],["Crystal Palace",1632,"England Premier League"],["Monaco",1629,"France Ligue 1"],["Genk",1629,"Belgium Pro League"],["Aris",1625,"Greece Super League"],["Betis",1619,"Spain La Liga"],["Lazio",1619,"Italy Serie A"],["Bologna",1619,"Italy Serie A"],["AZ Alkmaar",1617,"Netherlands Eredivisie"],["Rennes",1616,"France Ligue 1"],["Utrecht",1616,"Netherlands Eredivisie"],["Samsunspor",1614,"Turkey Super Lig"],["St Truiden",1611,"Belgium Pro League"],["Nijmegen",1606,"Netherlands Eredivisie"],["Strasbourg",1605,"France Ligue 1"],["Sunderland",1604,"England Premier League"],["Famalicao",1601,"Portugal Primeira Liga"],["West Ham",1600,"England Premier League"],["Anderlecht",1589,"Belgium Pro League"],["Tottenham",1586,"England Premier League"],["Fiorentina",1585,"Italy Serie A"],["Hibernian",1581,"Scotland Premiership"],["Goztep",1578,"Turkey Super Lig"],["Hoffenheim",1576,"Germany Bundesliga"],["Freiburg",1573,"Germany Bundesliga"],["Motherwell",1566,"Scotland Premiership"],["Coventry",1566,"England Championship"],["Levadeiakos",1564,"Greece Super League"],["Ein Frankfurt",1562,"Germany Bundesliga"],["Celta",1560,"Spain La Liga"],["Heerenveen",1557,"Netherlands Eredivisie"],["Gent",1557,"Belgium Pro League"],["Paris FC",1554,"France Ligue 1"],["Standard",1553,"Belgium Pro League"],["Vallecano",1552,"Spain La Liga"],["Guimaraes",1552,"Portugal Primeira Liga"],["Mainz",1550,"Germany Bundesliga"],["Toulouse",1547,"France Ligue 1"],["Valencia",1545,"Spain La Liga"],["Rizespor",1544,"Turkey Super Lig"],["Mechelen",1542,"Belgium Pro League"],["Charleroi",1542,"Belgium Pro League"],["Ipswich",1539,"England Championship"],["Konyaspor",1537,"Turkey Super Lig"],["Ath Bilbao",1535,"Spain La Liga"],["Alanyaspor",1534,"Turkey Super Lig"],["Go Ahead Eagles",1534,"Netherlands Eredivisie"],["Antwerp",1534,"Belgium Pro League"],["Udinese",1532,"Italy Serie A"],["Westerlo",1531,"Belgium Pro League"],["Arouca",1530,"Portugal Primeira Liga"],["Torino",1530,"Italy Serie A"],["Brest",1528,"France Ligue 1"],["Lorient",1528,"France Ligue 1"],["Kasimpasa",1527,"Turkey Super Lig"],["Southampton",1527,"England Championship"],["Burnley",1526,"England Premier League"],["Atromitos",1525,"Greece Super League"],["Millwall",1524,"England Championship"],["Nice",1523,"France Ligue 1"],["Gil Vicente",1523,"Portugal Primeira Liga"],["Augsburg",1523,"Germany Bundesliga"],["Genoa",1523,"Italy Serie A"],["Parma",1521,"Italy Serie A"],["M'gladbach",1519,"Germany Bundesliga"],["Wolves",1517,"England Premier League"],["Sociedad",1514,"Spain La Liga"],["Cagliari",1514,"Italy Serie A"],["Getafe",1512,"Spain La Liga"],["Santa Clara",1512,"Portugal Primeira Liga"],["Eyupspor",1512,"Turkey Super Lig"],["Auxerre",1511,"France Ligue 1"],["Sparta Rotterdam",1511,"Netherlands Eredivisie"],["OFI Crete",1511,"Greece Super League"],["Sassuolo",1508,"Italy Serie A"],["Telstar",1508,"Netherlands Eredivisie"],["Moreirense",1507,"Portugal Primeira Liga"],["Cercle Brugge",1507,"Belgium Pro League"],["Giresunspor",1507,"Turkey Super Lig"],["Falkirk",1507,"Scotland Premiership"],["Estoril",1506,"Portugal Primeira Liga"],["Alaves",1506,"Spain La Liga"],["Union Berlin",1505,"Germany Bundesliga"],["Groningen",1502,"Netherlands Eredivisie"],["Levante",1498,"Spain La Liga"],["Sivasspor",1498,"Turkey Super Lig"],["Waregem",1497,"Belgium Pro League"],["Middlesbrough",1497,"England Championship"],["Alverca",1495,"Portugal Primeira Liga"],["Kocaelispor",1495,"Turkey Super Lig"],["Kayserispor",1494,"Turkey Super Lig"],["Mallorca",1493,"Spain La Liga"],["Girona",1492,"Spain La Liga"],["Osasuna",1492,"Spain La Liga"],["Karagumruk",1492,"Turkey Super Lig"],["Bodrumspor",1491,"Turkey Super Lig"],["Wrexham",1491,"England Championship"],["Antalyaspor",1490,"Turkey Super Lig"],["Dundee United",1489,"Scotland Premiership"],["Gaziantep",1489,"Turkey Super Lig"],["Sevilla",1488,"Spain La Liga"],["Le Havre",1487,"France Ligue 1"],["Ankaragucu",1486,"Turkey Super Lig"],["Werder Bremen",1486,"Germany Bundesliga"],["Espanol",1485,"Spain La Liga"],["Rio Ave",1485,"Portugal Primeira Liga"],["Hamburg",1483,"Germany Bundesliga"],["Asteras Tripolis",1483,"Greece Super League"],["Reims",1483,"France Ligue 1"],["Lecce",1483,"Italy Serie A"],["Oud-Heverlee Leuven",1482,"Belgium Pro League"],["For Sittard",1482,"Netherlands Eredivisie"],["Elche",1481,"Spain La Liga"],["Leganes",1477,"Spain La Liga"],["Pendikspor",1477,"Turkey Super Lig"],["Zwolle",1475,"Netherlands Eredivisie"],["Casa Pia",1473,"Portugal Primeira Liga"],["Kilmarnock",1473,"Scotland Premiership"],["Bursaspor",1473,"Turkey Super Lig"],["RAAL La Louviere",1472,"Belgium Pro League"],["Athens Kallithea",1472,"Greece Super League"],["Kifisia",1472,"Greece Super League"],["Panionios",1470,"Greece Super League"],["Genclerbirligi",1470,"Turkey Super Lig"],["Ionikos",1469,"Greece Super League"],["Xanthi",1469,"Greece Super League"],["Excelsior",1469,"Netherlands Eredivisie"],["Iraklis",1467,"Greece Super League"],["Carpi",1467,"Italy Serie A"],["Aberdeen",1463,"Scotland Premiership"],["Umraniyespor",1463,"Turkey Super Lig"],["Erzurum BB",1462,"Turkey Super Lig"],["Norwich",1462,"England Championship"],["Clermont",1462,"France Ligue 1"],["Osmanlispor",1459,"Turkey Super Lig"],["Mouscron-Peruwelz",1457,"Belgium Pro League"],["Wolfsburg",1457,"Germany Bundesliga"],["Angers",1457,"France Ligue 1"],["FC Koln",1457,"Germany Bundesliga"],["Dundee",1456,"Scotland Premiership"],["Volos NFC",1454,"Greece Super League"],["Panetolikos",1453,"Greece Super League"],["Hull",1452,"England Championship"],["Swansea",1451,"England Championship"],["Fortuna Dusseldorf",1451,"Germany Bundesliga"],["Altay",1450,"Turkey Super Lig"],["Holstein Kiel",1447,"Germany Bundesliga"],["Derby",1445,"England Championship"],["Cadiz",1445,"Spain La Liga"],["Huesca",1444,"Spain La Liga"],["Sheffield United",1444,"England Championship"],["Kortrijk",1442,"Belgium Pro League"],["Nimes",1442,"France Ligue 1"],["Akhisar Belediyespor",1440,"Turkey Super Lig"],["Ingolstadt",1440,"Germany Bundesliga"],["St Mirren",1440,"Scotland Premiership"],["Spezia",1440,"Italy Serie A"],["Oviedo",1439,"Spain La Liga"],["Belenenses",1439,"Portugal Primeira Liga"],["Vitesse",1439,"Netherlands Eredivisie"],["Portimonense",1438,"Portugal Primeira Liga"],["Farense",1437,"Portugal Primeira Liga"],["Eskisehirspor",1437,"Turkey Super Lig"],["Heidenheim",1437,"Germany Bundesliga"],["Empoli",1436,"Italy Serie A"],["Ajaccio GFCO",1436,"France Ligue 1"],["Setubal",1436,"Portugal Primeira Liga"],["Bielefeld",1435,"Germany Bundesliga"],["Amiens",1435,"France Ligue 1"],["St Etienne",1435,"France Ligue 1"],["Bristol City",1434,"England Championship"],["Estrela",1434,"Portugal Primeira Liga"],["Cremonese",1434,"Italy Serie A"],["Nantes",1432,"France Ligue 1"],["Inverness C",1432,"Scotland Premiership"],["Mouscron",1432,"Belgium Pro League"],["Venezia",1431,"Italy Serie A"],["Giannina",1430,"Greece Super League"],["Pacos Ferreira",1430,"Portugal Primeira Liga"],["FC Emmen",1428,"Netherlands Eredivisie"],["Bordeaux",1427,"France Ligue 1"],["Vizela",1426,"Portugal Primeira Liga"],["Hatayspor",1425,"Turkey Super Lig"],["Birmingham",1425,"England Championship"],["Eibar",1423,"Spain La Liga"],["St Pauli",1423,"Germany Bundesliga"],["AVS",1423,"Portugal Primeira Liga"],["Roda",1423,"Netherlands Eredivisie"],["Hertha",1422,"Germany Bundesliga"],["Bastia",1422,"France Ligue 1"],["Nacional",1422,"Portugal Primeira Liga"],["Larisa",1421,"Greece Super League"],["NAC Breda",1421,"Netherlands Eredivisie"],["Maritimo",1420,"Portugal Primeira Liga"],["Dender",1420,"Belgium Pro League"],["Bochum",1420,"Germany Bundesliga"],["Wycombe",1419,"England Championship"],["Chaves",1419,"Portugal Primeira Liga"],["Luton",1418,"England Championship"],["Frosinone",1418,"Italy Serie A"],["Panserraikos",1418,"Greece Super League"],["Nancy",1418,"France Ligue 1"],["Tondela",1417,"Portugal Primeira Liga"],["RWD Molenbeek",1415,"Belgium Pro League"],["Almere City",1415,"Netherlands Eredivisie"],["Kerkyra",1414,"Greece Super League"],["Adanaspor",1414,"Turkey Super Lig"],["Schalke 04",1414,"Germany Bundesliga"],["Volendam",1413,"Netherlands Eredivisie"],["Academica",1410,"Portugal Primeira Liga"],["Guingamp",1410,"France Ligue 1"],["Uniao Madeira",1409,"Portugal Primeira Liga"],["West Brom",1408,"England Championship"],["Greuther Furth",1408,"Germany Bundesliga"],["Almeria",1408,"Spain La Liga"],["Boavista",1408,"Portugal Primeira Liga"],["Waalwijk",1407,"Netherlands Eredivisie"],["Portsmouth",1406,"England Championship"],["Ross County",1405,"Scotland Premiership"],["Leicester",1405,"England Championship"],["Sp Gijon",1404,"Spain La Liga"],["Preston",1404,"England Championship"],["Caen",1404,"France Ligue 1"],["Verona",1403,"Italy Serie A"],["Oostende",1402,"Belgium Pro League"],["Partick",1402,"Scotland Premiership"],["Blackburn",1401,"England Championship"],["Milton Keynes Dons",1400,"England Championship"],["Montpellier",1398,"France Ligue 1"],["Den Haag",1398,"Netherlands Eredivisie"],["Graafschap",1397,"Netherlands Eredivisie"],["Ajaccio",1397,"France Ligue 1"],["St Johnstone",1396,"Scotland Premiership"],["Benevento",1395,"Italy Serie A"],["Burton",1395,"England Championship"],["Willem II",1394,"Netherlands Eredivisie"],["Kallonis",1393,"Greece Super League"],["Istanbulspor",1393,"Turkey Super Lig"],["Panthrakikos",1392,"Greece Super League"],["Brescia",1391,"Italy Serie A"],["Veria",1391,"Greece Super League"],["La Coruna",1390,"Spain La Liga"],["QPR",1390,"England Championship"],["Salernitana",1389,"Italy Serie A"],["Ad. Demirspor",1388,"Turkey Super Lig"],["Las Palmas",1388,"Spain La Liga"],["Paderborn",1388,"Germany Bundesliga"],["Denizlispor",1387,"Turkey Super Lig"],["Monza",1386,"Italy Serie A"],["Lamia",1386,"Greece Super League"],["Sampdoria",1385,"Italy Serie A"],["Hamilton",1385,"Scotland Premiership"],["Watford",1384,"England Championship"],["Wigan",1384,"England Championship"],["Apollon",1384,"Greece Super League"],["Oxford",1384,"England Championship"],["Plymouth",1383,"England Championship"],["Pisa",1382,"Italy Serie A"],["Nurnberg",1382,"Germany Bundesliga"],["Waasland-Beveren",1381,"Belgium Pro League"],["Gaziantepspor",1379,"Turkey Super Lig"],["Palermo",1377,"Italy Serie A"],["Huddersfield",1377,"England Championship"],["Heracles",1374,"Netherlands Eredivisie"],["Charlton",1374,"England Championship"],["Mersin Idman Yurdu",1373,"Turkey Super Lig"],["Lokeren",1373,"Belgium Pro League"],["VVV Venlo",1372,"Netherlands Eredivisie"],["Stoke",1372,"England Championship"],["Cardiff",1372,"England Championship"],["Blackpool",1370,"England Championship"],["Feirense",1369,"Portugal Primeira Liga"],["Peterboro",1369,"England Championship"],["Crotone",1368,"Italy Serie A"],["Granada",1367,"Spain La Liga"],["Chievo",1365,"Italy Serie A"],["Troyes",1365,"France Ligue 1"],["Beerschot VA",1365,"Belgium Pro League"],["Eupen",1365,"Belgium Pro League"],["Yeni Malatyaspor",1362,"Turkey Super Lig"],["Metz",1362,"France Ligue 1"],["Dijon",1362,"France Ligue 1"],["Platanias",1361,"Greece Super League"],["Pescara",1356,"Italy Serie A"],["Reading",1355,"England Championship"],["Malaga",1354,"Spain La Liga"],["Livingston",1353,"Scotland Premiership"],["Hannover",1352,"Germany Bundesliga"],["Seraing",1352,"Belgium Pro League"],["Spal",1349,"Italy Serie A"],["Cambuur",1347,"Netherlands Eredivisie"],["Aves",1346,"Portugal Primeira Liga"],["Barnsley",1338,"England Championship"],["Darmstadt",1329,"Germany Bundesliga"],["Karabukspor",1327,"Turkey Super Lig"],["Valladolid",1309,"Spain La Liga"],["Bolton",1288,"England Championship"],["Rotherham",1278,"England Championship"],["Sheffield Weds",1258,"England Championship"]];</script>
 <script>
 (function(){
-  // ---------- technical orrery: thin-line wireframe, draggable ----------
-  var c=document.getElementById('orb'); if(!c) return;
+  // ---------- THE ORRERY IS A CHART ----------
+  // Every body is a real club from our engine. Orbital radius encodes its ELO
+  // rating (inner = stronger); orbital speed follows Kepler, so stronger clubs
+  // sweep faster. One colour for all marks - radius already carries magnitude.
+  var c=document.getElementById('orb'); if(!c||!window.CLUBS) return;
+  var tip=document.getElementById('tip');
   var x=c.getContext('2d'), W=0,H=0,dpr=1;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function size(){
@@ -212,42 +231,48 @@ footer strong{color:var(--ink)}
   }
   size(); window.addEventListener('resize',size);
 
-  var rings=[], i, j, lat, lon, pts;
-  for(i=1;i<10;i++){                      // latitude circles
-    lat=Math.PI*(i/10-0.5); pts=[];
-    for(j=0;j<=64;j++){ lon=2*Math.PI*j/64;
-      pts.push([Math.cos(lat)*Math.cos(lon),Math.sin(lat),Math.cos(lat)*Math.sin(lon)]); }
-    rings.push(pts);
-  }
-  for(i=0;i<12;i++){                      // meridians
-    lon=Math.PI*i/12; pts=[];
-    for(j=0;j<=64;j++){ lat=Math.PI*(j/64-0.5);
-      pts.push([Math.cos(lat)*Math.cos(lon),Math.sin(lat),Math.cos(lat)*Math.sin(lon)]); }
-    rings.push(pts);
-  }
-  var orbits=[];                          // tilted orbit paths + a body on each
-  for(i=0;i<3;i++){ orbits.push({r:1.34+i*0.26, t:(i-1)*0.62, a:i*2.1,
-                                 s:(reduce?0:0.0032-0.0008*i)}); }
+  var lo=1e9, hi=-1e9, i;
+  for(i=0;i<CLUBS.length;i++){ var e=CLUBS[i][1]; if(e<lo)lo=e; if(e>hi)hi=e; }
+  var R_IN=0.34, R_OUT=1.22;
+  function radiusOf(e){ var t=(e-lo)/(hi-lo); return R_OUT-t*(R_OUT-R_IN); }
 
-  var ry=0.5, rx=-0.30, vy=0.0016, drag=false, px=0, py=0, vry=0, vrx=0;
-  function down(e){drag=true; px=(e.touches?e.touches[0].clientX:e.clientX);
-    py=(e.touches?e.touches[0].clientY:e.clientY);}
-  function move(e){ if(!drag) return;
-    var cx=(e.touches?e.touches[0].clientX:e.clientX),
-        cy=(e.touches?e.touches[0].clientY:e.clientY);
-    vry=(cx-px)*0.006; vrx=(cy-py)*0.005; ry+=vry; rx+=vrx;
-    rx=Math.max(-1.2,Math.min(1.2,rx)); px=cx; py=cy;
+  // deterministic spread so the swarm is stable between frames/loads
+  var bodies=[];
+  for(i=0;i<CLUBS.length;i++){
+    var r=radiusOf(CLUBS[i][1]);
+    var h=(i*2654435761)%100000/100000;      // stable hash -> phase
+    var h2=((i+7)*40503)%100000/100000;      // -> inclination
+    bodies.push({n:CLUBS[i][0], e:CLUBS[i][1], lg:CLUBS[i][2], r:r,
+                 a:h*6.283, inc:(h2-0.5)*0.34,
+                 s:(reduce?0:0.0016/Math.pow(r,1.5))});
+  }
+  // reference rings: strongest / median / weakest
+  var mid=CLUBS[Math.floor(CLUBS.length/2)][1];
+  var RINGS=[{e:hi,l:hi+''},{e:mid,l:mid+''},{e:lo,l:lo+''}];
+
+  var ry=0.6, rx=-0.62, vy=0.0012, drag=false, px=0, py=0, vry=0, vrx=0, moved=false;
+  var mx=-999,my=-999;
+  function pos(e){var t=e.touches?e.touches[0]:e; return [t.clientX,t.clientY];}
+  function down(e){drag=true; moved=false; var q=pos(e); px=q[0]; py=q[1];}
+  function move(e){
+    var q=pos(e), rect=c.getBoundingClientRect();
+    mx=q[0]-rect.left; my=q[1]-rect.top;
+    if(!drag) return;
+    moved=true;
+    vry=(q[0]-px)*0.006; vrx=(q[1]-py)*0.005; ry+=vry; rx+=vrx;
+    rx=Math.max(-1.35,Math.min(1.35,rx)); px=q[0]; py=q[1];
     if(e.touches) e.preventDefault();
   }
   function up(){drag=false;}
   c.addEventListener('mousedown',down); window.addEventListener('mousemove',move);
   window.addEventListener('mouseup',up);
+  c.addEventListener('mouseleave',function(){mx=my=-999;});
   c.addEventListener('touchstart',down,{passive:true});
   c.addEventListener('touchmove',move,{passive:false});
   window.addEventListener('touchend',up);
 
   function draw(){
-    var cx=W/2, cy=H/2, R=Math.min(W,H)*0.30, f=3.4;
+    var cx=W/2, cy=H/2, R=Math.min(W,H)*0.33, f=3.6;
     x.clearRect(0,0,W,H);
     if(!drag){ ry+=vy+vry; vry*=0.93; rx+=vrx; vrx*=0.93; }
     var cyy=Math.cos(ry),syy=Math.sin(ry),cxx=Math.cos(rx),sxx=Math.sin(rx);
@@ -257,37 +282,56 @@ footer strong{color:var(--ink)}
       var s=f/(f+Z2);
       return [cx+X*R*s, cy+Y2*R*s, Z2];
     }
-    x.lineWidth=0.85;
-    for(var k=0;k<rings.length;k++){
-      var pl=rings[k], started=false, prevBack=null;
-      for(var m=0;m<pl.length;m++){
-        var q=proj(pl[m]), back=q[2]>0;
-        if(!started||back!==prevBack){
-          if(started) x.stroke();
-          x.beginPath(); x.moveTo(q[0],q[1]);
-          x.strokeStyle = back ? 'rgba(27,26,22,.13)' : 'rgba(27,26,22,.40)';
-          started=true; prevBack=back;
-        } else { x.lineTo(q[0],q[1]); }
+    // recessive grid: reference rings, hairline, labelled with real ELO values
+    x.lineWidth=0.8; x.font='500 10px "IBM Plex Mono",monospace';
+    for(var g=0;g<RINGS.length;g++){
+      var rr=radiusOf(RINGS[g].e);
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.16)';
+      for(var m=0;m<=90;m++){
+        var ang=6.283*m/90, q=proj([Math.cos(ang)*rr,0,Math.sin(ang)*rr]);
+        if(m===0) x.moveTo(q[0],q[1]); else x.lineTo(q[0],q[1]);
       }
       x.stroke();
+      var lp=proj([0,0,rr]);                       // label at the near edge
+      x.fillStyle='rgba(110,106,97,.95)'; x.textAlign='center';
+      x.fillText(RINGS[g].l, lp[0], lp[1]+13);
     }
-    // orbit paths + bodies (rust)
-    for(k=0;k<orbits.length;k++){
-      var o=orbits[k]; o.a+=o.s;
-      x.beginPath(); x.strokeStyle='rgba(156,85,51,.28)'; x.lineWidth=0.85;
-      for(m=0;m<=72;m++){
-        var ang=2*Math.PI*m/72;
-        var pt=[Math.cos(ang)*o.r, Math.sin(ang)*Math.sin(o.t)*o.r,
-                Math.sin(ang)*Math.cos(o.t)*o.r];
-        var qq=proj(pt); if(m===0) x.moveTo(qq[0],qq[1]); else x.lineTo(qq[0],qq[1]);
-      }
-      x.stroke();
-      var bp=[Math.cos(o.a)*o.r, Math.sin(o.a)*Math.sin(o.t)*o.r,
-              Math.sin(o.a)*Math.cos(o.t)*o.r];
-      var b=proj(bp); var d=(b[2]+1)/2;
-      x.beginPath(); x.fillStyle='rgba(156,85,51,'+(0.45+0.5*(1-d)).toFixed(3)+')';
-      x.arc(b[0],b[1],(1-d)*2.0+1.6,0,6.283); x.fill();
+    // centre marker
+    var o=proj([0,0,0]);
+    x.beginPath(); x.strokeStyle='rgba(27,26,22,.5)'; x.lineWidth=1;
+    x.moveTo(o[0]-5,o[1]); x.lineTo(o[0]+5,o[1]);
+    x.moveTo(o[0],o[1]-5); x.lineTo(o[0],o[1]+5); x.stroke();
+
+    // club marks - ONE colour; radius carries the magnitude
+    var best=null, bestD=1e9, strongest=null;
+    for(i=0;i<bodies.length;i++){
+      var b=bodies[i]; b.a+=b.s;
+      var p=[Math.cos(b.a)*b.r, Math.sin(b.inc)*b.r*0.5, Math.sin(b.a)*b.r];
+      var q2=proj(p), d=(q2[2]+1)/2;
+      b.sx=q2[0]; b.sy=q2[1];
+      x.beginPath();
+      x.fillStyle='rgba(156,85,51,'+(0.34+0.5*(1-d)).toFixed(3)+')';
+      x.arc(q2[0],q2[1],(1-d)*1.5+1.5,0,6.283); x.fill();
+      var dd=(q2[0]-mx)*(q2[0]-mx)+(q2[1]-my)*(q2[1]-my);
+      if(dd<bestD){bestD=dd; best=b;}
+      if(i===0) strongest=b;
     }
+    // permanent direct label on the strongest club (values are never tooltip-only)
+    if(strongest){
+      x.fillStyle='rgba(27,26,22,.9)'; x.textAlign='left';
+      x.font='600 11px "IBM Plex Mono",monospace';
+      x.fillText(strongest.n+' '+strongest.e, strongest.sx+9, strongest.sy+4);
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.45)'; x.lineWidth=1;
+      x.arc(strongest.sx,strongest.sy,5.5,0,6.283); x.stroke();
+    }
+    // hover: generous hit radius, nearest-point
+    if(best && bestD<20*20 && mx>0){
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.75)'; x.lineWidth=1.2;
+      x.arc(best.sx,best.sy,6.5,0,6.283); x.stroke();
+      tip.style.opacity=1; tip.style.left=best.sx+'px'; tip.style.top=best.sy+'px';
+      tip.innerHTML='<b>'+best.n+'</b> &nbsp;'+best.e+'<br>'+best.lg;
+      c.style.cursor='pointer';
+    } else { tip.style.opacity=0; c.style.cursor=drag?'grabbing':'grab'; }
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);

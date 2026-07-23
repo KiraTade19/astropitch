@@ -41,6 +41,18 @@ ESO = dict(only_acc=0.446, only_ll=1.058, base_acc=0.502, base_ll=0.999,
 DEMO = cosmic_reading("Real Madrid", "Barcelona",
                       datetime.date.today() + datetime.timedelta(days=14))
 
+# ---- real club ratings: the hero orrery plots these, it is not decoration ----
+import json as _json
+import joblib as _joblib
+_E = _joblib.load("club_engine.pkl")
+_elo, _tl, _dn = _E["state"]["elo"], _E["state"]["team_league"], _E["div_names"]
+_clubs = sorted(_elo.items(), key=lambda kv: -kv[1])
+CLUBS = [[t, round(float(v)), _dn.get(_tl.get(t), _tl.get(t) or "")] for t, v in _clubs]
+CLUBS_JSON = _json.dumps(CLUBS, separators=(",", ":"))
+TOP = CLUBS[0]
+ELO_MIN, ELO_MAX = CLUBS[-1][1], CLUBS[0][1]
+ELO_MED = CLUBS[len(CLUBS) // 2][1]
+
 # ---- live record (grows once the season starts; empty off-season) ----
 LIVE = None
 if os.path.exists("track_record_live.csv"):
@@ -98,6 +110,14 @@ h1 em{font-style:normal;color:var(--rust)}
 #orb:active{cursor:grabbing}
 .orbcap{position:absolute;left:14px;bottom:12px;font-family:"IBM Plex Mono",monospace;
   font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+#tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--ink);color:var(--paper);padding:8px 11px;font-size:12px;
+  font-family:"IBM Plex Mono",monospace;white-space:nowrap;transform:translate(-50%,-140%);
+  z-index:3;line-height:1.45}
+#tip b{color:#fff;font-weight:600}
+.orbnote{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  line-height:1.7;color:var(--mut);letter-spacing:.02em}
+.orbnote b{color:var(--ink)}
 
 /* ---------- SECTIONS ---------- */
 section{padding:88px 0;border-bottom:1px solid var(--line)}
@@ -112,7 +132,7 @@ h2{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.06;
   margin-top:44px;border:1px solid var(--line);border-right:0;border-bottom:0}
 .cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 26px}
 .cell .v{font-family:"IBM Plex Mono",monospace;font-size:36px;font-weight:600;
-  line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  line-height:1;letter-spacing:-.03em}
 .cell .l{color:var(--mut);font-size:13.5px;margin-top:12px;line-height:1.45}
 .rust{color:var(--rust)}
 
@@ -156,8 +176,12 @@ footer strong{color:var(--ink)}
 
 JS = """
 (function(){
-  // ---------- technical orrery: thin-line wireframe, draggable ----------
-  var c=document.getElementById('orb'); if(!c) return;
+  // ---------- THE ORRERY IS A CHART ----------
+  // Every body is a real club from our engine. Orbital radius encodes its ELO
+  // rating (inner = stronger); orbital speed follows Kepler, so stronger clubs
+  // sweep faster. One colour for all marks - radius already carries magnitude.
+  var c=document.getElementById('orb'); if(!c||!window.CLUBS) return;
+  var tip=document.getElementById('tip');
   var x=c.getContext('2d'), W=0,H=0,dpr=1;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function size(){
@@ -168,42 +192,48 @@ JS = """
   }
   size(); window.addEventListener('resize',size);
 
-  var rings=[], i, j, lat, lon, pts;
-  for(i=1;i<10;i++){                      // latitude circles
-    lat=Math.PI*(i/10-0.5); pts=[];
-    for(j=0;j<=64;j++){ lon=2*Math.PI*j/64;
-      pts.push([Math.cos(lat)*Math.cos(lon),Math.sin(lat),Math.cos(lat)*Math.sin(lon)]); }
-    rings.push(pts);
-  }
-  for(i=0;i<12;i++){                      // meridians
-    lon=Math.PI*i/12; pts=[];
-    for(j=0;j<=64;j++){ lat=Math.PI*(j/64-0.5);
-      pts.push([Math.cos(lat)*Math.cos(lon),Math.sin(lat),Math.cos(lat)*Math.sin(lon)]); }
-    rings.push(pts);
-  }
-  var orbits=[];                          // tilted orbit paths + a body on each
-  for(i=0;i<3;i++){ orbits.push({r:1.34+i*0.26, t:(i-1)*0.62, a:i*2.1,
-                                 s:(reduce?0:0.0032-0.0008*i)}); }
+  var lo=1e9, hi=-1e9, i;
+  for(i=0;i<CLUBS.length;i++){ var e=CLUBS[i][1]; if(e<lo)lo=e; if(e>hi)hi=e; }
+  var R_IN=0.34, R_OUT=1.22;
+  function radiusOf(e){ var t=(e-lo)/(hi-lo); return R_OUT-t*(R_OUT-R_IN); }
 
-  var ry=0.5, rx=-0.30, vy=0.0016, drag=false, px=0, py=0, vry=0, vrx=0;
-  function down(e){drag=true; px=(e.touches?e.touches[0].clientX:e.clientX);
-    py=(e.touches?e.touches[0].clientY:e.clientY);}
-  function move(e){ if(!drag) return;
-    var cx=(e.touches?e.touches[0].clientX:e.clientX),
-        cy=(e.touches?e.touches[0].clientY:e.clientY);
-    vry=(cx-px)*0.006; vrx=(cy-py)*0.005; ry+=vry; rx+=vrx;
-    rx=Math.max(-1.2,Math.min(1.2,rx)); px=cx; py=cy;
+  // deterministic spread so the swarm is stable between frames/loads
+  var bodies=[];
+  for(i=0;i<CLUBS.length;i++){
+    var r=radiusOf(CLUBS[i][1]);
+    var h=(i*2654435761)%100000/100000;      // stable hash -> phase
+    var h2=((i+7)*40503)%100000/100000;      // -> inclination
+    bodies.push({n:CLUBS[i][0], e:CLUBS[i][1], lg:CLUBS[i][2], r:r,
+                 a:h*6.283, inc:(h2-0.5)*0.34,
+                 s:(reduce?0:0.0016/Math.pow(r,1.5))});
+  }
+  // reference rings: strongest / median / weakest
+  var mid=CLUBS[Math.floor(CLUBS.length/2)][1];
+  var RINGS=[{e:hi,l:hi+''},{e:mid,l:mid+''},{e:lo,l:lo+''}];
+
+  var ry=0.6, rx=-0.62, vy=0.0012, drag=false, px=0, py=0, vry=0, vrx=0, moved=false;
+  var mx=-999,my=-999;
+  function pos(e){var t=e.touches?e.touches[0]:e; return [t.clientX,t.clientY];}
+  function down(e){drag=true; moved=false; var q=pos(e); px=q[0]; py=q[1];}
+  function move(e){
+    var q=pos(e), rect=c.getBoundingClientRect();
+    mx=q[0]-rect.left; my=q[1]-rect.top;
+    if(!drag) return;
+    moved=true;
+    vry=(q[0]-px)*0.006; vrx=(q[1]-py)*0.005; ry+=vry; rx+=vrx;
+    rx=Math.max(-1.35,Math.min(1.35,rx)); px=q[0]; py=q[1];
     if(e.touches) e.preventDefault();
   }
   function up(){drag=false;}
   c.addEventListener('mousedown',down); window.addEventListener('mousemove',move);
   window.addEventListener('mouseup',up);
+  c.addEventListener('mouseleave',function(){mx=my=-999;});
   c.addEventListener('touchstart',down,{passive:true});
   c.addEventListener('touchmove',move,{passive:false});
   window.addEventListener('touchend',up);
 
   function draw(){
-    var cx=W/2, cy=H/2, R=Math.min(W,H)*0.30, f=3.4;
+    var cx=W/2, cy=H/2, R=Math.min(W,H)*0.33, f=3.6;
     x.clearRect(0,0,W,H);
     if(!drag){ ry+=vy+vry; vry*=0.93; rx+=vrx; vrx*=0.93; }
     var cyy=Math.cos(ry),syy=Math.sin(ry),cxx=Math.cos(rx),sxx=Math.sin(rx);
@@ -213,37 +243,56 @@ JS = """
       var s=f/(f+Z2);
       return [cx+X*R*s, cy+Y2*R*s, Z2];
     }
-    x.lineWidth=0.85;
-    for(var k=0;k<rings.length;k++){
-      var pl=rings[k], started=false, prevBack=null;
-      for(var m=0;m<pl.length;m++){
-        var q=proj(pl[m]), back=q[2]>0;
-        if(!started||back!==prevBack){
-          if(started) x.stroke();
-          x.beginPath(); x.moveTo(q[0],q[1]);
-          x.strokeStyle = back ? 'rgba(27,26,22,.13)' : 'rgba(27,26,22,.40)';
-          started=true; prevBack=back;
-        } else { x.lineTo(q[0],q[1]); }
+    // recessive grid: reference rings, hairline, labelled with real ELO values
+    x.lineWidth=0.8; x.font='500 10px "IBM Plex Mono",monospace';
+    for(var g=0;g<RINGS.length;g++){
+      var rr=radiusOf(RINGS[g].e);
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.16)';
+      for(var m=0;m<=90;m++){
+        var ang=6.283*m/90, q=proj([Math.cos(ang)*rr,0,Math.sin(ang)*rr]);
+        if(m===0) x.moveTo(q[0],q[1]); else x.lineTo(q[0],q[1]);
       }
       x.stroke();
+      var lp=proj([0,0,rr]);                       // label at the near edge
+      x.fillStyle='rgba(110,106,97,.95)'; x.textAlign='center';
+      x.fillText(RINGS[g].l, lp[0], lp[1]+13);
     }
-    // orbit paths + bodies (rust)
-    for(k=0;k<orbits.length;k++){
-      var o=orbits[k]; o.a+=o.s;
-      x.beginPath(); x.strokeStyle='rgba(156,85,51,.28)'; x.lineWidth=0.85;
-      for(m=0;m<=72;m++){
-        var ang=2*Math.PI*m/72;
-        var pt=[Math.cos(ang)*o.r, Math.sin(ang)*Math.sin(o.t)*o.r,
-                Math.sin(ang)*Math.cos(o.t)*o.r];
-        var qq=proj(pt); if(m===0) x.moveTo(qq[0],qq[1]); else x.lineTo(qq[0],qq[1]);
-      }
-      x.stroke();
-      var bp=[Math.cos(o.a)*o.r, Math.sin(o.a)*Math.sin(o.t)*o.r,
-              Math.sin(o.a)*Math.cos(o.t)*o.r];
-      var b=proj(bp); var d=(b[2]+1)/2;
-      x.beginPath(); x.fillStyle='rgba(156,85,51,'+(0.45+0.5*(1-d)).toFixed(3)+')';
-      x.arc(b[0],b[1],(1-d)*2.0+1.6,0,6.283); x.fill();
+    // centre marker
+    var o=proj([0,0,0]);
+    x.beginPath(); x.strokeStyle='rgba(27,26,22,.5)'; x.lineWidth=1;
+    x.moveTo(o[0]-5,o[1]); x.lineTo(o[0]+5,o[1]);
+    x.moveTo(o[0],o[1]-5); x.lineTo(o[0],o[1]+5); x.stroke();
+
+    // club marks - ONE colour; radius carries the magnitude
+    var best=null, bestD=1e9, strongest=null;
+    for(i=0;i<bodies.length;i++){
+      var b=bodies[i]; b.a+=b.s;
+      var p=[Math.cos(b.a)*b.r, Math.sin(b.inc)*b.r*0.5, Math.sin(b.a)*b.r];
+      var q2=proj(p), d=(q2[2]+1)/2;
+      b.sx=q2[0]; b.sy=q2[1];
+      x.beginPath();
+      x.fillStyle='rgba(156,85,51,'+(0.34+0.5*(1-d)).toFixed(3)+')';
+      x.arc(q2[0],q2[1],(1-d)*1.5+1.5,0,6.283); x.fill();
+      var dd=(q2[0]-mx)*(q2[0]-mx)+(q2[1]-my)*(q2[1]-my);
+      if(dd<bestD){bestD=dd; best=b;}
+      if(i===0) strongest=b;
     }
+    // permanent direct label on the strongest club (values are never tooltip-only)
+    if(strongest){
+      x.fillStyle='rgba(27,26,22,.9)'; x.textAlign='left';
+      x.font='600 11px "IBM Plex Mono",monospace';
+      x.fillText(strongest.n+' '+strongest.e, strongest.sx+9, strongest.sy+4);
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.45)'; x.lineWidth=1;
+      x.arc(strongest.sx,strongest.sy,5.5,0,6.283); x.stroke();
+    }
+    // hover: generous hit radius, nearest-point
+    if(best && bestD<20*20 && mx>0){
+      x.beginPath(); x.strokeStyle='rgba(27,26,22,.75)'; x.lineWidth=1.2;
+      x.arc(best.sx,best.sy,6.5,0,6.283); x.stroke();
+      tip.style.opacity=1; tip.style.left=best.sx+'px'; tip.style.top=best.sy+'px';
+      tip.innerHTML='<b>'+best.n+'</b> &nbsp;'+best.e+'<br>'+best.lg;
+      c.style.cursor='pointer';
+    } else { tip.style.opacity=0; c.style.cursor=drag?'grabbing':'grab'; }
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
@@ -284,9 +333,15 @@ def build():
       <a class="btn ghost" href="#record">See the receipts</a>
     </div>
   </div>
-  <div class="orbwrap">
-    <canvas id="orb" aria-hidden="true"></canvas>
-    <div class="orbcap">Drag to orbit</div>
+  <div>
+    <div class="orbwrap">
+      <canvas id="orb" role="img" aria-label="Orbital chart of {len(CLUBS)} European club ratings; orbital radius encodes each club's rating, inner orbits are stronger."></canvas>
+      <div id="tip"></div>
+      <div class="orbcap">Drag to rotate · hover a club</div>
+    </div>
+    <div class="orbnote">Every dot is a real club our engine rates — <b>{len(CLUBS)}</b> of them.
+      Orbital radius = rating; inner orbits are stronger. Ring labels mark
+      <b>{ELO_MAX}</b> (strongest, {TOP[0]}), <b>{ELO_MED}</b> (median) and <b>{ELO_MIN}</b> (weakest).</div>
   </div>
 </div></div></header>
 
@@ -370,6 +425,7 @@ def build():
   Track record rebuilt {datetime.date.today().isoformat()} from live data.
 </footer>
 
+<script>window.CLUBS={CLUBS_JSON};</script>
 <script>{JS}</script>
 </body></html>"""
 
