@@ -18,6 +18,7 @@ Run:  python 30_daily_slate.py [YYYY-MM-DD]
 ============================================================================
 """
 import json
+import os
 import sys
 import time
 import unicodedata
@@ -107,12 +108,37 @@ def fetch_fixtures(date):
             continue
         for e in (data.get("events") or []):
             ts = e.get("strTimestamp") or ""
-            games.append(dict(comp=label, kickoff=ts[11:16] if len(ts) > 15 else "",
-                              ts=ts, home=e.get("strHomeTeam", "").strip(),
+            games.append(dict(id=str(e.get("idEvent") or ""), comp=label,
+                              kickoff=ts[11:16] if len(ts) > 15 else "", ts=ts,
+                              home=e.get("strHomeTeam", "").strip(),
                               away=e.get("strAwayTeam", "").strip()))
         time.sleep(1)
     games.sort(key=lambda g: g["ts"])
     return games
+
+
+PENDING = "uefa_pending.csv"
+
+
+def _log_pending(matches, date):
+    """Freeze today's predictions (pre-kickoff) so 31_uefa_grade.py can settle
+    them once results land. Keyed on the source event id; first write wins, so a
+    re-run later in the day can never overwrite the original call."""
+    if not matches:
+        return
+    import pandas as pd
+    rows = [dict(id=m["id"], date=date, comp=m["comp"], home=m["home"], away=m["away"],
+                 pH=m["probs"][0], pD=m["probs"][1], pA=m["probs"][2], pick=m["pick"],
+                 p_over=m["over25"], score_pick=m["top_score"],
+                 logged_at=dt.datetime.now(dt.UTC).isoformat(timespec="seconds"))
+            for m in matches if m["id"]]
+    new = pd.DataFrame(rows)
+    if os.path.exists(PENDING):
+        old = pd.read_csv(PENDING, dtype={"id": str})
+        new = pd.concat([old, new], ignore_index=True)
+    new = new.drop_duplicates(subset=["id"], keep="first")
+    new.to_csv(PENDING, index=False)
+    print(f"  frozen -> {PENDING} ({len(new)} pending)")
 
 
 def main():
@@ -139,7 +165,8 @@ def main():
         cr = cosmic_reading(g["home"], g["away"], dt.date.fromisoformat(date))
         pk = ["HOME", "DRAW", "AWAY"][int(max(range(3), key=lambda i: p["one_x_two"][i]))]
         out.append(dict(
-            comp=g["comp"], kickoff=g["kickoff"], home=g["home"], away=g["away"],
+            id=g["id"], comp=g["comp"], kickoff=g["kickoff"],
+            home=g["home"], away=g["away"],
             home_elo=p["elo_home"], away_elo=p["elo_away"],
             probs=[round(v, 3) for v in p["one_x_two"]],
             pick=pk, over25=p["over25"], top_score=p["top_scores"][0]["score"],
@@ -150,6 +177,8 @@ def main():
 
     for s in skipped:
         print(f"  [unrated] {s}")
+
+    _log_pending(out, date)
 
     payload = dict(date=date,
                    generated_at=dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),

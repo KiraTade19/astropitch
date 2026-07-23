@@ -1,9 +1,10 @@
 {
  "date": "2026-07-23",
- "generated_at": "2026-07-23T15:38:02+00:00",
+ "generated_at": "2026-07-23T15:45:07+00:00",
  "n": 6,
  "matches": [
   {
+   "id": "2493167",
    "comp": "Europa League",
    "kickoff": "17:00",
    "home": "Hammarby",
@@ -21,6 +22,7 @@
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
+   "id": "2492768",
    "comp": "Conference League",
    "kickoff": "17:45",
    "home": "FCSB",
@@ -38,6 +40,7 @@
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
+   "id": "2493168",
    "comp": "Europa League",
    "kickoff": "18:00",
    "home": "Beşiktaş",
@@ -55,6 +58,7 @@
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
+   "id": "2493169",
    "comp": "Europa League",
    "kickoff": "18:00",
    "home": "St. Gallen",
@@ -72,6 +76,7 @@
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
+   "id": "2492766",
    "comp": "Conference League",
    "kickoff": "18:45",
    "home": "Motherwell",
@@ -89,6 +94,7 @@
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
+   "id": "2492767",
    "comp": "Conference League",
    "kickoff": "19:15",
    "home": "Valur",

@@ -36,6 +36,10 @@ jobs:
       - name: Grade logged predictions, then log upcoming fixtures
         run: python 23_track_record.py live
 
+      - name: Grade finished European predictions
+        run: python 31_uefa_grade.py
+        continue-on-error: true      # a feed outage must not kill the run
+
       - name: Build today's free prediction slate
         run: python 30_daily_slate.py
         continue-on-error: true      # a fixture-feed outage must not kill the run
