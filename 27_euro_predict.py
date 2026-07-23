@@ -83,8 +83,13 @@ def predict(home, away, date, odds=None, w_market=0.6, verbose=True):
 
     # goals from supremacy -> Dixon-Coles for O/U + scorelines
     sup = (diff + HOME_ADV) / ELO_PER_GOAL
-    lam = float(np.clip((BASE_TOTAL + sup) / 2, 0.2, 5))
-    mu = float(np.clip((BASE_TOTAL - sup) / 2, 0.2, 5))
+    # BASE_TOTAL alone was a constant, so lam+mu never moved and O/U barely
+    # varied match to match. Bump the total with the size of the mismatch
+    # (a one-sided game tends to open up and leak more goals) - a football
+    # heuristic, not fitted on data like the core engine's goal regressors.
+    total = BASE_TOTAL + min(abs(sup) * 0.55, 0.9)
+    lam = float(np.clip((total + sup) / 2, 0.2, 5))
+    mu = float(np.clip((total - sup) / 2, 0.2, 5))
     M = gpc.dc_matrix(lam, mu, -0.045, maxg=8)
 
     final = model.copy(); mkt = None

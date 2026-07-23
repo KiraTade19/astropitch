@@ -1,6 +1,6 @@
 {
  "date": "2026-07-23",
- "generated_at": "2026-07-23T16:35:05+00:00",
+ "generated_at": "2026-07-23T16:42:09+00:00",
  "n": 33,
  "matches": [
   {
@@ -27,8 +27,8 @@
     0.041
    ],
    "pick": "HOME",
-   "over25": 0.546,
-   "top_score": "2-0",
+   "over25": 0.678,
+   "top_score": "3-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
@@ -55,8 +55,8 @@
     0.094
    ],
    "pick": "HOME",
-   "over25": 0.482,
-   "top_score": "1-0",
+   "over25": 0.603,
+   "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
@@ -83,7 +83,7 @@
     0.265
    ],
    "pick": "HOME",
-   "over25": 0.481,
+   "over25": 0.668,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -111,7 +111,7 @@
     0.366
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.552,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -139,7 +139,7 @@
     0.208
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.516,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -167,7 +167,7 @@
     0.123
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.562,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -195,7 +195,7 @@
     0.754
    ],
    "pick": "AWAY",
-   "over25": 0.481,
+   "over25": 0.679,
    "top_score": "0-2",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -223,8 +223,8 @@
     0.754
    ],
    "pick": "AWAY",
-   "over25": 0.482,
-   "top_score": "0-1",
+   "over25": 0.595,
+   "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
@@ -251,7 +251,7 @@
     0.545
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.557,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -279,7 +279,7 @@
     0.46
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.503,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -307,7 +307,7 @@
     0.379
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.545,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -335,7 +335,7 @@
     0.28
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.518,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -363,7 +363,7 @@
     0.103
    ],
    "pick": "HOME",
-   "over25": 0.481,
+   "over25": 0.679,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -391,7 +391,7 @@
     0.051
    ],
    "pick": "HOME",
-   "over25": 0.481,
+   "over25": 0.679,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -419,7 +419,7 @@
     0.697
    ],
    "pick": "AWAY",
-   "over25": 0.481,
+   "over25": 0.667,
    "top_score": "0-2",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -447,7 +447,7 @@
     0.167
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.56,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -475,7 +475,7 @@
     0.325
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.556,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -503,7 +503,7 @@
     0.535
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.566,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -531,7 +531,7 @@
     0.583
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.561,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -559,7 +559,7 @@
     0.376
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.494,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -587,7 +587,7 @@
     0.373
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.498,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -615,7 +615,7 @@
     0.058
    ],
    "pick": "HOME",
-   "over25": 0.49,
+   "over25": 0.678,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -643,7 +643,7 @@
     0.465
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.556,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -671,7 +671,7 @@
     0.149
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.562,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -699,7 +699,7 @@
     0.37
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.502,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -727,8 +727,8 @@
     0.049
    ],
    "pick": "HOME",
-   "over25": 0.481,
-   "top_score": "1-0",
+   "over25": 0.627,
+   "top_score": "2-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
@@ -755,7 +755,7 @@
     0.05
    ],
    "pick": "HOME",
-   "over25": 0.481,
+   "over25": 0.678,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -783,8 +783,8 @@
     0.121
    ],
    "pick": "HOME",
-   "over25": 0.481,
-   "top_score": "1-0",
+   "over25": 0.638,
+   "top_score": "2-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
   {
@@ -811,7 +811,7 @@
     0.258
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.574,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -839,7 +839,7 @@
     0.405
    ],
    "pick": "AWAY",
-   "over25": 0.481,
+   "over25": 0.651,
    "top_score": "0-2",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -867,7 +867,7 @@
     0.056
    ],
    "pick": "HOME",
-   "over25": 0.481,
+   "over25": 0.679,
    "top_score": "2-0",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -895,7 +895,7 @@
     0.4
    ],
    "pick": "HOME",
-   "over25": 0.482,
+   "over25": 0.545,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   },
@@ -923,7 +923,7 @@
     0.406
    ],
    "pick": "AWAY",
-   "over25": 0.482,
+   "over25": 0.486,
    "top_score": "1-1",
    "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
   }

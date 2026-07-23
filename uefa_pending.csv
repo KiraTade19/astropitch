@@ -1,34 +1,34 @@
 id,date,comp,home,away,pH,pD,pA,pick,p_over,score_pick,logged_at
-m-2026-07-23-Rakow-Valletta,2026-07-23,Conference League,Rakow,Valletta,0.84,0.118,0.041,HOME,0.546,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-DunajskaStreda-VelezMostar,2026-07-23,Conference League,Dunajska Streda,Velez Mostar,0.655,0.217,0.128,HOME,0.482,1-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-AEKLarnaca-BeitarJerusalem,2026-07-23,Conference League,AEK Larnaca,Beitar Jerusalem,0.547,0.25,0.203,HOME,0.481,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-DynamoKyiv-PAOK,2026-07-23,Europa League,Dynamo Kyiv,PAOK,0.322,0.259,0.419,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Hammarby-Anderlecht,2026-07-23,Europa League,Hammarby,Anderlecht,0.494,0.262,0.244,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Tromso-HradecKralove,2026-07-23,Europa League,Tromso,Hradec Kralove,0.604,0.23,0.166,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-SantaColoma-RapidWien,2026-07-23,Conference League,Santa Coloma,Rapid Wien,0.097,0.141,0.763,AWAY,0.481,0-2,2026-07-23T16:35:05+00:00
-m-2026-07-23-BATEBorisov-Sion,2026-07-23,Conference League,BATE Borisov,Sion,0.127,0.177,0.696,AWAY,0.482,0-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Zimbru-Noah,2026-07-23,Conference League,Zimbru,Noah,0.229,0.238,0.533,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-UCluj-Brann,2026-07-23,Conference League,U Cluj,Brann,0.292,0.269,0.439,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-GAIS-Nordsjaelland,2026-07-23,Conference League,GAIS,Nordsjaelland,0.328,0.251,0.421,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-DinamoTbilisi-Zalgiris,2026-07-23,Conference League,Dinamo Tbilisi,Zalgiris,0.418,0.295,0.288,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Vaduz-Escaldes,2026-07-23,Conference League,Vaduz,Escaldes,0.726,0.172,0.102,HOME,0.481,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-FCSB-Auda,2026-07-23,Conference League,FCSB,Auda,0.78,0.148,0.072,HOME,0.481,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-StGallen-Benfica,2026-07-23,Europa League,St Gallen,Benfica,0.128,0.167,0.705,AWAY,0.481,0-2,2026-07-23T16:35:05+00:00
-m-2026-07-23-Twente-Ferencvaros,2026-07-23,Europa League,Twente,Ferencvaros,0.565,0.237,0.198,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Besiktas-Midtjylland,2026-07-23,Europa League,Besiktas,Midtjylland,0.356,0.249,0.396,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Polissya-Copenhagen,2026-07-23,Conference League,Polissya,Copenhagen,0.239,0.228,0.533,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Paks-Panathinaikos,2026-07-23,Conference League,Paks,Panathinaikos,0.226,0.216,0.558,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Aluminij-DinamoTirana,2026-07-23,Conference League,Aluminij,Dinamo Tirana,0.358,0.28,0.362,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Varazdin-Jablonec,2026-07-23,Conference League,Varazdin,Jablonec,0.348,0.27,0.382,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Lugano-Dukagjini,2026-07-23,Conference League,Lugano,Dukagjini,0.802,0.137,0.061,HOME,0.49,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-LNZCherkasy-Gent,2026-07-23,Conference League,LNZ Cherkasy,Gent,0.258,0.259,0.484,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-BoracBanjaLuka-Petrocub,2026-07-23,Conference League,Borac Banja Luka,Petrocub,0.584,0.231,0.184,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Zilina-GKSKatowice,2026-07-23,Conference League,Zilina,GKS Katowice,0.355,0.262,0.383,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Rijeka-DerryCity,2026-07-23,Conference League,Rijeka,Derry City,0.751,0.166,0.083,HOME,0.481,1-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-Motherwell-HBTorshavn,2026-07-23,Conference League,Motherwell,HB Torshavn,0.818,0.123,0.059,HOME,0.481,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-Shelbourne-NommeKalju,2026-07-23,Conference League,Shelbourne,Nomme Kalju,0.649,0.216,0.135,HOME,0.481,1-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-Bravo-Shkendija,2026-07-23,Conference League,Bravo,Shkendija,0.485,0.267,0.248,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-NSIRunavik-Koper,2026-07-23,Conference League,NSI Runavik,Koper,0.252,0.225,0.522,AWAY,0.481,0-2,2026-07-23T16:35:05+00:00
-m-2026-07-23-Partizan-UNAStrassen,2026-07-23,Conference League,Partizan,UNA Strassen,0.805,0.126,0.069,HOME,0.481,2-0,2026-07-23T16:35:05+00:00
-m-2026-07-23-Stjarnan-Ilves,2026-07-23,Conference League,Stjarnan,Ilves,0.396,0.262,0.342,HOME,0.482,1-1,2026-07-23T16:35:05+00:00
-m-2026-07-23-Valur-ZrinjskiMostar,2026-07-23,Conference League,Valur,Zrinjski Mostar,0.338,0.269,0.394,AWAY,0.482,1-1,2026-07-23T16:35:05+00:00
+m-2026-07-23-Rakow-Valletta,2026-07-23,Conference League,Rakow,Valletta,0.84,0.118,0.041,HOME,0.678,3-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-DunajskaStreda-VelezMostar,2026-07-23,Conference League,Dunajska Streda,Velez Mostar,0.655,0.217,0.128,HOME,0.603,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-AEKLarnaca-BeitarJerusalem,2026-07-23,Conference League,AEK Larnaca,Beitar Jerusalem,0.547,0.25,0.203,HOME,0.668,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-DynamoKyiv-PAOK,2026-07-23,Europa League,Dynamo Kyiv,PAOK,0.322,0.259,0.419,AWAY,0.552,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Hammarby-Anderlecht,2026-07-23,Europa League,Hammarby,Anderlecht,0.494,0.262,0.244,HOME,0.516,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Tromso-HradecKralove,2026-07-23,Europa League,Tromso,Hradec Kralove,0.604,0.23,0.166,HOME,0.562,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-SantaColoma-RapidWien,2026-07-23,Conference League,Santa Coloma,Rapid Wien,0.097,0.141,0.763,AWAY,0.679,0-2,2026-07-23T16:42:09+00:00
+m-2026-07-23-BATEBorisov-Sion,2026-07-23,Conference League,BATE Borisov,Sion,0.127,0.177,0.696,AWAY,0.595,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Zimbru-Noah,2026-07-23,Conference League,Zimbru,Noah,0.229,0.238,0.533,AWAY,0.557,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-UCluj-Brann,2026-07-23,Conference League,U Cluj,Brann,0.292,0.269,0.439,AWAY,0.503,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-GAIS-Nordsjaelland,2026-07-23,Conference League,GAIS,Nordsjaelland,0.328,0.251,0.421,AWAY,0.545,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-DinamoTbilisi-Zalgiris,2026-07-23,Conference League,Dinamo Tbilisi,Zalgiris,0.418,0.295,0.288,HOME,0.518,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Vaduz-Escaldes,2026-07-23,Conference League,Vaduz,Escaldes,0.726,0.172,0.102,HOME,0.679,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-FCSB-Auda,2026-07-23,Conference League,FCSB,Auda,0.78,0.148,0.072,HOME,0.679,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-StGallen-Benfica,2026-07-23,Europa League,St Gallen,Benfica,0.128,0.167,0.705,AWAY,0.667,0-2,2026-07-23T16:42:09+00:00
+m-2026-07-23-Twente-Ferencvaros,2026-07-23,Europa League,Twente,Ferencvaros,0.565,0.237,0.198,HOME,0.56,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Besiktas-Midtjylland,2026-07-23,Europa League,Besiktas,Midtjylland,0.356,0.249,0.396,AWAY,0.556,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Polissya-Copenhagen,2026-07-23,Conference League,Polissya,Copenhagen,0.239,0.228,0.533,AWAY,0.566,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Paks-Panathinaikos,2026-07-23,Conference League,Paks,Panathinaikos,0.226,0.216,0.558,AWAY,0.561,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Aluminij-DinamoTirana,2026-07-23,Conference League,Aluminij,Dinamo Tirana,0.358,0.28,0.362,AWAY,0.494,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Varazdin-Jablonec,2026-07-23,Conference League,Varazdin,Jablonec,0.348,0.27,0.382,AWAY,0.498,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Lugano-Dukagjini,2026-07-23,Conference League,Lugano,Dukagjini,0.802,0.137,0.061,HOME,0.678,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-LNZCherkasy-Gent,2026-07-23,Conference League,LNZ Cherkasy,Gent,0.258,0.259,0.484,AWAY,0.556,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-BoracBanjaLuka-Petrocub,2026-07-23,Conference League,Borac Banja Luka,Petrocub,0.584,0.231,0.184,HOME,0.562,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Zilina-GKSKatowice,2026-07-23,Conference League,Zilina,GKS Katowice,0.355,0.262,0.383,AWAY,0.502,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Rijeka-DerryCity,2026-07-23,Conference League,Rijeka,Derry City,0.751,0.166,0.083,HOME,0.627,2-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Motherwell-HBTorshavn,2026-07-23,Conference League,Motherwell,HB Torshavn,0.818,0.123,0.059,HOME,0.678,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-Shelbourne-NommeKalju,2026-07-23,Conference League,Shelbourne,Nomme Kalju,0.649,0.216,0.135,HOME,0.638,2-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Bravo-Shkendija,2026-07-23,Conference League,Bravo,Shkendija,0.485,0.267,0.248,HOME,0.574,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-NSIRunavik-Koper,2026-07-23,Conference League,NSI Runavik,Koper,0.252,0.225,0.522,AWAY,0.651,0-2,2026-07-23T16:42:09+00:00
+m-2026-07-23-Partizan-UNAStrassen,2026-07-23,Conference League,Partizan,UNA Strassen,0.805,0.126,0.069,HOME,0.679,2-0,2026-07-23T16:42:09+00:00
+m-2026-07-23-Stjarnan-Ilves,2026-07-23,Conference League,Stjarnan,Ilves,0.396,0.262,0.342,HOME,0.545,1-1,2026-07-23T16:42:09+00:00
+m-2026-07-23-Valur-ZrinjskiMostar,2026-07-23,Conference League,Valur,Zrinjski Mostar,0.338,0.269,0.394,AWAY,0.486,1-1,2026-07-23T16:42:09+00:00
