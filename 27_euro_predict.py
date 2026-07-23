@@ -26,6 +26,10 @@ _spec = importlib.util.spec_from_file_location("gpc", "21_club_genesis.py")
 gpc = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(gpc)
 
 HOME_ADV = 65.0                 # clubelo-scale home advantage (~65 ELO)
+# Draw model CALIBRATED on 44,325 real club matches (observed draw rate vs ELO
+# gap, sample-size weighted). The old guess (0.27*exp(-gap/300)) decayed far too
+# fast — it gave a 298-gap match only 10% on the draw when reality is ~17%.
+DRAW_A, DRAW_C = 0.3067, 488.9  # draw = A * exp(-|elo_gap| / C)
 BASE_TOTAL = 2.6                # typical total goals; supremacy shifts the split
 ELO_PER_GOAL = 190.0            # ~190 ELO of supremacy ≈ one goal
 CACHE = "clubelo_cache.json"
@@ -72,7 +76,7 @@ def predict(home, away, date, odds=None, w_market=0.6, verbose=True):
     ea = fetch_elo(away, date)
     diff = eh - ea
     exp_h = 1.0 / (1.0 + 10 ** (-(diff + HOME_ADV) / 400.0))
-    pdraw = 0.27 * np.exp(-abs(diff) / 300.0)
+    pdraw = DRAW_A * np.exp(-abs(diff) / DRAW_C)
     pH = exp_h * (1 - pdraw); pA = (1 - exp_h) * (1 - pdraw)
     s = pH + pdraw + pA
     model = np.array([pH / s, pdraw / s, pA / s])
