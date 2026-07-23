@@ -43,6 +43,13 @@ ALIAS = {
     "Bayern Munchen": "Bayern", "Bayern Munich": "Bayern",
     "Paris Saint-Germain": "Paris SG", "Man Utd": "Man United",
     "Red Star Belgrade": "Crvena Zvezda", "Young Boys": "YoungBoys",
+    # names clubelo files differently (found by probing its API)
+    "U Cluj": "UniversitateaCluj", "Universitatea Cluj": "UniversitateaCluj",
+    "Zalgiris": "ZalgirisVilnius", "Zalgiris Vilnius": "ZalgirisVilnius",
+    "Polissya": "PolissyaZhytomyr", "Paks": "Paksi", "Paksi SE": "Paksi",
+    "GKS Katowice": "Katowice", "NSI Runavik": "Runavik",
+    "Ilves": "IlvesTampere", "Ilves Tampere": "IlvesTampere",
+    "Copenhagen": "FCKobenhavn", "FC Copenhagen": "FCKobenhavn",
 }
 STRIP = ("fc ", " fc", "sk ", "fk ", "sc ", "cf ", "ac ", "as ", "nk ", "hnk ",
          "cd ", "ca ", "ss ", "us ", "if ", " if")
@@ -96,6 +103,15 @@ def resolve(name, date):
     return _resolved[name]
 
 
+def dedup_key(name):
+    """Normalised name so 'Beşiktaş' and 'Besiktas', or 'St. Gallen' and
+    'St Gallen', collapse to one fixture instead of being published twice."""
+    n = _ascii(name).lower().replace(".", "").replace("'", "")
+    drop = {"fc", "sk", "fk", "sc", "cf", "ac", "as", "nk", "hnk", "if",
+            "cd", "ca", "ss", "us", "se", "kf", "ks", "msk", "pfc", "afc"}
+    return "".join(t for t in n.split() if t not in drop)
+
+
 def fetch_fixtures(date):
     games = []
     for lg, label in COMPS.items():
@@ -118,6 +134,28 @@ def fetch_fixtures(date):
 
 
 PENDING = "uefa_pending.csv"
+MANUAL = "fixtures_manual.csv"
+
+
+def manual_fixtures(date):
+    """Fixtures pasted in by hand (with odds). The free feed truncates to ~3 per
+    competition per day, so this is how a full matchday gets covered."""
+    if not os.path.exists(MANUAL):
+        return []
+    import pandas as pd
+    m = pd.read_csv(MANUAL)
+    m = m[m["date"].astype(str) == date]
+    out = []
+    for r in m.itertuples(index=False):
+        odds = None
+        if not pd.isna(getattr(r, "oH", None)):
+            odds = (float(r.oH), float(r.oD), float(r.oA))
+        out.append(dict(id=f"m-{date}-{r.home}-{r.away}".replace(" ", ""),
+                        comp=r.comp, kickoff=str(r.kickoff),
+                        ts=f"{date}T{r.kickoff}:00",
+                        home=str(r.home).strip(), away=str(r.away).strip(),
+                        odds=odds))
+    return out
 
 
 def _log_pending(matches, date):
@@ -147,7 +185,19 @@ def main():
     print(f" ASTROPITCH - DAILY SLATE for {date}")
     print("=" * 70)
     fixtures = fetch_fixtures(date)
-    print(f"\n{len(fixtures)} fixture(s) found")
+    man = manual_fixtures(date)
+    if man:
+        seen = [(dedup_key(g["home"]), dedup_key(g["away"])) for g in man]
+
+        def dup(g):
+            h, a = dedup_key(g["home"]), dedup_key(g["away"])
+            def same(x, y):
+                return x == y or x.startswith(y) or y.startswith(x)
+            return any(same(h, mh) and same(a, ma) for mh, ma in seen)
+
+        fixtures = man + [g for g in fixtures if not dup(g)]
+        fixtures.sort(key=lambda g: g["ts"])
+    print(f"\n{len(fixtures)} fixture(s) ({len(man)} pasted in with odds)")
 
     out, skipped = [], []
     for g in fixtures:
@@ -158,7 +208,7 @@ def main():
             skipped.append(f"{g['home']} v {g['away']} (no rating for {miss})")
             continue
         try:
-            p = euro.predict(hn, an, date, verbose=False)
+            p = euro.predict(hn, an, date, odds=g.get("odds"), verbose=False)
         except Exception as e:
             skipped.append(f"{g['home']} v {g['away']} ({e})")
             continue
@@ -169,6 +219,8 @@ def main():
             home=g["home"], away=g["away"],
             home_elo=p["elo_home"], away_elo=p["elo_away"],
             probs=[round(v, 3) for v in p["one_x_two"]],
+            model_probs=[round(v, 3) for v in p["model_only"]],
+            market=p["market"],
             pick=pk, over25=p["over25"], top_score=p["top_scores"][0]["score"],
             cosmic=cr["headline"],
         ))
