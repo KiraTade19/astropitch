@@ -1,0 +1,10 @@
+ASTROPITCH - WEATHER/SEASON GOALS TEST
+==============================================================
+Holdout 6,000 matches (2025-01-09 -> 2026-05-24)
+
+model                            Brier   logloss     acc       MAE
+BASE (ELO+form)                 0.2477    0.6887   54.8%    1.2839
++ season (month,hour)           0.2474    0.6883   55.5%    1.2819
++ weather (temp,rain,wind)      0.2475    0.6885   54.2%    1.2831
+
+Verdict: adopt only the variants that actually lower holdout log-loss.

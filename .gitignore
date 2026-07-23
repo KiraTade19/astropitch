@@ -36,3 +36,6 @@ batch_output.txt
 output.md
 output.txt
 match_predictions.txt
+
+# regenerable weather cache (Open-Meteo)
+weather_cache.csv
