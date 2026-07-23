@@ -50,6 +50,10 @@ _clubs = sorted(_elo.items(), key=lambda kv: -kv[1])
 CLUBS = [[t, round(float(v)), _dn.get(_tl.get(t), _tl.get(t) or "")] for t, v in _clubs]
 CLUBS_JSON = _json.dumps(CLUBS, separators=(",", ":"))
 TOP = CLUBS[0]
+SLATE = None
+if os.path.exists("today_slate.json"):
+    with open("today_slate.json", encoding="utf-8") as _f:
+        SLATE = _json.load(_f)
 ELO_MIN, ELO_MAX = CLUBS[-1][1], CLUBS[0][1]
 ELO_MED = CLUBS[len(CLUBS) // 2][1]
 
@@ -161,6 +165,35 @@ footer{padding:64px 32px 84px;text-align:center;color:var(--mut);font-size:13.5p
   line-height:1.9}
 footer strong{color:var(--ink)}
 
+.slate{margin-top:36px;border:1px solid var(--line)}
+.match{display:grid;grid-template-columns:74px 1fr 200px 92px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line)}
+.match:last-child{border-bottom:0}
+.match .ko{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mut)}
+.match .tm{font-weight:600;font-size:16px;line-height:1.35}
+.match .cp{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);margin-top:5px}
+.bar{display:flex;gap:2px;height:8px;margin-bottom:7px}
+.bar span{display:block}
+.bar .h{background:var(--rust)}
+.bar .d{background:#B9B3A6}
+.bar .a{background:var(--ink)}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mut);
+  display:flex;justify-content:space-between;letter-spacing:.02em}
+.pick{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:right}
+.pick b{display:block;font-size:14px;color:var(--rust);letter-spacing:.06em}
+.pick i{font-style:normal;color:var(--mut);font-size:11px}
+.freebadge{display:inline-block;margin-left:10px;padding:4px 10px;background:var(--rust);
+  color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;vertical-align:middle}
+.backlink{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);display:inline-block;margin-bottom:26px}
+@media(max-width:760px){
+  .match{grid-template-columns:60px 1fr;gap:12px}
+  .match .pr,.match .pick{grid-column:1/-1}
+  .match .pick{text-align:left}
+}
 .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
@@ -329,7 +362,7 @@ def build():
     <p class="sub">Calibrated probabilities for 12 leagues, every international and
        any club in Europe — published with a track record we don't hide.</p>
     <div class="cta-row">
-      <a class="btn primary" href="{API_URL}/docs">Explore the API</a>
+      <a class="btn primary" href="today.html">Today's predictions</a>
       <a class="btn ghost" href="#record">See the receipts</a>
     </div>
   </div>
@@ -437,5 +470,64 @@ def build():
           f"CLV {TR['clv']:+.2f}% | ROI {TR['roi']:+.1f}%")
 
 
+def build_today():
+    """Render docs/today.html from today_slate.json (free daily predictions)."""
+    if not SLATE:
+        print("no today_slate.json - skipping today.html")
+        return
+    rows = ""
+    for m in SLATE["matches"]:
+        h, d, a = [v * 100 for v in m["probs"]]
+        rows += f"""<div class="match">
+      <div class="ko">{m['kickoff']}</div>
+      <div><div class="tm">{m['home']} <span style="color:var(--mut)">v</span> {m['away']}</div>
+           <div class="cp">{m['comp']} &nbsp;·&nbsp; {m['home_elo']} v {m['away_elo']}</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:{h:.1f}%"></span><span class="d" style="width:{d:.1f}%"></span><span class="a" style="width:{a:.1f}%"></span></div>
+        <div class="pct"><span>H {h:.0f}%</span><span>D {d:.0f}%</span><span>A {a:.0f}%</span></div>
+      </div>
+      <div class="pick"><b>{m['pick']}</b><i>{m['top_score']} &nbsp;·&nbsp; O2.5 {m['over25']*100:.0f}%</i></div>
+    </div>"""
+    upd = SLATE["generated_at"].replace("T", " ")[:16]
+    html = f"""<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Today's predictions — AstroPitch</title>
+<meta name="description" content="Free daily football predictions: calibrated 1X2 probabilities, over/under and likely scores for today's European fixtures. Published before kickoff.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>{CSS}</style></head><body>
+<main><div class="wrap" style="padding-top:56px">
+  <a class="backlink" href="index.html">&larr; AstroPitch</a>
+  <span class="eyebrow">{SLATE['date']} &nbsp;·&nbsp; updated {upd} UTC</span>
+  <h2 style="max-width:24ch">Today's predictions<span class="freebadge">Free</span></h2>
+  <p class="lede">Every match we can rate today, published <b>before kickoff</b> and
+     logged so it counts toward our public track record. {SLATE['n']} fixture(s) rated.</p>
+
+  <div class="slate">{rows}</div>
+
+  <div class="note">
+    <b>How to read this.</b> H/D/A are our calibrated probabilities for home win,
+    draw and away win — not tips. The bar shows the same three numbers. Ratings beside
+    each match are the clubs' strength ratings; a bigger gap means a more one-sided tie.
+    We publish these free, before kickoff, and grade them afterwards — including the misses.
+  </div>
+  <div class="note" style="border-left-color:#B9B3A6">
+    Domestic leagues are between seasons right now, so this slate is UEFA qualifying.
+    It fills out as the European season starts.
+  </div>
+</div></main>
+<footer>
+  <strong>AstroPitch</strong> — probabilistic model output for information and
+  entertainment, not betting advice. 18+. Please gamble responsibly.<br>
+  <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="{API_URL}/docs">API</a>
+</footer>
+</body></html>"""
+    with open("docs/today.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"Wrote docs/today.html  ({SLATE['n']} matches)")
+
+
 if __name__ == "__main__":
     build()
+    build_today()

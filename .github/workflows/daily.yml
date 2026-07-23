@@ -5,7 +5,8 @@ name: Daily predictions & track record
 # Off-season this is a harmless no-op (nothing to grade/predict).
 on:
   schedule:
-    - cron: "0 6 * * *"        # 06:00 UTC daily
+    # refresh through the day so today's slate stays current as kickoffs approach
+    - cron: "0 5,11,15,19 * * *"
   workflow_dispatch: {}         # allow manual "Run workflow"
 
 permissions:
@@ -34,6 +35,10 @@ jobs:
 
       - name: Grade logged predictions, then log upcoming fixtures
         run: python 23_track_record.py live
+
+      - name: Build today's free prediction slate
+        run: python 30_daily_slate.py
+        continue-on-error: true      # a fixture-feed outage must not kill the run
 
       - name: Rebuild public site
         run: python 26_build_site.py

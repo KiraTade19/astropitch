@@ -1,0 +1,110 @@
+{
+ "date": "2026-07-23",
+ "generated_at": "2026-07-23T15:38:02+00:00",
+ "n": 6,
+ "matches": [
+  {
+   "comp": "Europa League",
+   "kickoff": "17:00",
+   "home": "Hammarby",
+   "away": "Anderlecht",
+   "home_elo": 1508,
+   "away_elo": 1524,
+   "probs": [
+    0.401,
+    0.297,
+    0.302
+   ],
+   "pick": "HOME",
+   "over25": 0.482,
+   "top_score": "1-1",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "comp": "Conference League",
+   "kickoff": "17:45",
+   "home": "FCSB",
+   "away": "Auda Kekava",
+   "home_elo": 1427,
+   "away_elo": 1179,
+   "probs": [
+    0.7,
+    0.185,
+    0.116
+   ],
+   "pick": "HOME",
+   "over25": 0.481,
+   "top_score": "2-0",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "comp": "Europa League",
+   "kickoff": "18:00",
+   "home": "Beşiktaş",
+   "away": "FC Midtjylland",
+   "home_elo": 1516,
+   "away_elo": 1687,
+   "probs": [
+    0.276,
+    0.216,
+    0.508
+   ],
+   "pick": "AWAY",
+   "over25": 0.482,
+   "top_score": "1-1",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "comp": "Europa League",
+   "kickoff": "18:00",
+   "home": "St. Gallen",
+   "away": "Benfica",
+   "home_elo": 1470,
+   "away_elo": 1824,
+   "probs": [
+    0.136,
+    0.149,
+    0.716
+   ],
+   "pick": "AWAY",
+   "over25": 0.481,
+   "top_score": "0-2",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "comp": "Conference League",
+   "kickoff": "18:45",
+   "home": "Motherwell",
+   "away": "HB Tórshavn",
+   "home_elo": 1390,
+   "away_elo": 1050,
+   "probs": [
+    0.772,
+    0.153,
+    0.075
+   ],
+   "pick": "HOME",
+   "over25": 0.481,
+   "top_score": "2-0",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "comp": "Conference League",
+   "kickoff": "19:15",
+   "home": "Valur",
+   "away": "Zrinjski Mostar",
+   "home_elo": 1211,
+   "away_elo": 1283,
+   "probs": [
+    0.361,
+    0.265,
+    0.375
+   ],
+   "pick": "AWAY",
+   "over25": 0.482,
+   "top_score": "1-1",
+   "cosmic": "♏ Waxing gibbous in Scorpio · Jupiter's day · Year of the Fire Horse"
+  }
+ ],
+ "unrated": 0
+}

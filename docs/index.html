@@ -96,6 +96,35 @@ footer{padding:64px 32px 84px;text-align:center;color:var(--mut);font-size:13.5p
   line-height:1.9}
 footer strong{color:var(--ink)}
 
+.slate{margin-top:36px;border:1px solid var(--line)}
+.match{display:grid;grid-template-columns:74px 1fr 200px 92px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line)}
+.match:last-child{border-bottom:0}
+.match .ko{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mut)}
+.match .tm{font-weight:600;font-size:16px;line-height:1.35}
+.match .cp{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);margin-top:5px}
+.bar{display:flex;gap:2px;height:8px;margin-bottom:7px}
+.bar span{display:block}
+.bar .h{background:var(--rust)}
+.bar .d{background:#B9B3A6}
+.bar .a{background:var(--ink)}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mut);
+  display:flex;justify-content:space-between;letter-spacing:.02em}
+.pick{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:right}
+.pick b{display:block;font-size:14px;color:var(--rust);letter-spacing:.06em}
+.pick i{font-style:normal;color:var(--mut);font-size:11px}
+.freebadge{display:inline-block;margin-left:10px;padding:4px 10px;background:var(--rust);
+  color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;vertical-align:middle}
+.backlink{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);display:inline-block;margin-bottom:26px}
+@media(max-width:760px){
+  .match{grid-template-columns:60px 1fr;gap:12px}
+  .match .pr,.match .pick{grid-column:1/-1}
+  .match .pick{text-align:left}
+}
 .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
@@ -116,7 +145,7 @@ footer strong{color:var(--ink)}
     <p class="sub">Calibrated probabilities for 12 leagues, every international and
        any club in Europe — published with a track record we don't hide.</p>
     <div class="cta-row">
-      <a class="btn primary" href="https://astropitch-api.onrender.com/docs">Explore the API</a>
+      <a class="btn primary" href="today.html">Today's predictions</a>
       <a class="btn ghost" href="#record">See the receipts</a>
     </div>
   </div>

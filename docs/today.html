@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Today's predictions — AstroPitch</title>
+<meta name="description" content="Free daily football predictions: calibrated 1X2 probabilities, over/under and likely scores for today's European fixtures. Published before kickoff.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F0EC; --paper2:#E9E7E1; --ink:#1B1A16; --ink2:#33312B;
+  --mut:#6E6A61; --line:#D6D2C8; --line2:#BFB9AC;
+  --rust:#9C5533; --rust2:#C0724A; --ok:#4A6B4F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:"Archivo",-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font-size:16.5px;line-height:1.6;color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+a{color:var(--rust);text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+
+/* ---------- HERO ---------- */
+.hero{border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;
+  padding:96px 0 88px}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--rust);display:flex;align-items:center;gap:10px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line2)}
+h1{font-size:clamp(42px,6.6vw,80px);font-weight:700;line-height:1.0;
+  letter-spacing:-.035em;margin:26px 0 0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--rust)}
+.sub{color:var(--mut);font-size:clamp(16px,1.9vw,19px);margin-top:24px;max-width:46ch}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 28px;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.13em;
+  text-transform:uppercase;border:1px solid var(--ink);transition:background .18s,color .18s}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--rust);border-color:var(--rust)}
+.btn.ghost{color:var(--ink);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--ink)}
+.orbwrap{position:relative;aspect-ratio:1;border:1px solid var(--line);background:var(--paper2)}
+#orb{width:100%;height:100%;display:block;cursor:grab}
+#orb:active{cursor:grabbing}
+.orbcap{position:absolute;left:14px;bottom:12px;font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+#tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--ink);color:var(--paper);padding:8px 11px;font-size:12px;
+  font-family:"IBM Plex Mono",monospace;white-space:nowrap;transform:translate(-50%,-140%);
+  z-index:3;line-height:1.45}
+#tip b{color:#fff;font-weight:600}
+.orbnote{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  line-height:1.7;color:var(--mut);letter-spacing:.02em}
+.orbnote b{color:var(--ink)}
+
+/* ---------- SECTIONS ---------- */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--rust);display:block;margin-bottom:18px}
+h2{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.06;
+  letter-spacing:-.03em;margin-bottom:16px;text-wrap:balance;max-width:20ch}
+.lede{color:var(--mut);max-width:62ch;font-size:17px}
+
+/* spec-sheet stat grid: hairline cells, no radius */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  margin-top:44px;border:1px solid var(--line);border-right:0;border-bottom:0}
+.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 26px}
+.cell .v{font-family:"IBM Plex Mono",monospace;font-size:36px;font-weight:600;
+  line-height:1;letter-spacing:-.03em}
+.cell .l{color:var(--mut);font-size:13.5px;margin-top:12px;line-height:1.45}
+.rust{color:var(--rust)}
+
+.note{margin-top:34px;padding:26px 30px;border-left:2px solid var(--rust);
+  background:var(--paper2);color:var(--ink2);font-size:15.5px;max-width:74ch}
+.note b{color:var(--ink)}
+.note.ok{border-left-color:var(--ok)}
+
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:440px}
+th,td{padding:16px 22px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--mut);background:var(--paper2)}
+td{font-variant-numeric:tabular-nums}
+td:not(:first-child){font-family:"IBM Plex Mono",monospace;font-size:14px}
+tr:last-child td{border-bottom:0}
+tr.hi td{color:var(--rust)}
+
+.cosmic{margin-top:36px;border:1px solid var(--line);padding:34px 36px;background:var(--paper2)}
+.cosmic .hd{font-size:21px;font-weight:700;letter-spacing:-.02em;margin-bottom:18px}
+.cosmic p{margin:11px 0;color:var(--ink2);max-width:72ch}
+.disc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--mut);font-size:12.5px;line-height:1.6;max-width:72ch}
+
+footer{padding:64px 32px 84px;text-align:center;color:var(--mut);font-size:13.5px;
+  line-height:1.9}
+footer strong{color:var(--ink)}
+
+.slate{margin-top:36px;border:1px solid var(--line)}
+.match{display:grid;grid-template-columns:74px 1fr 200px 92px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line)}
+.match:last-child{border-bottom:0}
+.match .ko{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mut)}
+.match .tm{font-weight:600;font-size:16px;line-height:1.35}
+.match .cp{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);margin-top:5px}
+.bar{display:flex;gap:2px;height:8px;margin-bottom:7px}
+.bar span{display:block}
+.bar .h{background:var(--rust)}
+.bar .d{background:#B9B3A6}
+.bar .a{background:var(--ink)}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mut);
+  display:flex;justify-content:space-between;letter-spacing:.02em}
+.pick{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:right}
+.pick b{display:block;font-size:14px;color:var(--rust);letter-spacing:.06em}
+.pick i{font-style:normal;color:var(--mut);font-size:11px}
+.freebadge{display:inline-block;margin-left:10px;padding:4px 10px;background:var(--rust);
+  color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;vertical-align:middle}
+.backlink{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);display:inline-block;margin-bottom:26px}
+@media(max-width:760px){
+  .match{grid-template-columns:60px 1fr;gap:12px}
+  .match .pr,.match .pick{grid-column:1/-1}
+  .match .pick{text-align:left}
+}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none} html{scroll-behavior:auto}
+}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding:64px 0 56px}
+  .orbwrap{max-width:420px}
+  section{padding:64px 0}
+  .wrap{padding:0 22px}
+}
+</style></head><body>
+<main><div class="wrap" style="padding-top:56px">
+  <a class="backlink" href="index.html">&larr; AstroPitch</a>
+  <span class="eyebrow">2026-07-23 &nbsp;·&nbsp; updated 2026-07-23 15:38 UTC</span>
+  <h2 style="max-width:24ch">Today's predictions<span class="freebadge">Free</span></h2>
+  <p class="lede">Every match we can rate today, published <b>before kickoff</b> and
+     logged so it counts toward our public track record. 6 fixture(s) rated.</p>
+
+  <div class="slate"><div class="match">
+      <div class="ko">17:00</div>
+      <div><div class="tm">Hammarby <span style="color:var(--mut)">v</span> Anderlecht</div>
+           <div class="cp">Europa League &nbsp;·&nbsp; 1508 v 1524</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:40.1%"></span><span class="d" style="width:29.7%"></span><span class="a" style="width:30.2%"></span></div>
+        <div class="pct"><span>H 40%</span><span>D 30%</span><span>A 30%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">17:45</div>
+      <div><div class="tm">FCSB <span style="color:var(--mut)">v</span> Auda Kekava</div>
+           <div class="cp">Conference League &nbsp;·&nbsp; 1427 v 1179</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:70.0%"></span><span class="d" style="width:18.5%"></span><span class="a" style="width:11.6%"></span></div>
+        <div class="pct"><span>H 70%</span><span>D 18%</span><span>A 12%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Beşiktaş <span style="color:var(--mut)">v</span> FC Midtjylland</div>
+           <div class="cp">Europa League &nbsp;·&nbsp; 1516 v 1687</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:27.6%"></span><span class="d" style="width:21.6%"></span><span class="a" style="width:50.8%"></span></div>
+        <div class="pct"><span>H 28%</span><span>D 22%</span><span>A 51%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">St. Gallen <span style="color:var(--mut)">v</span> Benfica</div>
+           <div class="cp">Europa League &nbsp;·&nbsp; 1470 v 1824</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:13.6%"></span><span class="d" style="width:14.9%"></span><span class="a" style="width:71.6%"></span></div>
+        <div class="pct"><span>H 14%</span><span>D 15%</span><span>A 72%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-2 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">18:45</div>
+      <div><div class="tm">Motherwell <span style="color:var(--mut)">v</span> HB Tórshavn</div>
+           <div class="cp">Conference League &nbsp;·&nbsp; 1390 v 1050</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:77.2%"></span><span class="d" style="width:15.3%"></span><span class="a" style="width:7.5%"></span></div>
+        <div class="pct"><span>H 77%</span><span>D 15%</span><span>A 8%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">19:15</div>
+      <div><div class="tm">Valur <span style="color:var(--mut)">v</span> Zrinjski Mostar</div>
+           <div class="cp">Conference League &nbsp;·&nbsp; 1211 v 1283</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:36.1%"></span><span class="d" style="width:26.5%"></span><span class="a" style="width:37.5%"></span></div>
+        <div class="pct"><span>H 36%</span><span>D 26%</span><span>A 38%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div></div>
+
+  <div class="note">
+    <b>How to read this.</b> H/D/A are our calibrated probabilities for home win,
+    draw and away win — not tips. The bar shows the same three numbers. Ratings beside
+    each match are the clubs' strength ratings; a bigger gap means a more one-sided tie.
+    We publish these free, before kickoff, and grade them afterwards — including the misses.
+  </div>
+  <div class="note" style="border-left-color:#B9B3A6">
+    Domestic leagues are between seasons right now, so this slate is UEFA qualifying.
+    It fills out as the European season starts.
+  </div>
+</div></main>
+<footer>
+  <strong>AstroPitch</strong> — probabilistic model output for information and
+  entertainment, not betting advice. 18+. Please gamble responsibly.<br>
+  <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="https://astropitch-api.onrender.com/docs">API</a>
+</footer>
+</body></html>
