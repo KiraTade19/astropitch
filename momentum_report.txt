@@ -1,0 +1,5 @@
+ELO MOMENTUM TEST
+BASE           acc 50.0%  logloss 1.0045  OU-logloss 0.6907  goals-MAE 1.2757
+BASE+MOMENTUM  acc 50.2%  logloss 1.0073  OU-logloss 0.6897  goals-MAE 1.2755
+delta logloss +0.0028
+VERDICT: REJECT (no real improvement)
