@@ -1,0 +1,7 @@
+POISSON ATTACK/DEFENCE CHALLENGER
+XGBoost (shipped)     acc 50.6%  logloss 0.9950
+Poisson attack/def    acc 49.5%  logloss 1.0244
+delta logloss +0.0294
+VERDICT (standalone): XGBoost stays - Poisson worse
+Ensemble blend XGB 1.00/Poisson 0.00: test logloss 1.0056 vs XGB 1.0056 (+0.0000)
+VERDICT (ensemble): no real ensemble gain
