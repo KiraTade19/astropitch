@@ -28,7 +28,22 @@ SPORTSDB = "https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d={d}&l={lg}
 COMPS = {4480: "Champions League", 4481: "Europa League", 5071: "Conference League"}
 PENDING = "uefa_pending.csv"
 LIVE = "track_record_live.csv"
+MANUAL_RESULTS = "results_manual.csv"
 MAX_AGE_DAYS = 14           # give up on a fixture after this (postponed/abandoned)
+
+
+def manual_results():
+    """Results pasted in by hand, keyed the same way 30_daily_slate.py logs
+    manual fixtures (id = 'm-{date}-{home}-{away}', spaces stripped) so they
+    match uefa_pending.csv rows exactly - no name-matching to get wrong."""
+    if not os.path.exists(MANUAL_RESULTS):
+        return {}
+    m = pd.read_csv(MANUAL_RESULTS)
+    out = {}
+    for r in m.itertuples(index=False):
+        key = f"m-{r.date}-{r.home}-{r.away}".replace(" ", "")
+        out[key] = (int(r.hg), int(r.ag))
+    return out
 
 
 def results_for(date):
@@ -73,7 +88,11 @@ def main():
     res = {}
     for d in dates:
         res.update(results_for(d))
-    print(f"\n{len(pend)} pending | {len(res)} finished result(s) fetched")
+    n_auto = len(res)
+    man = manual_results()
+    res.update(man)          # manual results win on id collision (more trusted)
+    print(f"\n{len(pend)} pending | {n_auto} auto-fetched + {len(man)} manual "
+          f"result(s) ({len(res)} total)")
 
     for p in pend.itertuples(index=False):
         score = res.get(str(p.id))
