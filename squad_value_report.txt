@@ -1,4 +1,4 @@
 SQUAD MARKET VALUE TEST
-matched 74% of matches
-mean delta logloss -0.0016 | helped 4/5 windows
-VERDICT: ADOPT - robust improvement, integrate into production
+matched 85% of matches
+mean delta logloss -0.0002 | helped 2/5 windows
+VERDICT: REJECT - not a robust improvement (likely absorbed by ELO)

@@ -69,10 +69,26 @@ _STOP = {"fc", "cf", "sc", "ac", "as", "afc", "cd", "ca", "ss", "us", "sv", "sk"
          "fk", "nk", "hnk", "if", "bk", "ol", "rc", "sd", "ud", "club", "de", "cp",
          "sl", "rsc", "bc", "sp", "the", "1", "bsc", "vfb", "vfl", "tsg", "sc", "aj"}
 # football-data abbreviations Transfermarkt spells out (token-level expansion)
-_EXPAND = {"ath": "athletic", "atl": "atletico", "wolves": "wolverhampton",
-           "spurs": "tottenham", "man": "manchester", "utd": "united",
-           "gladbach": "borussia", "dortmund": "dortmund", "betis": "betis",
-           "sociedad": "sociedad", "vallecano": "rayo", "nott": "nottingham"}
+_EXPAND = {"wolves": "wolverhampton", "spurs": "tottenham", "man": "manchester",
+           "utd": "united", "nott": "nottingham"}
+
+# football-data names whose tokens differ from Transfermarkt's (whole-name aliases)
+_ALIAS = {
+    "QPR": "Queens Park Rangers", "West Brom": "West Bromwich",
+    "Sheffield Weds": "Sheffield Wednesday", "Ath Madrid": "Atletico Madrid",
+    "Ath Bilbao": "Athletic Bilbao", "Paris SG": "Paris Saint-Germain",
+    "Sp Lisbon": "Sporting CP", "Sp Braga": "Braga", "Sp Gijon": "Sporting Gijon",
+    "Ein Frankfurt": "Eintracht Frankfurt", "Espanol": "Espanyol",
+    "St Etienne": "Saint Etienne", "Buyuksehyr": "Istanbul Basaksehir",
+    "Hearts": "Heart of Midlothian", "St Truiden": "Sint-Truiden",
+    "AEK": "AEK Athens", "PAOK": "PAOK", "Rennes": "Stade Rennais",
+    "Brest": "Stade Brestois", "For Sittard": "Fortuna Sittard",
+    "Goztep": "Goztepe", "Hamburg": "Hamburger SV", "St. Gilloise": "Union Saint-Gilloise",
+    "Waasland-Beveren": "Waasland Beveren", "Ad. Demirspor": "Adana Demirspor",
+    "Akhisar Belediyespor": "Akhisar", "M'gladbach": "Borussia Monchengladbach",
+    "Fortuna Dusseldorf": "Fortuna Dusseldorf", "Nott'm Forest": "Nottingham Forest",
+    "Sheffield United": "Sheffield United", "Vallecano": "Rayo Vallecano",
+}
 
 
 def toks(name):
@@ -93,7 +109,8 @@ def build_pit_series():
     the old club). Returns {club_id: (dates[], values[])} + a club-name token index.
     This is strictly leak-free: a match reads only valuations dated BEFORE it."""
     pv = pd.read_csv(PV, usecols=lambda c: c in
-                     ("date", "market_value_in_eur", "current_club_id", "player_id"))
+                     ("date", "market_value_in_eur", "current_club_id", "player_id",
+                      "current_club_name"))
     pv["date"] = pd.to_datetime(pv["date"], errors="coerce")
     pv = pv.dropna(subset=["date", "market_value_in_eur", "current_club_id"]).sort_values("date")
 
@@ -119,14 +136,23 @@ def build_pit_series():
         S[cid] = (np.array(dts, dtype="datetime64[ns]"), np.array(vs))
         peak[cid] = max(vs) if vs else 0.0
 
-    clubs = pd.read_csv(CLUBS, usecols=lambda c: c in ("club_id", "name")).dropna(subset=["name"])
+    # Build the name index from the VALUATIONS file's own club names (covers every
+    # club with a valuation, incl. English Championship etc. that clubs.csv omits —
+    # clubs.csv lists only top divisions). Take each club's most-recent name.
+    if "current_club_name" in pv.columns:
+        nm = pv.dropna(subset=["current_club_name"]).drop_duplicates("current_club_id", keep="last")
+        name_map = dict(zip(nm["current_club_id"], nm["current_club_name"]))
+    else:
+        c = pd.read_csv(CLUBS, usecols=lambda x: x in ("club_id", "name")).dropna(subset=["name"])
+        name_map = dict(zip(c["club_id"], c["name"]))
+
     records, postings = [], {}
-    for r in clubs.itertuples(index=False):
-        tk = toks(r.name)
-        if not tk or r.club_id not in S:
+    for cid, name in name_map.items():
+        tk = toks(name)
+        if not tk or cid not in S:
             continue
         idx = len(records)
-        records.append(dict(tokens=tk, name=r.name, cid=r.club_id, peak=peak.get(r.club_id, 0.0)))
+        records.append(dict(tokens=tk, name=name, cid=cid, peak=peak.get(cid, 0.0)))
         for t in tk:
             postings.setdefault(t, set()).add(idx)
     return S, records, postings
@@ -139,16 +165,17 @@ def make_matcher(records, postings):
     def match(team):
         if team in cache:
             return cache[team]
-        q = toks(team); res = None
+        q = toks(_ALIAS.get(team, team))
+        res = None
         if q:
-            cand = None
-            for t in q:
-                s = postings.get(t, set())
-                cand = set(s) if cand is None else (cand & s)
-                if not cand:
-                    break
-            if cand:
-                res = records[max(cand, key=lambda i: records[i]["peak"])]["cid"]
+            cand = set()
+            for t in q:                       # any record sharing >=1 token
+                cand |= postings.get(t, set())
+            # bidirectional subset: our tokens in theirs OR theirs in ours
+            good = [i for i in cand
+                    if q <= records[i]["tokens"] or records[i]["tokens"] <= q]
+            if good:
+                res = records[max(good, key=lambda i: records[i]["peak"])]["cid"]
         cache[team] = res
         return res
     return match
