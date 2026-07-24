@@ -121,7 +121,21 @@ def build_row_club(home, away, date, division):
                                  f"(one of {sorted(lc)}).")
     base, _ = _common(st, home, away, date, HOME_ADV)
     base["league"] = lc[div]
+    if any("SoT" in c for c in CLUB["features"]):     # xG-proxy engine
+        hsf, hsa = _club_shots(st, home)
+        asf, asa = _club_shots(st, away)
+        base["H_SoT10"], base["H_SoTA10"] = hsf, hsa
+        base["A_SoT10"], base["A_SoTA10"] = asf, asa
+        base["SoT_Dom"] = (hsf - hsa) - (asf - asa)
     return pd.DataFrame([base])[CLUB["features"]], div
+
+
+def _club_shots(state, team, n=10):
+    h = state.get("sot", {}).get(team, [])
+    if not h:
+        return (4.4, 4.4)
+    r = h[-n:]
+    return (float(np.mean([x[0] for x in r])), float(np.mean([x[1] for x in r])))
 
 
 def build_row_intl(home, away, date, neutral, importance=30):

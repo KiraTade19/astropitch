@@ -1,0 +1,5 @@
+SHOTS-ON-TARGET (xG proxy) TEST
+BASE        acc 49.98%  logloss 1.0045
+BASE+SHOTS  acc 50.48%  logloss 1.0012
+delta acc +0.50pp  logloss -0.0033
+VERDICT: ADOPT

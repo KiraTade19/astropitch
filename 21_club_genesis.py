@@ -81,6 +81,7 @@ def coalesce(df, cands):
 # ---------------------------------------------------------------------------
 def build_elo_and_features(df, league_codes):
     elo, hist, last_date, h2h = {}, {}, {}, {}
+    sot = {}          # team -> list of (shots_on_target_for, sot_against): the xG proxy
 
     def R(t):
         return elo.get(t, BASE_ELO)
@@ -93,6 +94,13 @@ def build_elo_and_features(df, league_codes):
         return dict(gf=np.mean([x[0] for x in recent]),
                     ga=np.mean([x[1] for x in recent]),
                     form=np.mean([x[2] for x in recent]) / 3.0)
+
+    def team_shots(team, n):
+        h = sot.get(team, [])
+        if not h:
+            return dict(sf=4.4, sa=4.4)         # league-ish prior
+        r = h[-n:]
+        return dict(sf=np.mean([x[0] for x in r]), sa=np.mean([x[1] for x in r]))
 
     rows = []
     for r in df.itertuples(index=False):
@@ -113,6 +121,7 @@ def build_elo_and_features(df, league_codes):
         key = tuple(sorted([home, away]))
         hh = h2h.get(key, [])
         h2h_home = np.mean(hh) if hh else 0.5
+        hs10, as10 = team_shots(home, 10), team_shots(away, 10)
 
         rows.append(dict(
             date=date, home=home, away=away, div=div,
@@ -125,6 +134,10 @@ def build_elo_and_features(df, league_codes):
             H_Form5=h5['form'], A_Form5=a5['form'], Form_Diff=h5['form'] - a5['form'],
             H_Exp=(h10['gf'] + a10['ga']) / 2.0, A_Exp=(a10['gf'] + h10['ga']) / 2.0,
             H2H=h2h_home,
+            # xG proxy: rolling shots on target for/against (validated 33_shots_test.py)
+            H_SoT10=hs10['sf'], H_SoTA10=hs10['sa'],
+            A_SoT10=as10['sf'], A_SoTA10=as10['sa'],
+            SoT_Dom=(hs10['sf'] - hs10['sa']) - (as10['sf'] - as10['sa']),
             home_goals=hg, away_goals=ag,
             result=("H" if hg > ag else ("A" if ag > hg else "D")),
             over25=int((hg + ag) > 2.5),
@@ -143,6 +156,13 @@ def build_elo_and_features(df, league_codes):
         elo[away] = a_elo + k * (sa - (1 - exp_h))
         hist.setdefault(home, []).append((hg, ag, ph))
         hist.setdefault(away, []).append((ag, hg, pa))
+        # shots on target for/against (fall back to goals when a match lacks shot data)
+        hst = getattr(r, "HST", np.nan)
+        ast = getattr(r, "AST", np.nan)
+        hst = hg if pd.isna(hst) else hst
+        ast = ag if pd.isna(ast) else ast
+        sot.setdefault(home, []).append((hst, ast))
+        sot.setdefault(away, []).append((ast, hst))
         last_date[home] = date
         last_date[away] = date
         h2h.setdefault(key, []).append(sh if home == key[0] else sa)
@@ -152,7 +172,7 @@ def build_elo_and_features(df, league_codes):
     team_league = {}
     for r in df.itertuples(index=False):
         team_league[r.HomeTeam] = r.Div
-    state = dict(elo=elo, hist=hist, last_date=last_date, h2h=h2h,
+    state = dict(elo=elo, hist=hist, last_date=last_date, h2h=h2h, sot=sot,
                  team_league=team_league, league_codes=league_codes)
     return feat, state
 
@@ -218,6 +238,8 @@ def main():
     d1 = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")               # dd/mm/yyyy
     d2 = pd.to_datetime(df["Date"], format="%d/%m/%y", errors="coerce")           # dd/mm/yy
     df["Date"] = d1.where(d1.notna(), d2)
+    for c in ["HST", "AST"]:      # shots on target (xG proxy); may be absent in old rows
+        df[c] = pd.to_numeric(df.get(c), errors="coerce")
     df = df.dropna(subset=["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "Div"])
     df = df.sort_values("Date").reset_index(drop=True)
 

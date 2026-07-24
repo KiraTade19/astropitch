@@ -230,6 +230,18 @@ def _build_row_live(home, away, date, div):
         H_Exp=(h10['gf'] + a10['ga']) / 2.0, A_Exp=(a10['gf'] + h10['ga']) / 2.0,
         H2H=np.mean(hh) if hh else 0.5,
     )
+    if any("SoT" in c for c in FEATURES):        # xG-proxy engine
+
+        def shots(team, nn=10):
+            h = st.get("sot", {}).get(team, [])
+            if not h:
+                return (4.4, 4.4)
+            r = h[-nn:]
+            return (np.mean([x[0] for x in r]), np.mean([x[1] for x in r]))
+        hsf, hsa = shots(home); asf, asa = shots(away)
+        row["H_SoT10"], row["H_SoTA10"] = hsf, hsa
+        row["A_SoT10"], row["A_SoTA10"] = asf, asa
+        row["SoT_Dom"] = (hsf - hsa) - (asf - asa)
     return pd.DataFrame([row])[FEATURES]
 
 

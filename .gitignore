@@ -39,3 +39,6 @@ match_predictions.txt
 
 # regenerable weather cache (Open-Meteo)
 weather_cache.csv
+
+# retrain safety backups
+*.prev.pkl

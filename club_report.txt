@@ -8,17 +8,17 @@ Holdout window: 2025-05-31 -> 2026-05-24
   Always-Home baseline : acc 0.430
   ELO-only baseline    : acc 0.502  logloss 1.018
   Market (closing line): acc 0.521  logloss 0.980   <- the bar
-  XGBoost (tuned)      : acc 0.502  logloss 0.999
-  Dixon-Coles derived  : acc 0.502  logloss 1.000
+  XGBoost (tuned)      : acc 0.506  logloss 0.995
+  Dixon-Coles derived  : acc 0.501  logloss 0.997
 
 OVER/UNDER 2.5
-  XGBoost    : acc 0.536  brier 0.250
-  Dixon-Coles: acc 0.550
+  XGBoost    : acc 0.547  brier 0.247
+  Dixon-Coles: acc 0.549
 
 EXACT SCORE
-  Dixon-Coles top-1 : 0.128
+  Dixon-Coles top-1 : 0.132
   Modal baseline    : 0.123
-  rho = -0.0459
+  rho = -0.0469
 ==============================================================
 Read: how far model log-loss sits ABOVE market log-loss = the efficiency gap.
 The business lives where NO sharp line competes (thin markets, exact scores,
