@@ -65,35 +65,93 @@ Get it once (free) from Kaggle:
         sys.exit(1)
 
 
-def norm(name):
+_STOP = {"fc", "cf", "sc", "ac", "as", "afc", "cd", "ca", "ss", "us", "sv", "sk",
+         "fk", "nk", "hnk", "if", "bk", "ol", "rc", "sd", "ud", "club", "de", "cp",
+         "sl", "rsc", "bc", "sp", "the", "1", "bsc", "vfb", "vfl", "tsg", "sc", "aj"}
+# football-data abbreviations Transfermarkt spells out (token-level expansion)
+_EXPAND = {"ath": "athletic", "atl": "atletico", "wolves": "wolverhampton",
+           "spurs": "tottenham", "man": "manchester", "utd": "united",
+           "gladbach": "borussia", "dortmund": "dortmund", "betis": "betis",
+           "sociedad": "sociedad", "vallecano": "rayo", "nott": "nottingham"}
+
+
+def toks(name):
     s = unicodedata.normalize("NFKD", str(name)).encode("ascii", "ignore").decode().lower()
     s = re.sub(r"[^a-z0-9 ]", " ", s)
-    drop = {"fc", "cf", "sc", "ac", "as", "afc", "cd", "ca", "ss", "us", "sv", "sk",
-            "fk", "nk", "hnk", "if", "bk", "ol", "rc", "sd", "ud", "club", "de",
-            "the", "1", "muenchen", "munchen"}
-    toks = [t for t in s.split() if t not in drop]
-    # common short/long equivalences
-    repl = {"manchester": "man", "wolverhampton": "wolves", "tottenham": "spurs",
-            "internazionale": "inter", "koln": "cologne", "sporting": "sporting"}
-    toks = [repl.get(t, t) for t in toks]
-    return "".join(toks)
+    out = []
+    for t in s.split():
+        if t in _STOP or len(t) < 2:
+            continue
+        out.append(_EXPAND.get(t, t))
+    return frozenset(out)
 
 
-def build_club_value_series():
-    """Club total squad value by season (sum of players' latest value that season)."""
+def build_pit_series():
+    """POINT-IN-TIME squad value per club: stream all valuations chronologically,
+    tracking each player's current club + latest value, snapshotting the club
+    total after every change. Handles transfers (a player leaving subtracts from
+    the old club). Returns {club_id: (dates[], values[])} + a club-name token index.
+    This is strictly leak-free: a match reads only valuations dated BEFORE it."""
     pv = pd.read_csv(PV, usecols=lambda c: c in
                      ("date", "market_value_in_eur", "current_club_id", "player_id"))
     pv["date"] = pd.to_datetime(pv["date"], errors="coerce")
-    pv = pv.dropna(subset=["date", "market_value_in_eur", "current_club_id"])
-    pv["season"] = np.where(pv["date"].dt.month >= 7, pv["date"].dt.year, pv["date"].dt.year - 1)
-    # latest valuation per player within each (club, season)
-    pv = pv.sort_values("date")
-    latest = pv.groupby(["current_club_id", "season", "player_id"], as_index=False).tail(1)
-    cs = latest.groupby(["current_club_id", "season"], as_index=False)["market_value_in_eur"].sum()
-    clubs = pd.read_csv(CLUBS, usecols=lambda c: c in ("club_id", "name"))
-    cs = cs.merge(clubs, left_on="current_club_id", right_on="club_id", how="left")
-    cs["key"] = cs["name"].map(norm)
-    return cs.dropna(subset=["name"])[["key", "name", "season", "market_value_in_eur"]]
+    pv = pv.dropna(subset=["date", "market_value_in_eur", "current_club_id"]).sort_values("date")
+
+    from collections import defaultdict
+    club_total = defaultdict(float)
+    pclub, pval = {}, {}
+    series = defaultdict(lambda: ([], []))
+    for r in pv.itertuples(index=False):
+        P, cid, val, date = r.player_id, r.current_club_id, r.market_value_in_eur, r.date
+        old = pclub.get(P)
+        if old is not None and old != cid:                 # transferred out
+            club_total[old] -= pval[P]
+            series[old][0].append(date); series[old][1].append(club_total[old])
+        if old == cid:
+            club_total[cid] += val - pval[P]               # value update
+        else:
+            club_total[cid] += val                         # joined / new
+        pclub[P], pval[P] = cid, val
+        series[cid][0].append(date); series[cid][1].append(club_total[cid])
+
+    S, peak = {}, {}
+    for cid, (dts, vs) in series.items():
+        S[cid] = (np.array(dts, dtype="datetime64[ns]"), np.array(vs))
+        peak[cid] = max(vs) if vs else 0.0
+
+    clubs = pd.read_csv(CLUBS, usecols=lambda c: c in ("club_id", "name")).dropna(subset=["name"])
+    records, postings = [], {}
+    for r in clubs.itertuples(index=False):
+        tk = toks(r.name)
+        if not tk or r.club_id not in S:
+            continue
+        idx = len(records)
+        records.append(dict(tokens=tk, name=r.name, cid=r.club_id, peak=peak.get(r.club_id, 0.0)))
+        for t in tk:
+            postings.setdefault(t, set()).add(idx)
+    return S, records, postings
+
+
+def make_matcher(records, postings):
+    """team name -> club_id whose token set CONTAINS ours, disambiguated by peak value."""
+    cache = {}
+
+    def match(team):
+        if team in cache:
+            return cache[team]
+        q = toks(team); res = None
+        if q:
+            cand = None
+            for t in q:
+                s = postings.get(t, set())
+                cand = set(s) if cand is None else (cand & s)
+                if not cand:
+                    break
+            if cand:
+                res = records[max(cand, key=lambda i: records[i]["peak"])]["cid"]
+        cache[team] = res
+        return res
+    return match
 
 
 def load_matches():
@@ -115,25 +173,25 @@ def main():
     print(" ASTROPITCH - SQUAD MARKET VALUE TEST")
     print("=" * 74)
     print("\n[1/4] Building club squad-value-by-season from Transfermarkt...")
-    val = build_club_value_series()
-    vlookup = {(r.key, int(r.season)): r.market_value_in_eur for r in val.itertuples(index=False)}
-    print(f"      {val['key'].nunique()} clubs, seasons {val.season.min()}-{val.season.max()}")
+    S, records, postings = build_pit_series()
+    match = make_matcher(records, postings)
+    print(f"      {len(records)} clubs indexed; point-in-time value series built")
 
     df = load_matches()
     lc = {d: i for i, d in enumerate(sorted(df["Div"].unique()))}
     feat, _ = gcm.build_elo_and_features(df, lc)  # BASE features incl. shots
-    played = df.dropna(subset=["FTHG", "FTAG"]).reset_index(drop=True)
-    feat["season"] = np.where(feat["date"].dt.month >= 7, feat["date"].dt.year, feat["date"].dt.year - 1)
 
-    def val_of(team, season):
-        k = norm(team)
-        for s in (season, season - 1):        # fall back to prior season if missing
-            if (k, s) in vlookup:
-                return vlookup[(k, s)]
-        return np.nan
+    def val_of(team, date):
+        cid = match(team)
+        if cid is None or cid not in S:
+            return np.nan
+        dts, vs = S[cid]
+        i = int(np.searchsorted(dts, np.datetime64(date), "left")) - 1   # strictly before
+        return vs[i] if i >= 0 else np.nan
 
-    hv = np.array([val_of(t, s) for t, s in zip(feat["home"], feat["season"])])
-    av = np.array([val_of(t, s) for t, s in zip(feat["away"], feat["season"])])
+    fdate = feat["date"].values
+    hv = np.array([val_of(t, d) for t, d in zip(feat["home"], fdate)])
+    av = np.array([val_of(t, d) for t, d in zip(feat["away"], fdate)])
     matched = (~np.isnan(hv) & ~np.isnan(av)).mean()
     print(f"[2/4] Matched squad values to {matched*100:.0f}% of matches "
           f"(both teams). Unmatched teams sampled below.")
