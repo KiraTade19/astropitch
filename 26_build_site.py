@@ -350,6 +350,7 @@ def build():
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AstroPitch — honest football predictions, with a cosmic twist</title>
 <meta name="description" content="Calibrated football match probabilities for 12 leagues, all internationals and every European club — with a transparent track record and cosmic match readings. Predictions as data, not betting advice.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -493,6 +494,7 @@ def build_today():
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Today's predictions — AstroPitch</title>
 <meta name="description" content="Free daily football predictions: calibrated 1X2 probabilities, over/under and likely scores for today's European fixtures. Published before kickoff.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
