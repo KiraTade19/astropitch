@@ -42,3 +42,7 @@ weather_cache.csv
 
 # retrain safety backups
 *.prev.pkl
+
+# Transfermarkt source data (large, user-downloaded from Kaggle)
+tm_player_valuations.csv
+tm_clubs.csv
