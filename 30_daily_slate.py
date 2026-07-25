@@ -50,7 +50,30 @@ ALIAS = {
     "GKS Katowice": "Katowice", "NSI Runavik": "Runavik",
     "Ilves": "IlvesTampere", "Ilves Tampere": "IlvesTampere",
     "Copenhagen": "FCKobenhavn", "FC Copenhagen": "FCKobenhavn",
+    # verified against clubelo 2026-07-25 (friendlies slate)
+    "Sporting Gijon": "Gijon", "Sp Gijon": "Gijon",
+    "Real Sociedad": "Sociedad", "Athletic Bilbao": "Bilbao",
+    "Ath Bilbao": "Bilbao", "Wolverhampton": "Wolves",
+    "Club Brugge": "Brugge", "Club Brugge KV": "Brugge",
+    "Kickers Offenbach": "Offenbach", "West Ham United": "WestHam",
+    "AC Milan": "Milan", "Holstein Kiel": "Holstein",
+    "Wehen Wiesbaden": "Wehen", "SV Wehen Wiesbaden": "Wehen",
+    "Standard Liege": "Standard", "Standard de Liege": "Standard",
+    "Celta de Vigo": "Celta", "Celta Vigo": "Celta",
+    "PSV Eindhoven": "PSV", "Hull City": "Hull",
+    "Leicester City": "Leicester", "FSV Mainz": "Mainz",
+    "Bayer Leverkusen": "Leverkusen", "FC Bayern Munchen": "Bayern",
+    "FC Ingolstadt 04": "Ingolstadt", "POT Iraklis": "Iraklis",
 }
+# tokens too generic to be a safe last-resort match on their own: "Sporting Gijon"
+# must never fall back to "Sporting" (=Sporting CP), nor "Hull City" to "City".
+GENERIC = {"sporting", "real", "city", "united", "town", "club", "athletic",
+           "atletico", "dynamo", "dinamo", "spartak", "lokomotiv", "olympic",
+           "olympique", "racing", "rapid", "sport", "sportiv", "inter", "borussia",
+           "bayer", "fortuna", "victoria", "concordia", "academy", "wanderers",
+           "rovers", "albion", "county", "juniors", "young", "red", "star",
+           "national", "central", "north", "south", "east", "west", "new", "san",
+           "santa", "saint", "st", "deportivo", "universidad", "universitatea"}
 STRIP = ("fc ", " fc", "sk ", "fk ", "sc ", "cf ", "ac ", "as ", "nk ", "hnk ",
          "cd ", "ca ", "ss ", "us ", "if ", " if")
 
@@ -80,8 +103,15 @@ def candidates(name):
             trimmed = " ".join(t for t in base.split()
                                if t.lower() != p.strip().lower())
     add(trimmed.replace(" ", "")); add(trimmed)
-    if " " in base:
-        add(base.split()[0])
+    # single-token last resorts: try the LAST token before the first (for
+    # "<Qualifier> <City>" names like Sporting Gijon / Athletic Bilbao the city
+    # is the distinctive part), and NEVER fall back to a generic token, which is
+    # how "Sporting Gijon" silently matched Sporting CP.
+    parts = base.split()
+    if len(parts) > 1:
+        for tok in (parts[-1], parts[0]):
+            if tok.lower() not in GENERIC and len(tok) >= 4:
+                add(tok)
     return out
 
 

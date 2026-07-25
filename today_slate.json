@@ -1,7 +1,540 @@
 {
  "date": "2026-07-25",
- "generated_at": "2026-07-25T07:12:42+00:00",
- "n": 0,
- "matches": [],
+ "generated_at": "2026-07-25T07:25:35+00:00",
+ "n": 19,
+ "matches": [
+  {
+   "id": "m-2026-07-25-RBLeipzig-Ingolstadt",
+   "comp": "Club Friendly",
+   "kickoff": "09:30",
+   "home": "RB Leipzig",
+   "away": "Ingolstadt",
+   "home_elo": 1762,
+   "away_elo": 1346,
+   "probs": [
+    0.801,
+    0.133,
+    0.066
+   ],
+   "model_probs": [
+    0.818,
+    0.131,
+    0.051
+   ],
+   "market": [
+    0.787,
+    0.135,
+    0.078
+   ],
+   "pick": "HOME",
+   "over25": 0.678,
+   "top_score": "3-0",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Mainz-HolsteinKiel",
+   "comp": "Club Friendly",
+   "kickoff": "13:00",
+   "home": "Mainz",
+   "away": "Holstein Kiel",
+   "home_elo": 1672,
+   "away_elo": 1463,
+   "probs": [
+    0.613,
+    0.219,
+    0.168
+   ],
+   "model_probs": [
+    0.663,
+    0.2,
+    0.137
+   ],
+   "market": [
+    0.578,
+    0.231,
+    0.191
+   ],
+   "pick": "HOME",
+   "over25": 0.659,
+   "top_score": "2-0",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-KickersOffenbach-Leverkusen",
+   "comp": "Club Friendly",
+   "kickoff": "13:00",
+   "home": "Kickers Offenbach",
+   "away": "Leverkusen",
+   "home_elo": 1385,
+   "away_elo": 1804,
+   "probs": [
+    0.06,
+    0.089,
+    0.851
+   ],
+   "model_probs": [
+    0.1,
+    0.13,
+    0.77
+   ],
+   "market": [
+    0.042,
+    0.067,
+    0.891
+   ],
+   "pick": "AWAY",
+   "over25": 0.679,
+   "top_score": "0-2",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-WehenWiesbaden-BayernMunich",
+   "comp": "Club Friendly",
+   "kickoff": "13:30",
+   "home": "Wehen Wiesbaden",
+   "away": "Bayern Munich",
+   "home_elo": 1360,
+   "away_elo": 2001,
+   "probs": [
+    0.087,
+    0.129,
+    0.785
+   ],
+   "model_probs": [
+    0.032,
+    0.083,
+    0.885
+   ],
+   "market": [
+    0.157,
+    0.163,
+    0.68
+   ],
+   "pick": "AWAY",
+   "over25": 0.677,
+   "top_score": "0-3",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Celtic-ACMilan",
+   "comp": "Club Friendly",
+   "kickoff": "14:00",
+   "home": "Celtic",
+   "away": "AC Milan",
+   "home_elo": 1575,
+   "away_elo": 1750,
+   "probs": [
+    0.324,
+    0.237,
+    0.439
+   ],
+   "model_probs": [
+    0.273,
+    0.214,
+    0.513
+   ],
+   "market": [
+    0.359,
+    0.251,
+    0.39
+   ],
+   "pick": "AWAY",
+   "over25": 0.558,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Bologna-Iraklis",
+   "comp": "Club Friendly",
+   "kickoff": "14:00",
+   "home": "Bologna",
+   "away": "Iraklis",
+   "home_elo": 1701,
+   "away_elo": 1240,
+   "probs": [
+    0.852,
+    0.1,
+    0.048
+   ],
+   "model_probs": [
+    0.84,
+    0.119,
+    0.041
+   ],
+   "market": [
+    0.858,
+    0.088,
+    0.053
+   ],
+   "pick": "HOME",
+   "over25": 0.678,
+   "top_score": "3-0",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-QPR-Fiorentina",
+   "comp": "Club Friendly",
+   "kickoff": "14:00",
+   "home": "QPR",
+   "away": "Fiorentina",
+   "home_elo": 1481,
+   "away_elo": 1670,
+   "probs": [
+    0.296,
+    0.244,
+    0.46
+   ],
+   "model_probs": [
+    0.26,
+    0.208,
+    0.532
+   ],
+   "market": [
+    0.319,
+    0.269,
+    0.412
+   ],
+   "pick": "AWAY",
+   "over25": 0.568,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Genoa-Vicenza",
+   "comp": "Club Friendly",
+   "kickoff": "15:00",
+   "home": "Genoa",
+   "away": "Vicenza",
+   "home_elo": 1618,
+   "away_elo": 1355,
+   "probs": [
+    0.634,
+    0.217,
+    0.149
+   ],
+   "model_probs": [
+    0.713,
+    0.179,
+    0.108
+   ],
+   "market": [
+    0.576,
+    0.242,
+    0.182
+   ],
+   "pick": "HOME",
+   "over25": 0.679,
+   "top_score": "2-0",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Konyaspor-HullCity",
+   "comp": "Club Friendly",
+   "kickoff": "15:30",
+   "home": "Konyaspor",
+   "away": "Hull City",
+   "home_elo": 1398,
+   "away_elo": 1533,
+   "probs": [
+    0.335,
+    0.255,
+    0.41
+   ],
+   "model_probs": [
+    0.308,
+    0.233,
+    0.459
+   ],
+   "market": [
+    0.352,
+    0.27,
+    0.378
+   ],
+   "pick": "AWAY",
+   "over25": 0.531,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-PSVEindhoven-Villarreal",
+   "comp": "Club Friendly",
+   "kickoff": "16:00",
+   "home": "PSV Eindhoven",
+   "away": "Villarreal",
+   "home_elo": 1759,
+   "away_elo": 1759,
+   "probs": [
+    0.472,
+    0.257,
+    0.271
+   ],
+   "model_probs": [
+    0.411,
+    0.307,
+    0.283
+   ],
+   "market": [
+    0.513,
+    0.226,
+    0.261
+   ],
+   "pick": "HOME",
+   "over25": 0.528,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Marseille-Nice",
+   "comp": "Club Friendly",
+   "kickoff": "16:00",
+   "home": "Marseille",
+   "away": "Nice",
+   "home_elo": 1717,
+   "away_elo": 1582,
+   "probs": [
+    0.524,
+    0.245,
+    0.231
+   ],
+   "model_probs": [
+    0.582,
+    0.233,
+    0.185
+   ],
+   "market": [
+    0.484,
+    0.25,
+    0.266
+   ],
+   "pick": "HOME",
+   "over25": 0.615,
+   "top_score": "2-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Wolverhampton-RealSociedad",
+   "comp": "Club Friendly",
+   "kickoff": "16:00",
+   "home": "Wolverhampton",
+   "away": "Real Sociedad",
+   "home_elo": 1680,
+   "away_elo": 1669,
+   "probs": [
+    0.429,
+    0.273,
+    0.298
+   ],
+   "model_probs": [
+    0.424,
+    0.3,
+    0.275
+   ],
+   "market": [
+    0.432,
+    0.255,
+    0.313
+   ],
+   "pick": "HOME",
+   "over25": 0.535,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Rennes-ClubBrugge",
+   "comp": "Club Friendly",
+   "kickoff": "16:00",
+   "home": "Rennes",
+   "away": "Club Brugge",
+   "home_elo": 1716,
+   "away_elo": 1757,
+   "probs": [
+    0.402,
+    0.262,
+    0.336
+   ],
+   "model_probs": [
+    0.384,
+    0.282,
+    0.335
+   ],
+   "market": [
+    0.414,
+    0.25,
+    0.336
+   ],
+   "pick": "HOME",
+   "over25": 0.499,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-CeltaVigo-SportingGijon",
+   "comp": "Club Friendly",
+   "kickoff": "17:00",
+   "home": "Celta Vigo",
+   "away": "Sporting Gijon",
+   "home_elo": 1701,
+   "away_elo": 1500,
+   "probs": [
+    0.608,
+    0.226,
+    0.166
+   ],
+   "model_probs": [
+    0.655,
+    0.203,
+    0.142
+   ],
+   "market": [
+    0.576,
+    0.241,
+    0.183
+   ],
+   "pick": "HOME",
+   "over25": 0.654,
+   "top_score": "2-0",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-AthleticBilbao-Eibar",
+   "comp": "Club Friendly",
+   "kickoff": "17:00",
+   "home": "Athletic Bilbao",
+   "away": "Eibar",
+   "home_elo": 1678,
+   "away_elo": 1550,
+   "probs": [
+    0.534,
+    0.254,
+    0.213
+   ],
+   "model_probs": [
+    0.575,
+    0.236,
+    0.189
+   ],
+   "market": [
+    0.506,
+    0.265,
+    0.229
+   ],
+   "pick": "HOME",
+   "over25": 0.611,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Malaga-Leicester",
+   "comp": "Club Friendly",
+   "kickoff": "17:00",
+   "home": "Malaga",
+   "away": "Leicester",
+   "home_elo": 1569,
+   "away_elo": 1503,
+   "probs": [
+    0.452,
+    0.266,
+    0.282
+   ],
+   "model_probs": [
+    0.497,
+    0.268,
+    0.235
+   ],
+   "market": [
+    0.422,
+    0.263,
+    0.316
+   ],
+   "pick": "HOME",
+   "over25": 0.572,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-StandardLiege-Juventus",
+   "comp": "Club Friendly",
+   "kickoff": "18:00",
+   "home": "Standard Liege",
+   "away": "Juventus",
+   "home_elo": 1502,
+   "away_elo": 1772,
+   "probs": [
+    0.213,
+    0.217,
+    0.571
+   ],
+   "model_probs": [
+    0.193,
+    0.176,
+    0.63
+   ],
+   "market": [
+    0.224,
+    0.246,
+    0.53
+   ],
+   "pick": "AWAY",
+   "over25": 0.619,
+   "top_score": "1-2",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Porto-AstonVilla",
+   "comp": "Club Friendly",
+   "kickoff": "19:00",
+   "home": "Porto",
+   "away": "Aston Villa",
+   "home_elo": 1806,
+   "away_elo": 1921,
+   "probs": [
+    0.362,
+    0.257,
+    0.38
+   ],
+   "model_probs": [
+    0.325,
+    0.242,
+    0.433
+   ],
+   "market": [
+    0.387,
+    0.266,
+    0.346
+   ],
+   "pick": "AWAY",
+   "over25": 0.517,
+   "top_score": "1-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  },
+  {
+   "id": "m-2026-07-25-Liverpool-Sunderland",
+   "comp": "Club Friendly",
+   "kickoff": "22:00",
+   "home": "Liverpool",
+   "away": "Sunderland",
+   "home_elo": 1911,
+   "away_elo": 1736,
+   "probs": [
+    0.603,
+    0.217,
+    0.18
+   ],
+   "model_probs": [
+    0.628,
+    0.214,
+    0.158
+   ],
+   "market": [
+    0.586,
+    0.218,
+    0.196
+   ],
+   "pick": "HOME",
+   "over25": 0.639,
+   "top_score": "2-1",
+   "cosmic": "♐ Waxing gibbous in Sagittarius · Saturn's day · Year of the Fire Horse"
+  }
+ ],
  "unrated": 0
 }
