@@ -71,7 +71,17 @@ def _market(odds):
     inv = np.array([1.0 / o for o in odds]); return inv / inv.sum()
 
 
-def predict(home, away, date, odds=None, w_market=0.6, verbose=True):
+# How hard to lean on the bookmaker line when odds are supplied.
+# Raised 0.60 -> 0.85 on evidence: the 24,330-match closing-odds study
+# (17_odds_value.py) found the optimal blend to be w_market=1.0, and the graded
+# 25 Jul friendlies agreed (market log-loss 0.9405 vs our 0.9852, with the blend
+# sweep monotonic all the way to w=1.0). Kept below 1.0 because these are
+# pre-match rather than closing prices, and so the model still contributes where
+# a line is thin. Where NO odds exist, the model stands alone regardless.
+W_MARKET_DEFAULT = 0.85
+
+
+def predict(home, away, date, odds=None, w_market=W_MARKET_DEFAULT, verbose=True):
     eh = fetch_elo(home, date)
     ea = fetch_elo(away, date)
     diff = eh - ea

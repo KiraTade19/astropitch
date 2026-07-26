@@ -244,6 +244,12 @@ def main():
             continue
         cr = cosmic_reading(g["home"], g["away"], dt.date.fromisoformat(date))
         pk = ["HOME", "DRAW", "AWAY"][int(max(range(3), key=lambda i: p["one_x_two"][i]))]
+        # Double chance: measured 78.8% on the 4,000-match holdout vs 50.6% for
+        # outright 1X2. Reliability differs by type (1X 81.4%, X2 81.7%, but
+        # "12"/no-draw only 72.9%), so the type is reported alongside it.
+        pH_, pD_, pA_ = p["one_x_two"]
+        dcs = {"1X": pH_ + pD_, "12": pH_ + pA_, "X2": pD_ + pA_}
+        dc_best = max(dcs, key=dcs.get)
         out.append(dict(
             id=g["id"], comp=g["comp"], kickoff=g["kickoff"],
             home=g["home"], away=g["away"],
@@ -252,6 +258,8 @@ def main():
             model_probs=[round(v, 3) for v in p["model_only"]],
             market=p["market"],
             pick=pk, over25=p["over25"], top_score=p["top_scores"][0]["score"],
+            dc=dc_best, dc_prob=round(dcs[dc_best], 3),
+            dc_reliability=("lower - excludes the draw" if dc_best == "12" else "higher"),
             cosmic=cr["headline"],
         ))
         print(f"  {g['kickoff']}  {g['home'][:20]:<20s} v {g['away'][:20]:<20s} "

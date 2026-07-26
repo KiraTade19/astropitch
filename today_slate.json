@@ -1,6 +1,6 @@
 {
  "date": "2026-07-26",
- "generated_at": "2026-07-26T07:33:28+00:00",
+ "generated_at": "2026-07-26T08:06:57+00:00",
  "n": 1,
  "matches": [
   {
@@ -12,9 +12,9 @@
    "home_elo": 1517,
    "away_elo": 1769,
    "probs": [
-    0.286,
-    0.226,
-    0.488
+    0.321,
+    0.242,
+    0.437
    ],
    "model_probs": [
     0.208,
@@ -29,6 +29,9 @@
    "pick": "AWAY",
    "over25": 0.607,
    "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.758,
+   "dc_reliability": "lower - excludes the draw",
    "cosmic": "♐ Waxing gibbous in Sagittarius · Sun's day · Year of the Fire Horse"
   }
  ],
