@@ -1,21 +1,2 @@
 id,date,comp,home,away,pH,pD,pA,pick,p_over,score_pick,logged_at
-m-2026-07-25-RBLeipzig-Ingolstadt,2026-07-25,Club Friendly,RB Leipzig,Ingolstadt,0.801,0.133,0.066,HOME,0.678,3-0,2026-07-25T07:24:44+00:00
-m-2026-07-25-Mainz-HolsteinKiel,2026-07-25,Club Friendly,Mainz,Holstein Kiel,0.613,0.219,0.168,HOME,0.659,2-0,2026-07-25T07:24:44+00:00
-m-2026-07-25-KickersOffenbach-Leverkusen,2026-07-25,Club Friendly,Kickers Offenbach,Leverkusen,0.06,0.089,0.851,AWAY,0.679,0-2,2026-07-25T07:24:44+00:00
-m-2026-07-25-WehenWiesbaden-BayernMunich,2026-07-25,Club Friendly,Wehen Wiesbaden,Bayern Munich,0.087,0.129,0.785,AWAY,0.677,0-3,2026-07-25T07:24:44+00:00
-m-2026-07-25-Celtic-ACMilan,2026-07-25,Club Friendly,Celtic,AC Milan,0.324,0.237,0.439,AWAY,0.558,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Bologna-Iraklis,2026-07-25,Club Friendly,Bologna,Iraklis,0.852,0.1,0.048,HOME,0.678,3-0,2026-07-25T07:24:44+00:00
-m-2026-07-25-QPR-Fiorentina,2026-07-25,Club Friendly,QPR,Fiorentina,0.296,0.244,0.46,AWAY,0.568,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Genoa-Vicenza,2026-07-25,Club Friendly,Genoa,Vicenza,0.634,0.217,0.149,HOME,0.679,2-0,2026-07-25T07:24:44+00:00
-m-2026-07-25-Konyaspor-HullCity,2026-07-25,Club Friendly,Konyaspor,Hull City,0.335,0.255,0.41,AWAY,0.531,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-PSVEindhoven-Villarreal,2026-07-25,Club Friendly,PSV Eindhoven,Villarreal,0.472,0.257,0.271,HOME,0.528,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Marseille-Nice,2026-07-25,Club Friendly,Marseille,Nice,0.524,0.245,0.231,HOME,0.615,2-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Wolverhampton-RealSociedad,2026-07-25,Club Friendly,Wolverhampton,Real Sociedad,0.429,0.273,0.298,HOME,0.535,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Rennes-ClubBrugge,2026-07-25,Club Friendly,Rennes,Club Brugge,0.402,0.262,0.336,HOME,0.499,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-CeltaVigo-SportingGijon,2026-07-25,Club Friendly,Celta Vigo,Sporting Gijon,0.608,0.226,0.166,HOME,0.654,2-0,2026-07-25T07:24:44+00:00
-m-2026-07-25-AthleticBilbao-Eibar,2026-07-25,Club Friendly,Athletic Bilbao,Eibar,0.534,0.254,0.213,HOME,0.611,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Malaga-Leicester,2026-07-25,Club Friendly,Malaga,Leicester,0.452,0.266,0.282,HOME,0.572,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-StandardLiege-Juventus,2026-07-25,Club Friendly,Standard Liege,Juventus,0.213,0.217,0.571,AWAY,0.619,1-2,2026-07-25T07:24:44+00:00
-m-2026-07-25-Porto-AstonVilla,2026-07-25,Club Friendly,Porto,Aston Villa,0.362,0.257,0.38,AWAY,0.517,1-1,2026-07-25T07:24:44+00:00
-m-2026-07-25-Liverpool-Sunderland,2026-07-25,Club Friendly,Liverpool,Sunderland,0.603,0.217,0.18,HOME,0.639,2-1,2026-07-25T07:24:44+00:00
 m-2026-07-26-Rangers-WestHam,2026-07-26,Club Friendly,Rangers,West Ham,0.286,0.226,0.488,AWAY,0.607,1-1,2026-07-25T07:25:29+00:00
