@@ -1,39 +1,7 @@
 {
- "date": "2026-07-26",
- "generated_at": "2026-07-26T20:06:46+00:00",
- "n": 1,
- "matches": [
-  {
-   "id": "m-2026-07-26-Rangers-WestHam",
-   "comp": "Club Friendly",
-   "kickoff": "15:00",
-   "home": "Rangers",
-   "away": "West Ham",
-   "home_elo": 1517,
-   "away_elo": 1769,
-   "probs": [
-    0.321,
-    0.242,
-    0.437
-   ],
-   "model_probs": [
-    0.208,
-    0.183,
-    0.609
-   ],
-   "market": [
-    0.342,
-    0.25,
-    0.407
-   ],
-   "pick": "AWAY",
-   "over25": 0.607,
-   "top_score": "1-1",
-   "dc": "12",
-   "dc_prob": 0.758,
-   "dc_reliability": "lower - excludes the draw",
-   "cosmic": "♐ Waxing gibbous in Sagittarius · Sun's day · Year of the Fire Horse"
-  }
- ],
+ "date": "2026-07-27",
+ "generated_at": "2026-07-27T08:26:04+00:00",
+ "n": 0,
+ "matches": [],
  "unrated": 0
 }
