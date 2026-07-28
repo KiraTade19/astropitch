@@ -1,7 +1,89 @@
 {
- "date": "2026-07-27",
- "generated_at": "2026-07-27T20:18:53+00:00",
- "n": 0,
- "matches": [],
- "unrated": 0
+ "date": "2026-07-28",
+ "generated_at": "2026-07-28T07:37:33+00:00",
+ "n": 3,
+ "matches": [
+  {
+   "id": "2492402",
+   "comp": "Champions League",
+   "kickoff": "18:00",
+   "home": "Dinamo Zagreb",
+   "away": "Thun",
+   "home_elo": 1577,
+   "away_elo": 1463,
+   "probs": [
+    0.558,
+    0.243,
+    0.199
+   ],
+   "model_probs": [
+    0.558,
+    0.243,
+    0.199
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.603,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.801,
+   "dc_reliability": "higher",
+   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2532651",
+   "comp": "Conference League",
+   "kickoff": "18:00",
+   "home": "Drita",
+   "away": "Floriana",
+   "home_elo": 1243,
+   "away_elo": 1063,
+   "probs": [
+    0.632,
+    0.213,
+    0.155
+   ],
+   "model_probs": [
+    0.632,
+    0.213,
+    0.155
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.642,
+   "top_score": "2-1",
+   "dc": "1X",
+   "dc_prob": 0.845,
+   "dc_reliability": "higher",
+   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2532707",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Shamrock Rovers",
+   "away": "Ararat-Armenia",
+   "home_elo": 1313,
+   "away_elo": 1146,
+   "probs": [
+    0.619,
+    0.218,
+    0.163
+   ],
+   "model_probs": [
+    0.619,
+    0.218,
+    0.163
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.634,
+   "top_score": "2-1",
+   "dc": "1X",
+   "dc_prob": 0.837,
+   "dc_reliability": "higher",
+   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
+  }
+ ],
+ "unrated": 3
 }
