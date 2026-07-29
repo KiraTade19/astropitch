@@ -1,89 +1,143 @@
 {
- "date": "2026-07-28",
- "generated_at": "2026-07-28T20:14:21+00:00",
- "n": 3,
+ "date": "2026-07-29",
+ "generated_at": "2026-07-29T07:40:34+00:00",
+ "n": 5,
  "matches": [
   {
-   "id": "2492402",
-   "comp": "Champions League",
-   "kickoff": "18:00",
-   "home": "Dinamo Zagreb",
-   "away": "Thun",
-   "home_elo": 1577,
-   "away_elo": 1463,
-   "probs": [
-    0.558,
-    0.243,
-    0.199
-   ],
-   "model_probs": [
-    0.558,
-    0.243,
-    0.199
-   ],
-   "market": null,
-   "pick": "HOME",
-   "over25": 0.603,
-   "top_score": "1-1",
-   "dc": "1X",
-   "dc_prob": 0.801,
-   "dc_reliability": "higher",
-   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
-  },
-  {
-   "id": "2532651",
+   "id": "2492799",
    "comp": "Conference League",
-   "kickoff": "18:00",
-   "home": "Drita",
-   "away": "Floriana",
-   "home_elo": 1243,
-   "away_elo": 1063,
+   "kickoff": "14:30",
+   "home": "Dukagjini",
+   "away": "Lugano",
+   "home_elo": 1084,
+   "away_elo": 1450,
    "probs": [
-    0.632,
-    0.213,
-    0.155
+    0.128,
+    0.145,
+    0.726
    ],
    "model_probs": [
-    0.632,
-    0.213,
-    0.155
+    0.128,
+    0.145,
+    0.726
    ],
    "market": null,
-   "pick": "HOME",
-   "over25": 0.642,
-   "top_score": "2-1",
-   "dc": "1X",
-   "dc_prob": 0.845,
+   "pick": "AWAY",
+   "over25": 0.673,
+   "top_score": "0-2",
+   "dc": "X2",
+   "dc_prob": 0.871,
    "dc_reliability": "higher",
-   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
   },
   {
-   "id": "2532707",
+   "id": "2492401",
    "comp": "Champions League",
-   "kickoff": "19:00",
-   "home": "Shamrock Rovers",
-   "away": "Ararat-Armenia",
-   "home_elo": 1313,
-   "away_elo": 1146,
+   "kickoff": "17:00",
+   "home": "Lech Poznań",
+   "away": "AGF Aarhus",
+   "home_elo": 1521,
+   "away_elo": 1583,
    "probs": [
-    0.619,
-    0.218,
-    0.163
+    0.368,
+    0.27,
+    0.361
    ],
    "model_probs": [
-    0.619,
-    0.218,
-    0.163
+    0.368,
+    0.27,
+    0.361
    ],
    "market": null,
    "pick": "HOME",
-   "over25": 0.634,
-   "top_score": "2-1",
+   "over25": 0.484,
+   "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.729,
+   "dc_reliability": "lower - excludes the draw",
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2492785",
+   "comp": "Conference League",
+   "kickoff": "17:00",
+   "home": "FC Copenhagen",
+   "away": "Polissya Zhytomyr",
+   "home_elo": 1578,
+   "away_elo": 1275,
+   "probs": [
+    0.746,
+    0.165,
+    0.089
+   ],
+   "model_probs": [
+    0.746,
+    0.165,
+    0.089
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.679,
+   "top_score": "2-0",
    "dc": "1X",
-   "dc_prob": 0.837,
+   "dc_prob": 0.911,
    "dc_reliability": "higher",
-   "cosmic": "♑ Full Moon in Capricorn · Mars's day · Year of the Fire Horse"
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2492400",
+   "comp": "Champions League",
+   "kickoff": "18:00",
+   "home": "Górnik Zabrze",
+   "away": "Fenerbahçe",
+   "home_elo": 1452,
+   "away_elo": 1656,
+   "probs": [
+    0.248,
+    0.202,
+    0.55
+   ],
+   "model_probs": [
+    0.248,
+    0.202,
+    0.55
+   ],
+   "market": null,
+   "pick": "AWAY",
+   "over25": 0.577,
+   "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.798,
+   "dc_reliability": "lower - excludes the draw",
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2539640",
+   "comp": "Conference League",
+   "kickoff": "18:30",
+   "home": "Rapid Vienna",
+   "away": "FC Santa Coloma",
+   "home_elo": 1316,
+   "away_elo": 954,
+   "probs": [
+    0.786,
+    0.146,
+    0.067
+   ],
+   "model_probs": [
+    0.786,
+    0.146,
+    0.067
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.678,
+   "top_score": "2-0",
+   "dc": "1X",
+   "dc_prob": 0.932,
+   "dc_reliability": "higher",
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
   }
  ],
- "unrated": 3
+ "unrated": 1
 }
