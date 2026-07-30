@@ -1,7 +1,6 @@
 id,date,comp,home,away,pH,pD,pA,pick,p_over,score_pick,logged_at
 m-2026-07-26-Rangers-WestHam,2026-07-26,Club Friendly,Rangers,West Ham,0.286,0.226,0.488,AWAY,0.607,1-1,2026-07-25T07:25:29+00:00
-2492799,2026-07-29,Conference League,Dukagjini,Lugano,0.128,0.145,0.726,AWAY,0.673,0-2,2026-07-29T20:10:42+00:00
-2492401,2026-07-29,Champions League,Lech Poznań,AGF Aarhus,0.368,0.27,0.361,HOME,0.484,1-1,2026-07-29T20:10:42+00:00
-2492785,2026-07-29,Conference League,FC Copenhagen,Polissya Zhytomyr,0.746,0.165,0.089,HOME,0.679,2-0,2026-07-29T20:10:42+00:00
-2492400,2026-07-29,Champions League,Górnik Zabrze,Fenerbahçe,0.248,0.202,0.55,AWAY,0.577,1-1,2026-07-29T20:10:42+00:00
-2539640,2026-07-29,Conference League,Rapid Vienna,FC Santa Coloma,0.786,0.146,0.067,HOME,0.678,2-0,2026-07-29T20:10:42+00:00
+2493171,2026-07-30,Europa League,FC Midtjylland,Beşiktaş,0.624,0.216,0.16,HOME,0.637,2-1,2026-07-30T07:32:34+00:00
+2493172,2026-07-30,Europa League,Anderlecht,Hammarby,0.432,0.297,0.271,HOME,0.539,1-1,2026-07-30T07:32:34+00:00
+2493170,2026-07-30,Europa League,Benfica,St. Gallen,0.781,0.149,0.07,HOME,0.678,2-0,2026-07-30T07:32:34+00:00
+2492783,2026-07-30,Conference League,Braga,Železničar Pančevo,0.839,0.12,0.041,HOME,0.678,3-0,2026-07-30T07:32:34+00:00
