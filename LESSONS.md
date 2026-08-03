@@ -54,9 +54,32 @@ Live confirmation on the 25 Jul friendlies: **15/19 = 78.9%**, essentially
 identical to the holdout figure — and **3 of the 4 misses were "12"** picks
 undone by draws, exactly the risk flagged before kickoff.
 
-**Action (shipped):** the daily slate now emits `dc`, `dc_prob` and
-`dc_reliability`, flagging "12" as lower-reliability. Prefer 1X / X2; treat 12
-as the weakest row on any card.
+### Why "12" is structurally weak (not bad luck)
+
+P(draw) has a **high floor** — median 26.7%, 5th percentile 13.7%. Excluding the
+draw therefore caps your ceiling: the highest "12" confidence ever produced was
+92.3%, and it rarely clears 80%. By contrast 1X reaches 96.1% and X2 91.5%,
+because the outcome they exclude (a specific team winning) can genuinely be
+near-zero.
+
+### The publishing rule that works
+
+| Rule | Published | % of slate | Accuracy |
+|---|---|---|---|
+| all double chance | 4,000 | 100% | 78.8% |
+| skip "12" | 2,747 | 68.7% | 81.4% |
+| **confidence ≥ 80%** | **1,439** | **36.0%** | **87.1%** |
+| confidence ≥ 85% | 848 | 21.2% | 90.3% |
+
+Elegantly, **the ≥80% filter self-excludes almost every "12" pick** — they
+structurally can't get that high — so one simple threshold does both jobs.
+
+**Live validation on the 20 friendlies:** all DC 75.0% → skip-12 81.8% (9/11) →
+**≥80% confidence 87.5% (7/8)**. The holdout rule replicated out-of-sample.
+
+**Action (shipped):** the slate emits `dc`, `dc_prob`, `dc_tier`
+(high ≥80% / medium ≥70% / low) and `dc_reliability`. Lead with the **high**
+tier; treat "12" as the weakest row on any card.
 
 ---
 
@@ -105,6 +128,13 @@ Squad strength means much less in pre-season. Until there is enough friendly dat
 to calibrate on, the honest move is to **shrink extreme probabilities toward the
 market** in friendlies (item 4 does much of this) and to keep labelling them
 separately in the track record, as we already do.
+
+**Tested and rejected — a friendly-specific draw boost.** Draws ran 5/20 (25%)
+in friendlies while we averaged 21.6%, which looks like under-prediction. But
+comparing our draw probabilities against the *market's* on the same 20 matches
+(far more statistically efficient than inferring from 20 outcomes) the gap is
+only **−0.62pp, p = 0.14 — not significant**. Adjusting on that would be fitting
+noise. No change made. Revisit once there are ~200 graded friendlies.
 
 ---
 
