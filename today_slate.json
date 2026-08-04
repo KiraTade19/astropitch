@@ -1,7 +1,36 @@
 {
- "date": "2026-08-03",
- "generated_at": "2026-08-03T20:23:40+00:00",
- "n": 0,
- "matches": [],
- "unrated": 0
+ "date": "2026-08-04",
+ "generated_at": "2026-08-04T07:37:00+00:00",
+ "n": 1,
+ "matches": [
+  {
+   "id": "2551400",
+   "comp": "Europa League",
+   "kickoff": "19:00",
+   "home": "Shamrock Rovers",
+   "away": "Egnatia",
+   "home_elo": 1313,
+   "away_elo": 1158,
+   "probs": [
+    0.606,
+    0.223,
+    0.171
+   ],
+   "model_probs": [
+    0.606,
+    0.223,
+    0.171
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.628,
+   "top_score": "2-1",
+   "dc": "1X",
+   "dc_prob": 0.829,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♈ Waxing gibbous in Aries · Mars's day · Year of the Fire Horse"
+  }
+ ],
+ "unrated": 5
 }
