@@ -1,36 +1,7 @@
 {
  "date": "2026-08-12",
- "generated_at": "2026-08-12T11:45:10+00:00",
- "n": 1,
- "matches": [
-  {
-   "id": "2554899",
-   "comp": "Conference League",
-   "kickoff": "16:00",
-   "home": "Rapid Vienna",
-   "away": "Paide Linnameeskond",
-   "home_elo": 1316,
-   "away_elo": 1083,
-   "probs": [
-    0.687,
-    0.19,
-    0.123
-   ],
-   "model_probs": [
-    0.687,
-    0.19,
-    0.123
-   ],
-   "market": null,
-   "pick": "HOME",
-   "over25": 0.672,
-   "top_score": "2-0",
-   "dc": "1X",
-   "dc_prob": 0.877,
-   "dc_tier": "high",
-   "dc_reliability": "higher",
-   "cosmic": "♌ New Moon in Leo · Mercury's day · Year of the Fire Horse"
-  }
- ],
- "unrated": 2
+ "generated_at": "2026-08-12T16:02:08+00:00",
+ "n": 0,
+ "matches": [],
+ "unrated": 3
 }
