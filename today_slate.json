@@ -1,7 +1,36 @@
 {
  "date": "2026-08-14",
- "generated_at": "2026-08-14T15:45:35+00:00",
- "n": 0,
- "matches": [],
+ "generated_at": "2026-08-14T19:45:16+00:00",
+ "n": 1,
+ "matches": [
+  {
+   "id": "2553174",
+   "comp": "Europa League",
+   "kickoff": "18:00",
+   "home": "KÍ Klaksvík",
+   "away": "Lech Poznań",
+   "home_elo": 1189,
+   "away_elo": 1521,
+   "probs": [
+    0.15,
+    0.156,
+    0.694
+   ],
+   "model_probs": [
+    0.15,
+    0.156,
+    0.694
+   ],
+   "market": null,
+   "pick": "AWAY",
+   "over25": 0.654,
+   "top_score": "0-2",
+   "dc": "X2",
+   "dc_prob": 0.85,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♍ New Moon in Virgo · Venus's day · Year of the Fire Horse"
+  }
+ ],
  "unrated": 0
 }
