@@ -1,7 +1,36 @@
 {
  "date": "2026-08-26",
- "generated_at": "2026-08-26T11:31:27+00:00",
- "n": 0,
- "matches": [],
- "unrated": 4
+ "generated_at": "2026-08-26T16:17:27+00:00",
+ "n": 1,
+ "matches": [
+  {
+   "id": "2570482",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Lyon",
+   "away": "Fenerbahçe",
+   "home_elo": 1732,
+   "away_elo": 1656,
+   "probs": [
+    0.511,
+    0.263,
+    0.227
+   ],
+   "model_probs": [
+    0.511,
+    0.263,
+    0.227
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.579,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.774,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
+  }
+ ],
+ "unrated": 3
 }
