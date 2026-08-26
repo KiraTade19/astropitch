@@ -1,8 +1,36 @@
 {
  "date": "2026-08-26",
- "generated_at": "2026-08-26T16:17:27+00:00",
- "n": 1,
+ "generated_at": "2026-08-26T21:36:50+00:00",
+ "n": 2,
  "matches": [
+  {
+   "id": "2570481",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Celje",
+   "away": "Slovan Bratislava",
+   "home_elo": 1456,
+   "away_elo": 1367,
+   "probs": [
+    0.527,
+    0.256,
+    0.217
+   ],
+   "model_probs": [
+    0.527,
+    0.256,
+    0.217
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.587,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.783,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
+  },
   {
    "id": "2570482",
    "comp": "Champions League",
@@ -32,5 +60,5 @@
    "cosmic": "♒ Full Moon in Aquarius · Mercury's day · Year of the Fire Horse"
   }
  ],
- "unrated": 3
+ "unrated": 2
 }
