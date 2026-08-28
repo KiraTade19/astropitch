@@ -1,64 +1,7 @@
 {
- "date": "2026-08-27",
- "generated_at": "2026-08-27T16:05:28+00:00",
- "n": 2,
- "matches": [
-  {
-   "id": "2570007",
-   "comp": "Europa League",
-   "kickoff": "17:00",
-   "home": "Viktoria Plzeň",
-   "away": "Crvena Zvezda",
-   "home_elo": 1556,
-   "away_elo": 1586,
-   "probs": [
-    0.392,
-    0.289,
-    0.32
-   ],
-   "model_probs": [
-    0.392,
-    0.289,
-    0.32
-   ],
-   "market": null,
-   "pick": "HOME",
-   "over25": 0.507,
-   "top_score": "1-1",
-   "dc": "12",
-   "dc_prob": 0.712,
-   "dc_tier": "medium",
-   "dc_reliability": "lower - excludes the draw",
-   "cosmic": "♒ Full Moon in Aquarius · Jupiter's day · Year of the Fire Horse"
-  },
-  {
-   "id": "2573289",
-   "comp": "Europa League",
-   "kickoff": "18:00",
-   "home": "AGF Aarhus",
-   "away": "Benfica",
-   "home_elo": 1583,
-   "away_elo": 1824,
-   "probs": [
-    0.217,
-    0.187,
-    0.596
-   ],
-   "model_probs": [
-    0.217,
-    0.187,
-    0.596
-   ],
-   "market": null,
-   "pick": "AWAY",
-   "over25": 0.601,
-   "top_score": "1-1",
-   "dc": "12",
-   "dc_prob": 0.813,
-   "dc_tier": "high",
-   "dc_reliability": "lower - excludes the draw",
-   "cosmic": "♒ Full Moon in Aquarius · Jupiter's day · Year of the Fire Horse"
-  }
- ],
- "unrated": 4
+ "date": "2026-08-28",
+ "generated_at": "2026-08-28T02:25:23+00:00",
+ "n": 0,
+ "matches": [],
+ "unrated": 0
 }
