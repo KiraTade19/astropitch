@@ -65,7 +65,10 @@ per-key daily free-tier quota (`ASTROPITCH_FREE_DAILY`, default 100).
 | `24_api.py` (+ `app.py`) | the prediction API |
 | `26_build_site.py` | builds the public site (`docs/`) from live data |
 | `27_euro_predict.py` | clubelo-powered European coverage |
-| `.github/workflows/daily.yml` | nightly: refresh → grade → predict → rebuild site |
+| `30_daily_slate.py` | today's card (UEFA fixtures, clubelo-rated) |
+| `36_weekly_slate.py` | the week-ahead card across every league we can rate |
+| `.github/workflows/daily.yml` | 4× daily: refresh → grade → predict → rebuild site |
+| `.github/workflows/weekly.yml` | Mon + Thu: refresh → weekly slate → rebuild site |
 
 ## Honest track record (2025-26 holdout, 4,000 matches)
 

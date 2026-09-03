@@ -1,0 +1,336 @@
+{
+ "start": "2026-09-03",
+ "end": "2026-09-09",
+ "generated_at": "2026-09-03T18:55:07+00:00",
+ "n": 5,
+ "unrated": 6,
+ "competitions": [
+  "Belgium Pro League",
+  "France Ligue 1",
+  "Scotland Premiership",
+  "Spain La Liga"
+ ],
+ "n_anchored": 5,
+ "matches": [
+  {
+   "date": "2026-09-03",
+   "kickoff": "19:30",
+   "comp": "Belgium Pro League",
+   "kind": "domestic",
+   "home": "Anderlecht",
+   "away": "Kortrijk",
+   "source": "engine",
+   "elo": [
+    1589,
+    1442
+   ],
+   "model": [
+    0.546,
+    0.24,
+    0.214
+   ],
+   "market": [
+    0.617,
+    0.217,
+    0.166
+   ],
+   "final": [
+    0.599,
+    0.223,
+    0.177
+   ],
+   "over25": 0.621,
+   "xg": [
+    2.09,
+    1.1
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.103
+    },
+    {
+     "score": "2-1",
+     "prob": 0.099
+    },
+    {
+     "score": "2-0",
+     "prob": 0.091
+    }
+   ],
+   "cards": 4.0,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.822,
+   "dc_tier": "high",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-03",
+   "kickoff": "19:30",
+   "comp": "Belgium Pro League",
+   "kind": "domestic",
+   "home": "Gent",
+   "away": "Oud-Heverlee Leuven",
+   "source": "engine",
+   "elo": [
+    1557,
+    1482
+   ],
+   "model": [
+    0.449,
+    0.283,
+    0.269
+   ],
+   "market": [
+    0.568,
+    0.249,
+    0.184
+   ],
+   "final": [
+    0.538,
+    0.258,
+    0.203
+   ],
+   "over25": 0.595,
+   "xg": [
+    1.41,
+    1.09
+   ],
+   "scores": [
+    {
+     "score": "1-0",
+     "prob": 0.136
+    },
+    {
+     "score": "1-1",
+     "prob": 0.123
+    },
+    {
+     "score": "2-1",
+     "prob": 0.11
+    }
+   ],
+   "cards": 3.4,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.796,
+   "dc_tier": "medium",
+   "top_score": "1-0"
+  },
+  {
+   "date": "2026-09-03",
+   "kickoff": "19:45",
+   "comp": "France Ligue 1",
+   "kind": "domestic",
+   "home": "Toulouse",
+   "away": "Lille",
+   "source": "engine",
+   "elo": [
+    1547,
+    1675
+   ],
+   "model": [
+    0.182,
+    0.236,
+    0.581
+   ],
+   "market": [
+    0.285,
+    0.285,
+    0.43
+   ],
+   "final": [
+    0.257,
+    0.274,
+    0.468
+   ],
+   "over25": 0.514,
+   "xg": [
+    0.92,
+    1.68
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.131
+    },
+    {
+     "score": "0-1",
+     "prob": 0.102
+    },
+    {
+     "score": "0-2",
+     "prob": 0.09
+    }
+   ],
+   "cards": 4.5,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "X2",
+   "dc_prob": 0.742,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-03",
+   "kickoff": "19:45",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Hibernian",
+   "away": "Hearts",
+   "source": "engine",
+   "elo": [
+    1581,
+    1659
+   ],
+   "model": [
+    0.228,
+    0.259,
+    0.513
+   ],
+   "market": [
+    0.381,
+    0.267,
+    0.352
+   ],
+   "final": [
+    0.34,
+    0.268,
+    0.392
+   ],
+   "over25": 0.439,
+   "xg": [
+    0.96,
+    1.52
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.127
+    },
+    {
+     "score": "1-0",
+     "prob": 0.109
+    },
+    {
+     "score": "0-1",
+     "prob": 0.096
+    }
+   ],
+   "cards": 5.4,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "12",
+   "dc_prob": 0.732,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-03",
+   "kickoff": "20:00",
+   "comp": "Spain La Liga",
+   "kind": "domestic",
+   "home": "Sociedad",
+   "away": "Celta",
+   "source": "engine",
+   "elo": [
+    1514,
+    1560
+   ],
+   "model": [
+    0.324,
+    0.284,
+    0.392
+   ],
+   "market": [
+    0.487,
+    0.264,
+    0.25
+   ],
+   "final": [
+    0.445,
+    0.272,
+    0.283
+   ],
+   "over25": 0.486,
+   "xg": [
+    1.25,
+    1.27
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.13
+    },
+    {
+     "score": "1-0",
+     "prob": 0.118
+    },
+    {
+     "score": "2-1",
+     "prob": 0.1
+    }
+   ],
+   "cards": 5.3,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "12",
+   "dc_prob": 0.728,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  }
+ ],
+ "unrated_list": [
+  {
+   "date": "2026-09-08",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Lille",
+   "away": "Real Betis",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-09-08",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Borussia Dortmund",
+   "away": "Villarreal",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-09-08",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Porto",
+   "away": "Manchester City",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-09-09",
+   "kickoff": "16:45",
+   "comp": "Champions League",
+   "home": "Stuttgart",
+   "away": "Viking",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-09-09",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Liverpool",
+   "away": "Atlético Madrid",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-09-09",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Paris Saint-Germain",
+   "away": "Slovan Bratislava",
+   "reason": "clubelo unavailable"
+  }
+ ]
+}

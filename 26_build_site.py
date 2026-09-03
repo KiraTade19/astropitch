@@ -54,6 +54,10 @@ SLATE = None
 if os.path.exists("today_slate.json"):
     with open("today_slate.json", encoding="utf-8") as _f:
         SLATE = _json.load(_f)
+WEEK = None
+if os.path.exists("week_slate.json"):
+    with open("week_slate.json", encoding="utf-8") as _f:
+        WEEK = _json.load(_f)
 ELO_MIN, ELO_MAX = CLUBS[-1][1], CLUBS[0][1]
 ELO_MED = CLUBS[len(CLUBS) // 2][1]
 
@@ -363,7 +367,8 @@ def build():
     <p class="sub">Calibrated probabilities for 12 leagues, every international and
        any club in Europe — published with a track record we don't hide.</p>
     <div class="cta-row">
-      <a class="btn primary" href="today.html">Today's predictions</a>
+      <a class="btn primary" href="week.html">This week's predictions</a>
+      <a class="btn ghost" href="today.html">Today only</a>
       <a class="btn ghost" href="#record">See the receipts</a>
     </div>
   </div>
@@ -530,6 +535,131 @@ def build_today():
     print(f"Wrote docs/today.html  ({SLATE['n']} matches)")
 
 
+WEEK_CSS = """
+.wkbar{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:30px}
+.wkbar .c{background:var(--paper);padding:13px 18px;flex:1 1 128px}
+.wkbar .c b{display:block;font-family:"IBM Plex Mono",monospace;font-size:23px;line-height:1.2}
+.wkbar .c span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut)}
+.daygroup{margin-top:40px}
+.daygroup h3{font-size:15px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 2px;
+  font-family:"IBM Plex Mono",monospace;border-bottom:1px solid var(--line2);padding-bottom:8px}
+.daygroup .slate{margin-top:0;border-top:0}
+.match .cp .tier{margin-left:8px;padding:1px 6px;border:1px solid var(--line2);color:var(--mut)}
+.match .cp .tier.high{color:var(--ok);border-color:var(--ok)}
+.match .cp .noodds{margin-left:8px;color:var(--rust)}
+.unrated{margin-top:34px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--mut)}
+.unrated b{color:var(--ink);letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;
+  display:block;margin-bottom:8px}
+.unrated div{padding:5px 0;border-bottom:1px solid var(--line)}
+"""
+
+
+def build_week():
+    """Render docs/week.html from week_slate.json (the full weekly card)."""
+    if not WEEK or not WEEK.get("matches"):
+        print("no week_slate.json - skipping week.html")
+        return
+
+    by_day = {}
+    for m in WEEK["matches"]:
+        by_day.setdefault(m["date"], []).append(m)
+
+    groups = ""
+    for day in sorted(by_day):
+        d = datetime.date.fromisoformat(day)
+        rows = ""
+        for m in by_day[day]:
+            h, dr, a = [v * 100 for v in m["final"]]
+            tier = m["dc_tier"]
+            noodds = "" if m["anchored"] else '<span class="noodds">model only</span>'
+            rows += f"""<div class="match">
+      <div class="ko">{m['kickoff'] or '&nbsp;&mdash;'}</div>
+      <div><div class="tm">{m['home']} <span style="color:var(--mut)">v</span> {m['away']}</div>
+           <div class="cp">{m['comp']} &nbsp;·&nbsp; {m['elo'][0]} v {m['elo'][1]}<span
+             class="tier {tier}">{m['dc']} {m['dc_prob']*100:.0f}%</span>{noodds}</div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:{h:.1f}%"></span><span class="d" style="width:{dr:.1f}%"></span><span class="a" style="width:{a:.1f}%"></span></div>
+        <div class="pct"><span>H {h:.0f}%</span><span>D {dr:.0f}%</span><span>A {a:.0f}%</span></div>
+      </div>
+      <div class="pick"><b>{m['pick']}</b><i>{m['top_score']} &nbsp;·&nbsp; O2.5 {m['over25']*100:.0f}%</i></div>
+    </div>"""
+        groups += (f'<div class="daygroup"><h3>{d.strftime("%A %d %B")}'
+                   f' <span style="color:var(--mut)">· {len(by_day[day])}</span></h3>'
+                   f'<div class="slate">{rows}</div></div>')
+
+    unrated_html = ""
+    if WEEK.get("unrated_list"):
+        items = "".join(f"<div>{u['home']} v {u['away']} &nbsp;&mdash;&nbsp; {u['reason']}</div>"
+                        for u in WEEK["unrated_list"])
+        unrated_html = (f'<div class="unrated"><b>Not rated &mdash; '
+                        f'{len(WEEK["unrated_list"])} fixture(s)</b>{items}</div>')
+
+    s = datetime.date.fromisoformat(WEEK["start"])
+    e = datetime.date.fromisoformat(WEEK["end"])
+    span = f'{s.strftime("%d %b")} &ndash; {e.strftime("%d %b %Y")}'
+    upd = WEEK["generated_at"].replace("T", " ")[:16]
+    n_comp = len(WEEK["competitions"])
+    anch = WEEK["n_anchored"]
+    high = sum(1 for m in WEEK["matches"] if m["dc_tier"] == "high")
+
+    html = f"""<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>This week's predictions — AstroPitch</title>
+<meta name="description" content="Free weekly football predictions across every league we rate: calibrated 1X2 probabilities, over/under and likely scores for the week ahead, published before kickoff.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>{CSS}{WEEK_CSS}</style></head><body>
+<main><div class="wrap" style="padding-top:56px">
+  <a class="backlink" href="index.html">&larr; AstroPitch</a>
+  <span class="eyebrow">{span} &nbsp;·&nbsp; updated {upd} UTC</span>
+  <h2 style="max-width:26ch">This week's predictions<span class="freebadge">Free</span></h2>
+  <p class="lede">Every fixture we can defensibly rate over the next seven days, across
+     all {n_comp} competition(s) currently in play. Published <b>before kickoff</b>.</p>
+
+  <div class="wkbar">
+    <div class="c"><b>{WEEK['n']}</b><span>Fixtures rated</span></div>
+    <div class="c"><b>{n_comp}</b><span>Competitions</span></div>
+    <div class="c"><b>{anch}</b><span>Anchored on odds</span></div>
+    <div class="c"><b>{high}</b><span>High confidence</span></div>
+    <div class="c"><b>{WEEK['unrated']}</b><span>Refused to guess</span></div>
+  </div>
+
+  {groups}
+  {unrated_html}
+
+  <div class="note">
+    <b>How to read this.</b> H/D/A are calibrated probabilities for home win, draw and
+    away win &mdash; not tips. The tag beside each competition is the strongest
+    <b>double chance</b> (1X home-or-draw, X2 draw-or-away, 12 either team) and its
+    probability; on our 4,000-match holdout the picks above 80% graded 87.1%, so those
+    are marked. Ratings beside each match are club strength; a bigger gap means a more
+    one-sided tie.
+  </div>
+  <div class="note" style="border-left-color:#B9B3A6">
+    <b>Where the numbers come from.</b> Domestic fixtures are rated by our trained engine
+    and anchored on real bookmaker prices. Cup ties across divisions, and clubs outside our
+    12 leagues, fall through to clubelo strength ratings. Anything neither can rate is listed
+    as <b>not rated</b> rather than guessed at. Rows marked <b>model only</b> have no odds
+    attached yet and are the least reliable on the page.
+  </div>
+</div></main>
+<footer>
+  <strong>AstroPitch</strong> &mdash; probabilistic model output for information and
+  entertainment, not betting advice. 18+. Please gamble responsibly.<br>
+  <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="today.html">Today</a>
+  &nbsp;·&nbsp; <a href="{API_URL}/docs">API</a>
+</footer>
+</body></html>"""
+    with open("docs/week.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"Wrote docs/week.html  ({WEEK['n']} matches, {n_comp} competitions)")
+
+
 if __name__ == "__main__":
     build()
     build_today()
+    build_week()

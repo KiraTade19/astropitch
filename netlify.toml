@@ -1,0 +1,32 @@
+# Netlify publishes the already-built static site in docs/.
+#
+# The model build runs in GitHub Actions (see .github/workflows/), which commits
+# the refreshed docs/ back to main; Netlify then deploys that commit. Netlify
+# itself runs no build, so it needs neither Python nor the trained .pkl engines.
+[build]
+  publish = "docs"
+  command = ""
+
+# Prediction pages are rewritten on every scheduled run, so they must not be
+# served stale from a CDN edge. The hashed-free HTML is small; revalidate it.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Friendly URLs for the two prediction pages.
+[[redirects]]
+  from = "/week"
+  to = "/week.html"
+  status = 200
+
+[[redirects]]
+  from = "/today"
+  to = "/today.html"
+  status = 200
