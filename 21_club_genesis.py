@@ -54,6 +54,61 @@ DIV_NAMES = {
 }
 
 
+# ---------------------------------------------------------------------------
+# STALE RATINGS
+# A club that leaves a covered division keeps its rating frozen forever, so a
+# cup tie can be published off an eight-year-old number (Malaga and Deportivo A
+# Coruna both last appeared in May 2018). These helpers regress such a rating
+# toward its division's mean at PREDICTION time only — never during training,
+# where every club is by definition active.
+#
+# Honest status: this is a prudence measure, not a measured accuracy gain. The
+# natural experiment is far too small to fit — only 123 matches in 33,074 have a
+# club returning after a 300-day absence — and on that sample returning clubs
+# *out*-perform their frozen rating (+0.062 expected-score bias, t~1.7, not
+# significant), the opposite of the naive assumption. So the half-life below is
+# chosen, not fitted. The grace period keeps it a no-op for >99% of fixtures
+# (the 99th percentile gap between a club's matches is 91 days).
+STALE_GRACE_DAYS = 150       # a normal summer break must not decay anything
+STALE_HALF_LIFE_DAYS = 550   # ~1.5 seasons away halves the distance to the mean
+
+
+def stale_weight(days_out):
+    """1.0 = keep the rating as-is, 0.0 = fall back entirely to the mean."""
+    if days_out is None or days_out <= STALE_GRACE_DAYS:
+        return 1.0
+    return float(0.5 ** ((days_out - STALE_GRACE_DAYS) / STALE_HALF_LIFE_DAYS))
+
+
+def division_mean_elo(state):
+    """Mean rating per division code, over the clubs that division last saw."""
+    cache = state.get("_div_mean")
+    if cache is not None:
+        return cache
+    by = {}
+    for team, div in state.get("team_league", {}).items():
+        by.setdefault(div, []).append(state["elo"].get(team, BASE_ELO))
+    cache = {d: float(np.mean(v)) for d, v in by.items() if v}
+    state["_div_mean"] = cache
+    return cache
+
+
+def decayed_elo(state, team, date, div=None):
+    """(rating, days_out, weight) with staleness regressed toward the division
+    mean. days_out is None when the club has never been seen."""
+    raw = state["elo"].get(team, BASE_ELO)
+    ld = state.get("last_date", {}).get(team)
+    if ld is None or date is None:
+        return raw, None, 1.0
+    days_out = (date - ld).days
+    w = stale_weight(days_out)
+    if w >= 1.0:
+        return raw, days_out, 1.0
+    div = div or state.get("team_league", {}).get(team)
+    anchor = division_mean_elo(state).get(div, BASE_ELO)
+    return anchor + (raw - anchor) * w, days_out, w
+
+
 def gd_mult(gd):
     return 1.0 if gd <= 1 else np.log(gd + 1) * 0.75
 

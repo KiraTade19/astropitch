@@ -203,8 +203,11 @@ def _build_row_live(home, away, date, div):
     lc = st["league_codes"]
     if div not in lc:
         return None
-    R = st["elo"]
-    he, ae = R.get(home, gpc.BASE_ELO), R.get(away, gpc.BASE_ELO)
+    # Same stale-rating decay the API and the weekly slate apply, so what we
+    # log and later grade is the number we actually published. A no-op for any
+    # club that played inside the grace window, which is every normal fixture.
+    he, _, _ = gpc.decayed_elo(st, home, date, div)
+    ae, _, _ = gpc.decayed_elo(st, away, date, div)
     exp_h = 1.0 / (1.0 + 10 ** ((ae - (he + gpc.HOME_ADV)) / 400.0))
 
     def roll(team, nn):

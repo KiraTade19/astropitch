@@ -1,0 +1,5 @@
+# Training-only dependencies. The API image installs requirements.txt alone
+# (see Dockerfile), so optuna is kept out of it — 21_club_genesis.py and the
+# other trainers are the only things that import it.
+-r requirements.txt
+optuna==4.9.0

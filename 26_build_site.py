@@ -574,6 +574,12 @@ def build_week():
             h, dr, a = [v * 100 for v in m["final"]]
             tier = m["dc_tier"]
             noodds = "" if m["anchored"] else '<span class="noodds">model only</span>'
+            # a rating years out of date is shown as such rather than quietly used
+            sd = m.get("stale_days", 0)
+            if sd > 150:
+                noodds += (f'<span class="noodds" title="Rating last updated '
+                           f'{sd} days ago; regressed toward the division mean">'
+                           f'stale {sd // 30}mo</span>')
             rows += f"""<div class="match">
       <div class="ko">{m['kickoff'] or '&nbsp;&mdash;'}</div>
       <div><div class="tm">{m['home']} <span style="color:var(--mut)">v</span> {m['away']}</div>

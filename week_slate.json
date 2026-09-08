@@ -1,17 +1,914 @@
 {
- "start": "2026-09-03",
- "end": "2026-09-09",
- "generated_at": "2026-09-03T18:55:07+00:00",
- "n": 5,
- "unrated": 6,
+ "start": "2026-09-01",
+ "end": "2026-09-07",
+ "generated_at": "2026-09-08T13:27:03+00:00",
+ "n": 21,
+ "unrated": 2,
  "competitions": [
   "Belgium Pro League",
+  "England Championship",
   "France Ligue 1",
   "Scotland Premiership",
   "Spain La Liga"
  ],
- "n_anchored": 5,
+ "n_anchored": 21,
  "matches": [
+  {
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Portsmouth",
+   "away": "Derby",
+   "source": "engine",
+   "elo": [
+    1406,
+    1445
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 122,
+   "model": [
+    0.379,
+    0.277,
+    0.344
+   ],
+   "market": [
+    0.497,
+    0.272,
+    0.231
+   ],
+   "final": [
+    0.468,
+    0.275,
+    0.257
+   ],
+   "over25": 0.427,
+   "xg": [
+    1.2,
+    1.16
+   ],
+   "scores": [
+    {
+     "score": "1-0",
+     "prob": 0.137
+    },
+    {
+     "score": "1-1",
+     "prob": 0.13
+    },
+    {
+     "score": "2-1",
+     "prob": 0.102
+    }
+   ],
+   "cards": 4.3,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.743,
+   "dc_tier": "medium",
+   "top_score": "1-0"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Preston",
+   "away": "Bristol City",
+   "source": "engine",
+   "elo": [
+    1404,
+    1434
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 122,
+   "model": [
+    0.377,
+    0.282,
+    0.34
+   ],
+   "market": [
+    0.328,
+    0.272,
+    0.399
+   ],
+   "final": [
+    0.341,
+    0.275,
+    0.384
+   ],
+   "over25": 0.442,
+   "xg": [
+    1.28,
+    1.16
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.131
+    },
+    {
+     "score": "0-1",
+     "prob": 0.112
+    },
+    {
+     "score": "1-0",
+     "prob": 0.093
+    }
+   ],
+   "cards": 4.0,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "12",
+   "dc_prob": 0.725,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Sheffield United",
+   "away": "Bolton",
+   "source": "engine",
+   "elo": [
+    1444,
+    1405
+   ],
+   "rating_weight": 0.041,
+   "stale_days": 2676,
+   "model": [
+    0.488,
+    0.259,
+    0.253
+   ],
+   "market": [
+    0.588,
+    0.237,
+    0.176
+   ],
+   "final": [
+    0.564,
+    0.243,
+    0.193
+   ],
+   "over25": 0.501,
+   "xg": [
+    1.58,
+    1.06
+   ],
+   "scores": [
+    {
+     "score": "1-0",
+     "prob": 0.124
+    },
+    {
+     "score": "1-1",
+     "prob": 0.116
+    },
+    {
+     "score": "2-1",
+     "prob": 0.109
+    }
+   ],
+   "cards": 3.5,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.807,
+   "dc_tier": "medium",
+   "top_score": "1-0"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Swansea",
+   "away": "Watford",
+   "source": "engine",
+   "elo": [
+    1451,
+    1384
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 122,
+   "model": [
+    0.483,
+    0.261,
+    0.256
+   ],
+   "market": [
+    0.524,
+    0.256,
+    0.22
+   ],
+   "final": [
+    0.514,
+    0.258,
+    0.228
+   ],
+   "over25": 0.539,
+   "xg": [
+    1.51,
+    1.31
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.122
+    },
+    {
+     "score": "2-1",
+     "prob": 0.11
+    },
+    {
+     "score": "1-0",
+     "prob": 0.104
+    }
+   ],
+   "cards": 4.3,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.772,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "West Ham",
+   "away": "Wolves",
+   "source": "engine",
+   "elo": [
+    1600,
+    1517
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 100,
+   "model": [
+    0.541,
+    0.262,
+    0.197
+   ],
+   "market": [
+    0.465,
+    0.26,
+    0.275
+   ],
+   "final": [
+    0.485,
+    0.261,
+    0.254
+   ],
+   "over25": 0.492,
+   "xg": [
+    1.65,
+    1.0
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.125
+    },
+    {
+     "score": "1-0",
+     "prob": 0.103
+    },
+    {
+     "score": "2-1",
+     "prob": 0.09
+    }
+   ],
+   "cards": 4.1,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.746,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "20:00",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Birmingham",
+   "away": "Southampton",
+   "source": "engine",
+   "elo": [
+    1425,
+    1527
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 122,
+   "model": [
+    0.344,
+    0.26,
+    0.397
+   ],
+   "market": [
+    0.366,
+    0.277,
+    0.356
+   ],
+   "final": [
+    0.361,
+    0.273,
+    0.366
+   ],
+   "over25": 0.492,
+   "xg": [
+    1.24,
+    1.4
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.13
+    },
+    {
+     "score": "1-0",
+     "prob": 0.091
+    },
+    {
+     "score": "0-1",
+     "prob": 0.086
+    }
+   ],
+   "cards": 4.2,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "12",
+   "dc_prob": 0.727,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-01",
+   "kickoff": "20:00",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Stoke",
+   "away": "Norwich",
+   "source": "engine",
+   "elo": [
+    1372,
+    1462
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 122,
+   "model": [
+    0.33,
+    0.258,
+    0.412
+   ],
+   "market": [
+    0.275,
+    0.26,
+    0.465
+   ],
+   "final": [
+    0.288,
+    0.26,
+    0.452
+   ],
+   "over25": 0.457,
+   "xg": [
+    1.19,
+    1.28
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.123
+    },
+    {
+     "score": "0-1",
+     "prob": 0.122
+    },
+    {
+     "score": "1-2",
+     "prob": 0.098
+    }
+   ],
+   "cards": 4.7,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "12",
+   "dc_prob": 0.74,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:30",
+   "comp": "Belgium Pro League",
+   "kind": "domestic",
+   "home": "St Truiden",
+   "away": "St. Gilloise",
+   "source": "engine",
+   "elo": [
+    1611,
+    1775
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 101,
+   "model": [
+    0.228,
+    0.227,
+    0.545
+   ],
+   "market": [
+    0.248,
+    0.27,
+    0.481
+   ],
+   "final": [
+    0.244,
+    0.259,
+    0.497
+   ],
+   "over25": 0.485,
+   "xg": [
+    0.97,
+    1.65
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.124
+    },
+    {
+     "score": "0-1",
+     "prob": 0.108
+    },
+    {
+     "score": "0-2",
+     "prob": 0.093
+    }
+   ],
+   "cards": 3.7,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "X2",
+   "dc_prob": 0.756,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "Millwall",
+   "away": "Wrexham",
+   "source": "engine",
+   "elo": [
+    1524,
+    1491
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 123,
+   "model": [
+    0.483,
+    0.269,
+    0.248
+   ],
+   "market": [
+    0.425,
+    0.288,
+    0.288
+   ],
+   "final": [
+    0.439,
+    0.283,
+    0.277
+   ],
+   "over25": 0.434,
+   "xg": [
+    1.43,
+    0.99
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.134
+    },
+    {
+     "score": "1-0",
+     "prob": 0.114
+    },
+    {
+     "score": "0-0",
+     "prob": 0.096
+    }
+   ],
+   "cards": 3.6,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.722,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "QPR",
+   "away": "Cardiff",
+   "source": "engine",
+   "elo": [
+    1390,
+    1385
+   ],
+   "rating_weight": 0.654,
+   "stale_days": 487,
+   "model": [
+    0.368,
+    0.271,
+    0.361
+   ],
+   "market": [
+    0.497,
+    0.257,
+    0.246
+   ],
+   "final": [
+    0.464,
+    0.262,
+    0.273
+   ],
+   "over25": 0.502,
+   "xg": [
+    1.31,
+    1.36
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.125
+    },
+    {
+     "score": "1-0",
+     "prob": 0.112
+    },
+    {
+     "score": "2-1",
+     "prob": 0.106
+    }
+   ],
+   "cards": 4.0,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "12",
+   "dc_prob": 0.737,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "kind": "domestic",
+   "home": "West Brom",
+   "away": "Charlton",
+   "source": "engine",
+   "elo": [
+    1408,
+    1374
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 123,
+   "model": [
+    0.488,
+    0.245,
+    0.267
+   ],
+   "market": [
+    0.541,
+    0.264,
+    0.195
+   ],
+   "final": [
+    0.529,
+    0.26,
+    0.211
+   ],
+   "over25": 0.482,
+   "xg": [
+    1.4,
+    1.17
+   ],
+   "scores": [
+    {
+     "score": "1-0",
+     "prob": 0.128
+    },
+    {
+     "score": "1-1",
+     "prob": 0.124
+    },
+    {
+     "score": "2-1",
+     "prob": 0.111
+    }
+   ],
+   "cards": 3.9,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.789,
+   "dc_tier": "medium",
+   "top_score": "1-0"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Celtic",
+   "away": "Aberdeen",
+   "source": "engine",
+   "elo": [
+    1789,
+    1463
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 109,
+   "model": [
+    0.817,
+    0.125,
+    0.058
+   ],
+   "market": [
+    0.774,
+    0.142,
+    0.084
+   ],
+   "final": [
+    0.786,
+    0.138,
+    0.076
+   ],
+   "over25": 0.612,
+   "xg": [
+    2.54,
+    0.61
+   ],
+   "scores": [
+    {
+     "score": "2-0",
+     "prob": 0.138
+    },
+    {
+     "score": "3-0",
+     "prob": 0.117
+    },
+    {
+     "score": "1-0",
+     "prob": 0.105
+    }
+   ],
+   "cards": 3.9,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.924,
+   "dc_tier": "high",
+   "top_score": "2-0"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Dundee",
+   "away": "St Johnstone",
+   "source": "engine",
+   "elo": [
+    1456,
+    1430
+   ],
+   "rating_weight": 0.666,
+   "stale_days": 472,
+   "model": [
+    0.385,
+    0.281,
+    0.334
+   ],
+   "market": [
+    0.366,
+    0.267,
+    0.366
+   ],
+   "final": [
+    0.371,
+    0.271,
+    0.358
+   ],
+   "over25": 0.442,
+   "xg": [
+    1.24,
+    1.18
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.128
+    },
+    {
+     "score": "1-0",
+     "prob": 0.104
+    },
+    {
+     "score": "0-1",
+     "prob": 0.103
+    }
+   ],
+   "cards": 4.3,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "12",
+   "dc_prob": 0.729,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Kilmarnock",
+   "away": "St Mirren",
+   "source": "engine",
+   "elo": [
+    1473,
+    1440
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 108,
+   "model": [
+    0.406,
+    0.282,
+    0.312
+   ],
+   "market": [
+    0.338,
+    0.274,
+    0.388
+   ],
+   "final": [
+    0.355,
+    0.277,
+    0.368
+   ],
+   "over25": 0.397,
+   "xg": [
+    1.19,
+    1.06
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.129
+    },
+    {
+     "score": "0-1",
+     "prob": 0.122
+    },
+    {
+     "score": "1-0",
+     "prob": 0.111
+    }
+   ],
+   "cards": 4.2,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "12",
+   "dc_prob": 0.723,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "19:45",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Motherwell",
+   "away": "Dundee United",
+   "source": "engine",
+   "elo": [
+    1566,
+    1489
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 109,
+   "model": [
+    0.497,
+    0.275,
+    0.228
+   ],
+   "market": [
+    0.49,
+    0.25,
+    0.26
+   ],
+   "final": [
+    0.492,
+    0.256,
+    0.252
+   ],
+   "over25": 0.516,
+   "xg": [
+    1.66,
+    1.08
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.122
+    },
+    {
+     "score": "1-0",
+     "prob": 0.099
+    },
+    {
+     "score": "2-1",
+     "prob": 0.094
+    }
+   ],
+   "cards": 4.8,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.748,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-09-02",
+   "kickoff": "20:00",
+   "comp": "Scotland Premiership",
+   "kind": "domestic",
+   "home": "Falkirk",
+   "away": "Rangers",
+   "source": "engine",
+   "elo": [
+    1507,
+    1704
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 109,
+   "model": [
+    0.164,
+    0.196,
+    0.64
+   ],
+   "market": [
+    0.187,
+    0.215,
+    0.598
+   ],
+   "final": [
+    0.181,
+    0.211,
+    0.609
+   ],
+   "over25": 0.612,
+   "xg": [
+    0.91,
+    2.32
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.099
+    },
+    {
+     "score": "0-2",
+     "prob": 0.094
+    },
+    {
+     "score": "1-2",
+     "prob": 0.086
+    }
+   ],
+   "cards": 4.6,
+   "anchored": true,
+   "pick": "AWAY",
+   "dc": "X2",
+   "dc_prob": 0.82,
+   "dc_tier": "high",
+   "top_score": "1-1"
+  },
   {
    "date": "2026-09-03",
    "kickoff": "19:30",
@@ -22,12 +919,14 @@
    "source": "engine",
    "elo": [
     1589,
-    1442
+    1462
    ],
+   "rating_weight": 0.659,
+   "stale_days": 481,
    "model": [
-    0.546,
-    0.24,
-    0.214
+    0.527,
+    0.256,
+    0.216
    ],
    "market": [
     0.617,
@@ -35,19 +934,19 @@
     0.166
    ],
    "final": [
-    0.599,
-    0.223,
-    0.177
+    0.595,
+    0.227,
+    0.178
    ],
-   "over25": 0.621,
+   "over25": 0.622,
    "xg": [
-    2.09,
-    1.1
+    2.1,
+    1.13
    ],
    "scores": [
     {
      "score": "1-1",
-     "prob": 0.103
+     "prob": 0.104
     },
     {
      "score": "2-1",
@@ -55,7 +954,7 @@
     },
     {
      "score": "2-0",
-     "prob": 0.091
+     "prob": 0.088
     }
    ],
    "cards": 4.0,
@@ -63,7 +962,7 @@
    "pick": "HOME",
    "dc": "1X",
    "dc_prob": 0.822,
-   "dc_tier": "high",
+   "dc_tier": "medium",
    "top_score": "1-1"
   },
   {
@@ -78,6 +977,8 @@
     1557,
     1482
    ],
+   "rating_weight": 1.0,
+   "stale_days": 103,
    "model": [
     0.449,
     0.283,
@@ -93,7 +994,7 @@
     0.258,
     0.203
    ],
-   "over25": 0.595,
+   "over25": 0.465,
    "xg": [
     1.41,
     1.09
@@ -132,6 +1033,8 @@
     1547,
     1675
    ],
+   "rating_weight": 1.0,
+   "stale_days": 109,
    "model": [
     0.182,
     0.236,
@@ -147,7 +1050,7 @@
     0.274,
     0.468
    ],
-   "over25": 0.514,
+   "over25": 0.469,
    "xg": [
     0.92,
     1.68
@@ -186,6 +1089,8 @@
     1581,
     1659
    ],
+   "rating_weight": 1.0,
+   "stale_days": 110,
    "model": [
     0.228,
     0.259,
@@ -201,7 +1106,7 @@
     0.268,
     0.392
    ],
-   "over25": 0.439,
+   "over25": 0.446,
    "xg": [
     0.96,
     1.52
@@ -240,6 +1145,8 @@
     1514,
     1560
    ],
+   "rating_weight": 1.0,
+   "stale_days": 103,
    "model": [
     0.324,
     0.284,
@@ -255,7 +1162,7 @@
     0.272,
     0.283
    ],
-   "over25": 0.486,
+   "over25": 0.465,
    "xg": [
     1.25,
     1.27
@@ -285,51 +1192,19 @@
  ],
  "unrated_list": [
   {
-   "date": "2026-09-08",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "home": "Lille",
-   "away": "Real Betis",
+   "date": "2026-09-01",
+   "kickoff": "19:45",
+   "comp": "England Championship",
+   "home": "Lincoln",
+   "away": "Blackburn",
    "reason": "clubelo unavailable"
   },
   {
-   "date": "2026-09-08",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "home": "Borussia Dortmund",
-   "away": "Villarreal",
-   "reason": "clubelo unavailable"
-  },
-  {
-   "date": "2026-09-08",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "home": "Porto",
-   "away": "Manchester City",
-   "reason": "clubelo unavailable"
-  },
-  {
-   "date": "2026-09-09",
-   "kickoff": "16:45",
-   "comp": "Champions League",
-   "home": "Stuttgart",
-   "away": "Viking",
-   "reason": "clubelo unavailable"
-  },
-  {
-   "date": "2026-09-09",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "home": "Liverpool",
-   "away": "Atlético Madrid",
-   "reason": "clubelo unavailable"
-  },
-  {
-   "date": "2026-09-09",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "home": "Paris Saint-Germain",
-   "away": "Slovan Bratislava",
+   "date": "2026-09-02",
+   "kickoff": "20:00",
+   "comp": "England Championship",
+   "home": "Burnley",
+   "away": "Middlesbrough",
    "reason": "clubelo unavailable"
   }
  ]

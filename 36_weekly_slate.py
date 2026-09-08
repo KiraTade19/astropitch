@@ -95,7 +95,10 @@ def _shots(team, n=10):
 
 
 def _row(home, away, date, div):
-    he, ae = ELO.get(home, gpc.BASE_ELO), ELO.get(away, gpc.BASE_ELO)
+    # stale ratings regressed toward the division mean (no-op inside the grace
+    # window, which covers >99% of fixtures) — see gpc.decayed_elo
+    he, _, wh = gpc.decayed_elo(ST, home, date, div)
+    ae, _, wa = gpc.decayed_elo(ST, away, date, div)
     exp_h = 1.0 / (1.0 + 10 ** ((ae - (he + gpc.HOME_ADV)) / 400.0))
     h5, a5, h10, a10 = _roll(home, 5), _roll(away, 5), _roll(home, 10), _roll(away, 10)
     ld = ST.get("last_date", {})
@@ -141,7 +144,6 @@ def predict_core(home, away, date, div, odds):
     """Returns the same shape as predict_euro so the renderer needs one path."""
     X = _row(home, away, date, div)
     model = np.array(CLUB["model_1x2"].predict_proba(X)[0], dtype=float)
-    p_over = float(CLUB["ou"].predict_proba(X)[0, 1])
     lam = float(np.clip(CLUB["reg_h"].predict(X)[0], 0.15, 6))
     mu = float(np.clip(CLUB["reg_a"].predict(X)[0], 0.15, 6))
     M = gpc.dc_matrix(lam, mu, CLUB["rho"], maxg=8)
@@ -152,17 +154,29 @@ def predict_core(home, away, date, div, odds):
         market = inv / inv.sum()
         blend = (market ** W_MARKET_CORE) * (model ** (1 - W_MARKET_CORE))
         final = blend / blend.sum()
-        regions = [np.tril(M, -1).sum(), np.trace(M), np.triu(M, 1).sum()]
-        scale = {0: final[0] / regions[0], 1: final[1] / regions[1], 2: final[2] / regions[2]}
-        for i in range(M.shape[0]):
-            for j in range(M.shape[1]):
-                M[i, j] *= scale[0 if i > j else (1 if i == j else 2)]
-        M /= M.sum()
+
+    # Project the matrix onto the published 1X2 always, not only when odds
+    # exist — see 24_api.py's predict_core for the reasoning and the numbers.
+    regions = [np.tril(M, -1).sum(), np.trace(M), np.triu(M, 1).sum()]
+    scale = {0: final[0] / regions[0], 1: final[1] / regions[1], 2: final[2] / regions[2]}
+    for i in range(M.shape[0]):
+        for j in range(M.shape[1]):
+            M[i, j] *= scale[0 if i > j else (1 if i == j else 2)]
+    M /= M.sum()
+
+    # O/U off that same matrix, replacing the standalone `ou` classifier.
+    nb = M.shape[0]
+    p_over = float(M[np.add.outer(np.arange(nb), np.arange(nb)) > 2].sum())
 
     flat = sorted(((i, j, M[i, j]) for i in range(M.shape[0]) for j in range(M.shape[1])),
                   key=lambda x: -x[2])[:3]
-    return dict(source="engine", elo=[round(ELO.get(home, gpc.BASE_ELO)),
-                                      round(ELO.get(away, gpc.BASE_ELO))],
+    # staleness of the two ratings, so the renderer can refuse to call a row
+    # "high confidence" when it rests on a rating years out of date
+    dh, doh, wh = gpc.decayed_elo(ST, home, date, div)
+    da, doa, wa = gpc.decayed_elo(ST, away, date, div)
+    stale_days = max([d for d in (doh, doa) if d is not None], default=0)
+    return dict(source="engine", elo=[round(dh), round(da)],
+                rating_weight=round(min(wh, wa), 3), stale_days=int(stale_days),
                 model=[round(float(v), 3) for v in model],
                 market=None if market is None else [round(float(v), 3) for v in market],
                 final=[round(float(v), 3) for v in final],
@@ -198,6 +212,7 @@ def predict_euro(home_raw, away_raw, date, odds):
         return None, f"no rating for {home_raw if not hn else away_raw}"
     p = euro.predict(hn, an, date, odds=odds, verbose=False)
     return dict(source="clubelo", elo=[p["elo_home"], p["elo_away"]],
+                rating_weight=1.0, stale_days=0,   # clubelo ratings are current by construction
                 model=p["model_only"], market=p["market"], final=p["one_x_two"],
                 over25=p["over25"], xg=p["xg"], scores=p["top_scores"], cards=None), None
 
@@ -325,6 +340,12 @@ def main():
         prob = dcs[best]
         # thresholds measured in 30_daily_slate.py on the 4,000-match holdout
         tier = "high" if prob >= 0.80 else "medium" if prob >= 0.70 else "low"
+        # A rating that has decayed materially cannot support a "high" claim,
+        # whatever the arithmetic says. The 87.1% that "high" advertises was
+        # measured on clubs with current ratings; it does not transfer to a
+        # fixture priced off a club last seen years ago.
+        if res.get("rating_weight", 1.0) < 0.9 and tier == "high":
+            tier = "medium"
         matches.append(dict(
             date=g["date"], kickoff=g["kickoff"], comp=g["comp"], kind=g["kind"],
             home=g["home"], away=g["away"], **res,
