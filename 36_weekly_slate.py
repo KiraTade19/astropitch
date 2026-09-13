@@ -155,18 +155,10 @@ def predict_core(home, away, date, div, odds):
         blend = (market ** W_MARKET_CORE) * (model ** (1 - W_MARKET_CORE))
         final = blend / blend.sum()
 
-    # Project the matrix onto the published 1X2 always, not only when odds
-    # exist — see 24_api.py's predict_core for the reasoning and the numbers.
-    regions = [np.tril(M, -1).sum(), np.trace(M), np.triu(M, 1).sum()]
-    scale = {0: final[0] / regions[0], 1: final[1] / regions[1], 2: final[2] / regions[2]}
-    for i in range(M.shape[0]):
-        for j in range(M.shape[1]):
-            M[i, j] *= scale[0 if i > j else (1 if i == j else 2)]
-    M /= M.sum()
-
-    # O/U off that same matrix, replacing the standalone `ou` classifier.
-    nb = M.shape[0]
-    p_over = float(M[np.add.outer(np.arange(nb), np.arange(nb)) > 2].sum())
+    # one distribution: matrix projected onto the published 1X2, O/U read off
+    # it — shared gpc helpers, see 24_api.py's predict_core for the numbers
+    M = gpc.project_onto_1x2(M, final)
+    p_over = gpc.over25(M)
 
     flat = sorted(((i, j, M[i, j]) for i in range(M.shape[0]) for j in range(M.shape[1])),
                   key=lambda x: -x[2])[:3]
@@ -292,6 +284,20 @@ def rate(g):
     return (res, None) if res is not None else (None, reason)
 
 
+def dc_tier(prob, rating_weight=1.0):
+    """Confidence tier for a double-chance probability. Thresholds measured in
+    30_daily_slate.py on the 4,000-match holdout (>=80% graded 87.1%).
+
+    A rating that has decayed materially cannot support "high", whatever the
+    arithmetic says: the 87.1% that "high" advertises was measured on clubs
+    with current ratings and does not transfer to a fixture priced off a club
+    last seen years ago."""
+    tier = "high" if prob >= 0.80 else "medium" if prob >= 0.70 else "low"
+    if tier == "high" and rating_weight < 0.9:
+        tier = "medium"
+    return tier
+
+
 def main():
     argv = sys.argv[1:]
     days = 7
@@ -338,14 +344,7 @@ def main():
         dcs = {"1X": pH + pD, "12": pH + pA, "X2": pD + pA}
         best = max(dcs, key=dcs.get)
         prob = dcs[best]
-        # thresholds measured in 30_daily_slate.py on the 4,000-match holdout
-        tier = "high" if prob >= 0.80 else "medium" if prob >= 0.70 else "low"
-        # A rating that has decayed materially cannot support a "high" claim,
-        # whatever the arithmetic says. The 87.1% that "high" advertises was
-        # measured on clubs with current ratings; it does not transfer to a
-        # fixture priced off a club last seen years ago.
-        if res.get("rating_weight", 1.0) < 0.9 and tier == "high":
-            tier = "medium"
+        tier = dc_tier(prob, res.get("rating_weight", 1.0))
         matches.append(dict(
             date=g["date"], kickoff=g["kickoff"], comp=g["comp"], kind=g["kind"],
             home=g["home"], away=g["away"], **res,

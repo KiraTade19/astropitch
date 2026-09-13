@@ -257,6 +257,27 @@ def dc_matrix(lam, mu, rho, maxg=8):
     return M / M.sum()
 
 
+def project_onto_1x2(M, p):
+    """Rescale a scoreline matrix so its home-win / draw / away-win regions sum
+    to the published 1X2 `p`. Afterwards 1X2, over/under and the exact scores
+    are one distribution. Every path that publishes OR logs a prediction must
+    go through this — three hand-copied versions of it drifting apart is how
+    the logger came to grade numbers we had stopped publishing."""
+    M = M.copy()
+    i, j = np.indices(M.shape)
+    for k, region in enumerate((i > j, i == j, i < j)):
+        s = M[region].sum()
+        if s > 0:
+            M[region] *= p[k] / s
+    return M / M.sum()
+
+
+def over25(M):
+    """P(total goals > 2.5) read straight off a scoreline matrix."""
+    i, j = np.indices(M.shape)
+    return float(M[(i + j) > 2].sum())
+
+
 def fit_rho(lams, mus, hg, ag):
     def nll(rho):
         s = 0.0

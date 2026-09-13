@@ -80,13 +80,6 @@ def dc_matrix(lam, mu, rho, maxg=8):
     return M / M.sum()
 
 
-def dc_over25(M):
-    """P(total goals > 2.5) read straight off the scoreline matrix, so O/U,
-    1X2 and the exact scores are all the same distribution."""
-    n = M.shape[0]
-    return float(M[np.add.outer(np.arange(n), np.arange(n)) > 2].sum())
-
-
 def _roll(state, team, n):
     h = state["hist"].get(team, [])
     if not h:
@@ -206,25 +199,14 @@ def predict_core(engine, X, kind, odds):
         final = blend / blend.sum()
 
     # Project the scoreline matrix onto the published 1X2 — ALWAYS, not only
-    # when odds are supplied. With odds that is the market-anchored blend,
-    # without them the classifier's own numbers. This is what actually makes
-    # 1X2, over/under and the exact scores one distribution instead of three
-    # models free to contradict each other.
-    regions = [np.tril(M, -1).sum(), np.trace(M), np.triu(M, 1).sum()]
-    scale = {0: final[0] / regions[0], 1: final[1] / regions[1], 2: final[2] / regions[2]}
-    for i in range(M.shape[0]):
-        for j in range(M.shape[1]):
-            r = 0 if i > j else (1 if i == j else 2)
-            M[i, j] *= scale[r]
-    M /= M.sum()
-
-    # O/U now comes off that same matrix. On the 4,000-match holdout this beats
-    # the standalone `ou` classifier it replaces on every metric: log-loss
-    # 0.6843 vs 0.6881, Brier 0.2457 vs 0.2475, accuracy 55.10% vs 54.67%
-    # (paired t=2.05, bootstrap 95% CI [+0.0002, +0.0062] on the raw-matrix
-    # comparison). The classifier is still trained and kept in the pickle so the
-    # two can be compared, but it is no longer what we publish.
-    p_over = dc_over25(M)
+    # when odds are supplied — and read O/U off that same matrix, so 1X2,
+    # over/under and the exact scores are one distribution. The O/U this yields
+    # beat the standalone `ou` classifier it replaced on the 4,000-match holdout
+    # (log-loss 0.6843 vs 0.6881, accuracy 55.10% vs 54.67%, paired t=2.05).
+    # The helpers live in gpc and are shared with the slates and the
+    # track-record logger, so the copies can no longer drift apart.
+    M = gpc.project_onto_1x2(M, final)
+    p_over = gpc.over25(M)
 
     flat = sorted(((i, j, M[i, j]) for i in range(M.shape[0]) for j in range(M.shape[1])),
                   key=lambda x: -x[2])[:6]
