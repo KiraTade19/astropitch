@@ -1,24 +1,24 @@
 ASTROPITCH V12 CLUB GENESIS - HOLDOUT REPORT
 ==============================================================
-Data: 44,325 club matches | Train 40,325 | Holdout 4,000
+Data: 44,763 club matches | Train 40,763 | Holdout 4,000
 Divisions: Belgium Pro League, Germany Bundesliga, England Premier League, England Championship, France Ligue 1, Greece Super League, Italy Serie A, Netherlands Eredivisie, Portugal Primeira Liga, Scotland Premiership, Spain La Liga, Turkey Super Lig
-Holdout window: 2025-05-31 -> 2026-05-24
+Holdout window: 2025-09-14 -> 2026-09-10
 
 1X2 MATCH WINNER  (log-loss lower = better calibrated)
-  Always-Home baseline : acc 0.430
-  ELO-only baseline    : acc 0.502  logloss 1.018
-  Market (closing line): acc 0.521  logloss 0.980   <- the bar
-  XGBoost (tuned)      : acc 0.506  logloss 0.995
-  Dixon-Coles derived  : acc 0.501  logloss 0.997
+  Always-Home baseline : acc 0.428
+  ELO-only baseline    : acc 0.504  logloss 1.016
+  Market (closing line): acc 0.519  logloss 0.982   <- the bar
+  XGBoost (tuned)      : acc 0.505  logloss 0.994
+  Dixon-Coles derived  : acc 0.502  logloss 0.996
 
 OVER/UNDER 2.5
-  XGBoost    : acc 0.547  brier 0.247
-  Dixon-Coles: acc 0.549
+  XGBoost    : acc 0.545  brier 0.246
+  Dixon-Coles: acc 0.558
 
 EXACT SCORE
-  Dixon-Coles top-1 : 0.132
-  Modal baseline    : 0.123
-  rho = -0.0469
+  Dixon-Coles top-1 : 0.124
+  Modal baseline    : 0.118
+  rho = -0.0466
 ==============================================================
 Read: how far model log-loss sits ABOVE market log-loss = the efficiency gap.
 The business lives where NO sharp line competes (thin markets, exact scores,

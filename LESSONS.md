@@ -333,3 +333,26 @@ cutoff.
 That also names the next gap. Ingesting results lets predictions be **graded**,
 but the engine's ratings still date from May: nothing in CI retrains, so this
 season's form is not in any prediction until `21_club_genesis.py` is run.
+
+---
+
+## Retraining on 5 weeks of 2026-27 data broke two tests — correctly
+
+Ran `21_club_genesis.py` on the freshly-ingested season and two tests failed
+immediately: the stale-rating example (`Malaga`) and the cross-division
+example (`Man City v Coventry`). Both were promotions: **Malaga is back in La
+Liga** (last played 6 Sep, not May 2018), and **Coventry is up to the Premier
+League**, same division as Man City now. The tests were checking real
+properties, but pinned to specific club names whose properties are exactly
+what a season of promotion and relegation rewrites. Fixed to derive their
+example from the engine's current state instead — the most-stale club by
+`last_date`, and any two clubs the state currently places in different
+divisions — so the tests keep meaning what they claim to after every retrain
+rather than silently testing nothing (as the Malaga check would have, had it
+kept passing by accident).
+
+The retrain itself changed little, which is the right result for five weeks of
+new data against ~10 years of history: 1X2 log-loss 0.994 (was 0.995), 366
+covered clubs (was 355, from the promotion/relegation churn), and the
+market-subsumption finding reproduced almost exactly — optimal blend weight
+0.883 (was 0.886), engine contribution +0.0002 nats both times.

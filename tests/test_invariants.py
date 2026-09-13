@@ -195,11 +195,19 @@ def test_an_unretrained_engine_does_not_decay_active_clubs(api):
 
 
 def test_long_absent_club_regresses_to_its_division_mean(api):
+    """Uses whichever club is most stale right now rather than a name pinned to
+    last season's table: promotion/relegation changes those every season — this
+    test's example was Malaga until it returned to La Liga mid-season, at which
+    point checking Malaga specifically would have tested nothing."""
     st = api.CLUB["state"]
-    mean = api.gpc.division_mean_elo(st)[st["team_league"]["Malaga"]]
-    rating, days_out, w = api.gpc.decayed_elo(st, "Malaga", DATE)
-    assert days_out > 2500 and w < 0.05
-    assert abs(rating - mean) <= abs(st["elo"]["Malaga"] - mean) * 0.05
+    cutoff = api.gpc.data_cutoff(st)
+    team, last = min(st["last_date"].items(), key=lambda kv: kv[1])
+    days_out = (cutoff - last).days
+    assert days_out > 1000, f"most-stale club is only {team} at {days_out}d out"
+    mean = api.gpc.division_mean_elo(st)[st["team_league"][team]]
+    rating, do, w = api.gpc.decayed_elo(st, team, cutoff + dt.timedelta(days=1))
+    assert do == days_out and w < 0.05
+    assert abs(rating - mean) <= abs(st["elo"][team] - mean) * 0.05
 
 
 def test_decay_never_touches_the_international_engine(api):
@@ -275,15 +283,35 @@ def test_http_predict_serves_what_predict_core_computes(client, api, home, away,
     assert body["likely_scores"][0] == ref["likely_scores"][0]
 
 
-@pytest.mark.parametrize("home,away,why", [
-    ("Arsenal", "Nowhere Rovers", "Nowhere Rovers"),
-    ("Man City", "Coventry", "cross-competition")])
-def test_http_refuses_what_it_cannot_rate(client, offline, home, away, why):
-    """An unknown club, or a cup tie across divisions whose ratings are not
-    comparable, must come back covered:false rather than as a confident guess."""
+def test_http_refuses_an_unknown_club(client, offline):
+    r = client.get("/v1/predict", params=dict(home="Arsenal", away="Nowhere Rovers",
+                                              date="2026-09-20", kind="club"))
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["covered"] is False and body["prediction"] is None
+    assert "Nowhere Rovers" in body["reason"]
+
+
+def test_http_refuses_a_cross_division_tie(client, api, offline):
+    """A cup tie between two known clubs in different divisions must be
+    refused, not guessed at — the two ratings are not on a comparable scale.
+
+    Finds a genuine cross-division pair from the CURRENT table rather than two
+    hardcoded club names: promotion/relegation changes those every season (this
+    test's example was Man City v Coventry until Coventry went up alongside
+    them, at which point the fixture stopped testing what it claimed to)."""
+    tl = api.CLUB["state"]["team_league"]
+    by_div = {}
+    for team, div in tl.items():
+        by_div.setdefault(div, team)
+        if len(by_div) >= 2:
+            break
+    (div_a, home), (div_b, away) = list(by_div.items())[:2]
+    assert div_a != div_b
+
     r = client.get("/v1/predict", params=dict(home=home, away=away,
                                               date="2026-09-20", kind="club"))
     assert r.status_code == 200, r.text
     body = r.json()
     assert body["covered"] is False and body["prediction"] is None
-    assert why in body["reason"]
+    assert "cross-competition" in body["reason"]

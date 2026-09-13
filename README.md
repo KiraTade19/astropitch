@@ -28,7 +28,7 @@ all internationals, and — via clubelo ratings — essentially any European clu
 
 | Tier            | Source                                     | Teams                                                                                             |
 | --------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| 12 core leagues | our trained engine (`club_engine.pkl`)     | 355 clubs, England/Spain/Italy/Germany/France/Netherlands/Belgium/Portugal/Scotland/Turkey/Greece |
+| 12 core leagues | our trained engine (`club_engine.pkl`)     | 366 clubs, England/Spain/Italy/Germany/France/Netherlands/Belgium/Portugal/Scotland/Turkey/Greece |
 | Internationals  | our trained engine (`pro_engine.pkl`)      | 336 national teams                                                                                |
 | Rest of Europe  | clubelo.com ratings (`27_euro_predict.py`) | ~600 clubs, strength-based fallback                                                               |
 
@@ -76,27 +76,30 @@ per-key daily free-tier quota (`ASTROPITCH_FREE_DAILY`, default 100).
 | `.github/workflows/daily.yml`             | 4× daily: refresh → grade → predict → rebuild site                 |
 | `.github/workflows/weekly.yml`            | Mon + Thu: refresh → weekly slate → rebuild site                   |
 
-## Honest track record (2025-26 holdout, 4,000 matches)
+## Honest track record (rolling 4,000-match holdout, refreshed on each retrain)
 
-| Metric             | Model      | Closing line (the bar) |
-| ------------------ | ---------- | ---------------------- |
-| 1X2 accuracy       | 50.6%      | 52.1%                  |
-| 1X2 log-loss       | 0.995      | 0.980                  |
-| Over/under 2.5     | 55.1%      | —                      |
-| Exact score top-1  | 12.9%      | —                      |
-| Value-bet ROI      | **−11.1%** | —                      |
-| Closing line value | **−0.98%** | beat the close 37.9%   |
+Current window: 2025-09-14 → 2026-09-10.
+
+| Metric             | Model     | Closing line (the bar) |
+| ------------------ | --------- | ----------------------- |
+| 1X2 accuracy       | 50.5%     | 51.9%                    |
+| 1X2 log-loss       | 0.994     | 0.982                    |
+| Over/under 2.5     | 56.1%     | —                        |
+| Exact score top-1  | 12.6%     | —                        |
+| Value-bet ROI      | **−8.9%** | —                        |
+| Closing line value | **−0.68%**| beat the close 38.9%     |
 
 The market wins. We say so.
 
-Two corrections against earlier versions of this table, both from re-measuring
-rather than re-estimating: the closing line's accuracy was published as 55.1%,
-which matched no computation in this repo — it is **52.1%** on the same holdout
-(**52.5% / 0.9709** on the 1,808 matches carrying a true Pinnacle closing price,
-which is the harder and more honest bar). And the model does not merely lose to
-the line, it is **subsumed** by it: blending the two, the optimal market weight
-is 0.886 and the engine contributes **+0.0002 nats** — indistinguishable from
-zero. See [LESSONS.md](LESSONS.md) for what follows from that.
+The closing-line column coalesces Pinnacle's closing price with an opening
+price where a match is too recent for the closing line to be in the feed yet
+(100% of the holdout either way); on the 1,370 matches (34%) with a confirmed
+Pinnacle closing price specifically — the harder and more honest bar — it is
+**51.7% / 0.9785**. The model does not merely lose to the line, it is
+**subsumed** by it: blending the two, the optimal market weight is 0.883 and
+the engine contributes **+0.0002 nats** — indistinguishable from zero, and
+essentially unchanged from the previous retrain (0.886 / +0.0002). See
+[LESSONS.md](LESSONS.md) for what follows from that.
 
 ## Deploy
 
