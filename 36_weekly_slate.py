@@ -299,6 +299,12 @@ def dc_tier(prob, rating_weight=1.0):
 
 
 def main():
+    # Club names arrive with non-ASCII characters (ł, ş, ã). A Windows console
+    # defaults to cp1252, so print() raised mid-run — before week_slate.json was
+    # written — and the site then silently rebuilt from last week's file. CI's
+    # Linux runners are UTF-8, which is why it never showed up there.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     argv = sys.argv[1:]
     days = 7
     for i, a in enumerate(argv):

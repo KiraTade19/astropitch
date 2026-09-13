@@ -1,4 +1,4 @@
-.# AstroPitch ⚽🔮
+# AstroPitch ⚽🔮
 
 Calibrated football match probabilities — **honest predictions as data**, with a
 cosmic twist. AstroPitch gives the probability of every result (1X2), over/under

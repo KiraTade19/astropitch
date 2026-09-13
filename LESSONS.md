@@ -258,3 +258,59 @@ data is 122 days, so the grace window makes it a no-op for over 99% of
 fixtures. It fires only where the rating genuinely is old — e.g. Kortrijk,
 relegated from Belgium in May 2025 and back on a 2026 card at weight 0.66,
 which correctly drops that fixture from "high" to "medium".
+
+---
+
+## Testing the pipeline end to end found what the green daily run hid
+
+A test suite (`tests/test_invariants.py`, 38 tests) and a full local run of
+the daily and weekly pipelines, in an isolated worktree, surfaced three faults.
+Every daily run had reported success throughout.
+
+**1. The track-record logger graded numbers nobody saw.** After the published
+path moved to the projected scoreline matrix, both the backfill and the live
+logger still took over/under from the retired `ou` classifier and the
+scoreline pick from the unprojected matrix. On five test fixtures the logged
+O/U sat up to 14 points from the published one. The projection now lives once,
+in `gpc.project_onto_1x2` / `gpc.over25`, used by every path that publishes or
+logs, and a regression test fails on 5/5 fixtures against the old code.
+**Cutover:** rows logged before these fixes reach `main` carry the classifier's
+O/U and the unprojected scoreline. They are graded as logged — rewriting frozen
+pre-kickoff predictions would falsify the record they exist to be.
+
+**2. No 2026-27 result was ever ingested.** `SEASONS` was a hand-kept list,
+`["2526"]`, with a note to add the new code each August. Nobody did, so all 571
+predictions logged since 31 Jul sat `pending`. SEASONS is now derived from the
+date. The first run with the fix ingested 438 matches across all 12 divisions
+and graded 417 of the 571. The other 154 are 86 future fixtures, 60 whose
+results football-data has not published yet, and 8 that can never match (3).
+
+First live numbers, 417 matches, 1 Aug – 10 Sep 2026:
+
+| | Live | Holdout |
+|---|---|---|
+| 1X2 accuracy | 52.3% ± 4.8pp | 50.6% |
+| 1X2 log-loss | 0.9756 | 0.995 |
+| Value-bet CLV | +1.09% on 286 bets, t = 1.61, 95% CI [−0.20%, +2.43%] | −0.98% |
+
+Consistent with the holdout, not better: 50.6% sits inside the live interval,
+and a fifth of these rows were predicted on a default rating (3). The positive
+CLV is exactly the early result this file exists to warn about — the interval
+spans zero before accounting for same-matchday line moves, which would widen
+it. Revisit at ~1,500 graded bets.
+
+**3. A fifth of the live log was predicted on a default rating.** The logger
+has no coverage guard: a club the engine has never seen silently gets the 1500
+default rather than being refused, as the API's `coverage()` would do. **136 of
+654 logged predictions involve such a club, and 115 of them are graded into the
+live record above.** Most are clubs new to the covered divisions. Six are clubs
+the engine knows under another spelling, because football-data's fixture feed
+and its results files disagree — "Dundee FC", "Dundee Utd", "St. Mirren",
+"Atl. Madrid", "Dep. A Coruna", "Rayo Vallecano" — and those rows can never
+grade. **Not fixed yet:** it needs a decision between refusing and aliasing, and
+either changes what the live record contains.
+
+A smaller fourth: the weekly slate crashed on a Windows console (cp1252)
+printing "Jagiellonia Białystok" before it wrote its output, so the site
+silently rebuilt from the previous week's file. CI's Linux runners are UTF-8
+and never showed it. stdout is now reconfigured to UTF-8.
