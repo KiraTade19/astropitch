@@ -54,6 +54,79 @@ DIV_NAMES = {
 }
 
 
+# ---------------------------------------------------------------------------
+# STALE RATINGS
+# A club that leaves a covered division keeps its rating frozen forever, so a
+# cup tie can be published off an eight-year-old number (Malaga and Deportivo A
+# Coruna both last appeared in May 2018). These helpers regress such a rating
+# toward its division's mean at PREDICTION time only — never during training,
+# where every club is by definition active.
+#
+# Honest status: this is a prudence measure, not a measured accuracy gain. The
+# natural experiment is far too small to fit — only 123 matches in 33,074 have a
+# club returning after a 300-day absence — and on that sample returning clubs
+# *out*-perform their frozen rating (+0.062 expected-score bias, t~1.7, not
+# significant), the opposite of the naive assumption. So the half-life below is
+# chosen, not fitted. The grace period keeps it a no-op for >99% of fixtures
+# (the 99th percentile gap between a club's matches is 91 days).
+STALE_GRACE_DAYS = 150       # a normal summer break must not decay anything
+STALE_HALF_LIFE_DAYS = 550   # ~1.5 seasons away halves the distance to the mean
+
+
+def stale_weight(days_out):
+    """1.0 = keep the rating as-is, 0.0 = fall back entirely to the mean."""
+    if days_out is None or days_out <= STALE_GRACE_DAYS:
+        return 1.0
+    return float(0.5 ** ((days_out - STALE_GRACE_DAYS) / STALE_HALF_LIFE_DAYS))
+
+
+def division_mean_elo(state):
+    """Mean rating per division code, over the clubs that division last saw."""
+    cache = state.get("_div_mean")
+    if cache is not None:
+        return cache
+    by = {}
+    for team, div in state.get("team_league", {}).items():
+        by.setdefault(div, []).append(state["elo"].get(team, BASE_ELO))
+    cache = {d: float(np.mean(v)) for d, v in by.items() if v}
+    state["_div_mean"] = cache
+    return cache
+
+
+def data_cutoff(state):
+    """The latest match date anywhere in the engine's training data."""
+    cut = state.get("_cutoff")
+    if cut is None and state.get("last_date"):
+        cut = max(state["last_date"].values())
+        state["_cutoff"] = cut
+    return cut
+
+
+def decayed_elo(state, team, date, div=None):
+    """(rating, days_out, weight) with staleness regressed toward the division
+    mean. days_out is None when the club has never been seen.
+
+    days_out is how long the club had been absent AS FAR AS THE ENGINE'S DATA
+    CAN KNOW: from its last match to the training cutoff (or to the fixture
+    date, if that is earlier). The first version measured to the fixture date,
+    which conflates "this club left the covered leagues" with "nobody has
+    retrained the engine". Nothing in CI retrains, so once the pickle aged past
+    the grace window every club in every league would have started regressing
+    toward its mean — from 30 Sep 2026 for the Championship, whose last match
+    in the data is 2 May, and in every league by 22 Oct."""
+    raw = state["elo"].get(team, BASE_ELO)
+    ld = state.get("last_date", {}).get(team)
+    if ld is None or date is None:
+        return raw, None, 1.0
+    days_out = max((min(date, data_cutoff(state)) - ld).days, 0)
+    w = stale_weight(days_out)
+    if w >= 1.0:
+        return raw, days_out, 1.0
+    div = div or state.get("team_league", {}).get(team)
+    anchor = division_mean_elo(state).get(div, BASE_ELO)
+    return anchor + (raw - anchor) * w, days_out, w
+
+
 def gd_mult(gd):
     return 1.0 if gd <= 1 else np.log(gd + 1) * 0.75
 
@@ -200,6 +273,27 @@ def dc_matrix(lam, mu, rho, maxg=8):
         for j in (0, 1):
             M[i, j] *= dc_tau(i, j, lam, mu, rho)
     return M / M.sum()
+
+
+def project_onto_1x2(M, p):
+    """Rescale a scoreline matrix so its home-win / draw / away-win regions sum
+    to the published 1X2 `p`. Afterwards 1X2, over/under and the exact scores
+    are one distribution. Every path that publishes OR logs a prediction must
+    go through this — three hand-copied versions of it drifting apart is how
+    the logger came to grade numbers we had stopped publishing."""
+    M = M.copy()
+    i, j = np.indices(M.shape)
+    for k, region in enumerate((i > j, i == j, i < j)):
+        s = M[region].sum()
+        if s > 0:
+            M[region] *= p[k] / s
+    return M / M.sum()
+
+
+def over25(M):
+    """P(total goals > 2.5) read straight off a scoreline matrix."""
+    i, j = np.indices(M.shape)
+    return float(M[(i + j) > 2].sum())
 
 
 def fit_rho(lams, mus, hg, ag):

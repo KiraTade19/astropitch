@@ -1,0 +1,67 @@
+name: Weekly slate
+
+# Publishes the week-ahead card across every competition we can rate.
+# Monday early morning sets the week up; Thursday refreshes it so the weekend
+# fixtures carry prices that are actually current by the time anyone reads them.
+#
+# This only rebuilds docs/week.html. Per-match logging and grading stay with the
+# daily workflow, which runs closer to kickoff on better prices — logging here
+# as well would double-count the same fixtures in the track record.
+on:
+  schedule:
+    - cron: "20 6 * * 1"        # Monday 06:20 UTC — the week ahead
+    - cron: "20 6 * * 4"        # Thursday 06:20 UTC — refreshed for the weekend
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Week start (YYYY-MM-DD). Blank = today."
+        required: false
+        default: ""
+      days:
+        description: "Days to cover"
+        required: false
+        default: "7"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh results + upcoming fixtures
+        run: python 22_update_club_data.py
+
+      - name: Build the weekly slate
+        run: |
+          python 36_weekly_slate.py ${{ github.event.inputs.start }} \
+            --days=${{ github.event.inputs.days || '7' }}
+
+      - name: Rebuild public site
+        run: python 26_build_site.py
+
+      - name: Commit any changes
+        run: |
+          git config user.name  "astropitch-bot"
+          git config user.email "astropitch-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes this week."
+          else
+            git commit -m "Automated: weekly slate + site rebuild [skip ci]"
+            git push
+          fi

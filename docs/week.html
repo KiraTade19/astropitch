@@ -1,0 +1,629 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>This week's predictions — AstroPitch</title>
+<meta name="description" content="Free weekly football predictions across every league we rate: calibrated 1X2 probabilities, over/under and likely scores for the week ahead, published before kickoff.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F0EC; --paper2:#E9E7E1; --ink:#1B1A16; --ink2:#33312B;
+  --mut:#6E6A61; --line:#D6D2C8; --line2:#BFB9AC;
+  --rust:#9C5533; --rust2:#C0724A; --ok:#4A6B4F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:"Archivo",-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font-size:16.5px;line-height:1.6;color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+a{color:var(--rust);text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+
+/* ---------- HERO ---------- */
+.hero{border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;
+  padding:96px 0 88px}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--rust);display:flex;align-items:center;gap:10px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line2)}
+h1{font-size:clamp(42px,6.6vw,80px);font-weight:700;line-height:1.0;
+  letter-spacing:-.035em;margin:26px 0 0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--rust)}
+.sub{color:var(--mut);font-size:clamp(16px,1.9vw,19px);margin-top:24px;max-width:46ch}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 28px;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.13em;
+  text-transform:uppercase;border:1px solid var(--ink);transition:background .18s,color .18s}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--rust);border-color:var(--rust)}
+.btn.ghost{color:var(--ink);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--ink)}
+.orbwrap{position:relative;aspect-ratio:1;border:1px solid var(--line);background:var(--paper2)}
+#orb{width:100%;height:100%;display:block;cursor:grab}
+#orb:active{cursor:grabbing}
+.orbcap{position:absolute;left:14px;bottom:12px;font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+#tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--ink);color:var(--paper);padding:8px 11px;font-size:12px;
+  font-family:"IBM Plex Mono",monospace;white-space:nowrap;transform:translate(-50%,-140%);
+  z-index:3;line-height:1.45}
+#tip b{color:#fff;font-weight:600}
+.orbnote{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  line-height:1.7;color:var(--mut);letter-spacing:.02em}
+.orbnote b{color:var(--ink)}
+
+/* ---------- SECTIONS ---------- */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--rust);display:block;margin-bottom:18px}
+h2{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.06;
+  letter-spacing:-.03em;margin-bottom:16px;text-wrap:balance;max-width:20ch}
+.lede{color:var(--mut);max-width:62ch;font-size:17px}
+
+/* spec-sheet stat grid: hairline cells, no radius */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  margin-top:44px;border:1px solid var(--line);border-right:0;border-bottom:0}
+.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 26px}
+.cell .v{font-family:"IBM Plex Mono",monospace;font-size:36px;font-weight:600;
+  line-height:1;letter-spacing:-.03em}
+.cell .l{color:var(--mut);font-size:13.5px;margin-top:12px;line-height:1.45}
+.rust{color:var(--rust)}
+
+.note{margin-top:34px;padding:26px 30px;border-left:2px solid var(--rust);
+  background:var(--paper2);color:var(--ink2);font-size:15.5px;max-width:74ch}
+.note b{color:var(--ink)}
+.note.ok{border-left-color:var(--ok)}
+
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:440px}
+th,td{padding:16px 22px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--mut);background:var(--paper2)}
+td{font-variant-numeric:tabular-nums}
+td:not(:first-child){font-family:"IBM Plex Mono",monospace;font-size:14px}
+tr:last-child td{border-bottom:0}
+tr.hi td{color:var(--rust)}
+
+.cosmic{margin-top:36px;border:1px solid var(--line);padding:34px 36px;background:var(--paper2)}
+.cosmic .hd{font-size:21px;font-weight:700;letter-spacing:-.02em;margin-bottom:18px}
+.cosmic p{margin:11px 0;color:var(--ink2);max-width:72ch}
+.disc{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--mut);font-size:12.5px;line-height:1.6;max-width:72ch}
+
+footer{padding:64px 32px 84px;text-align:center;color:var(--mut);font-size:13.5px;
+  line-height:1.9}
+footer strong{color:var(--ink)}
+
+.slate{margin-top:36px;border:1px solid var(--line)}
+.match{display:grid;grid-template-columns:74px 1fr 200px 92px;gap:20px;align-items:center;
+  padding:20px 24px;border-bottom:1px solid var(--line)}
+.match:last-child{border-bottom:0}
+.match .ko{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--mut)}
+.match .tm{font-weight:600;font-size:16px;line-height:1.35}
+.match .cp{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);margin-top:5px}
+.bar{display:flex;gap:2px;height:8px;margin-bottom:7px}
+.bar span{display:block}
+.bar .h{background:var(--rust)}
+.bar .d{background:#B9B3A6}
+.bar .a{background:var(--ink)}
+.pct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mut);
+  display:flex;justify-content:space-between;letter-spacing:.02em}
+.pick{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:right}
+.pick b{display:block;font-size:14px;color:var(--rust);letter-spacing:.06em}
+.pick i{font-style:normal;color:var(--mut);font-size:11px}
+.freebadge{display:inline-block;margin-left:10px;padding:4px 10px;background:var(--rust);
+  color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;vertical-align:middle}
+.backlink{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut);display:inline-block;margin-bottom:26px}
+@media(max-width:760px){
+  .match{grid-template-columns:60px 1fr;gap:12px}
+  .match .pr,.match .pick{grid-column:1/-1}
+  .match .pick{text-align:left}
+}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none} html{scroll-behavior:auto}
+}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding:64px 0 56px}
+  .orbwrap{max-width:420px}
+  section{padding:64px 0}
+  .wrap{padding:0 22px}
+}
+
+.wkbar{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:30px}
+.wkbar .c{background:var(--paper);padding:13px 18px;flex:1 1 128px}
+.wkbar .c b{display:block;font-family:"IBM Plex Mono",monospace;font-size:23px;line-height:1.2}
+.wkbar .c span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut)}
+.daygroup{margin-top:40px}
+.daygroup h3{font-size:15px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 2px;
+  font-family:"IBM Plex Mono",monospace;border-bottom:1px solid var(--line2);padding-bottom:8px}
+.daygroup .slate{margin-top:0;border-top:0}
+.match .cp .tier{margin-left:8px;padding:1px 6px;border:1px solid var(--line2);color:var(--mut)}
+.match .cp .tier.high{color:var(--ok);border-color:var(--ok)}
+.match .cp .noodds{margin-left:8px;color:var(--rust)}
+.unrated{margin-top:34px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--mut)}
+.unrated b{color:var(--ink);letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;
+  display:block;margin-bottom:8px}
+.unrated div{padding:5px 0;border-bottom:1px solid var(--line)}
+</style></head><body>
+<main><div class="wrap" style="padding-top:56px">
+  <a class="backlink" href="index.html">&larr; AstroPitch</a>
+  <span class="eyebrow">13 Sep &ndash; 19 Sep 2026 &nbsp;·&nbsp; updated 2026-09-13 15:56 UTC</span>
+  <h2 style="max-width:26ch">This week's predictions<span class="freebadge">Free</span></h2>
+  <p class="lede">Every fixture we can defensibly rate over the next seven days, across
+     all 11 competition(s) currently in play. Published <b>before kickoff</b>.</p>
+
+  <div class="wkbar">
+    <div class="c"><b>43</b><span>Fixtures rated</span></div>
+    <div class="c"><b>11</b><span>Competitions</span></div>
+    <div class="c"><b>43</b><span>Anchored on odds</span></div>
+    <div class="c"><b>21</b><span>High confidence</span></div>
+    <div class="c"><b>6</b><span>Refused to guess</span></div>
+  </div>
+
+  <div class="daygroup"><h3>Sunday 13 September <span style="color:var(--mut)">· 34</span></h3><div class="slate"><div class="match">
+      <div class="ko">11:15</div>
+      <div><div class="tm">Excelsior <span style="color:var(--mut)">v</span> Utrecht</div>
+           <div class="cp">Netherlands Eredivisie &nbsp;·&nbsp; 1499 v 1582<span
+             class="tier medium">12 74%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:43.0%"></span><span class="d" style="width:25.7%"></span><span class="a" style="width:31.3%"></span></div>
+        <div class="pct"><span>H 43%</span><span>D 26%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">12:00</div>
+      <div><div class="tm">Sheffield United <span style="color:var(--mut)">v</span> Wolves</div>
+           <div class="cp">England Championship &nbsp;·&nbsp; 1449 v 1518<span
+             class="tier medium">12 73%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:30.7%"></span><span class="d" style="width:27.2%"></span><span class="a" style="width:42.1%"></span></div>
+        <div class="pct"><span>H 31%</span><span>D 27%</span><span>A 42%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 51%</i></div>
+    </div><div class="match">
+      <div class="ko">12:30</div>
+      <div><div class="tm">Club Brugge <span style="color:var(--mut)">v</span> Antwerp</div>
+           <div class="cp">Belgium Pro League &nbsp;·&nbsp; 1777 v 1532<span
+             class="tier high">1X 91%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:75.0%"></span><span class="d" style="width:15.7%"></span><span class="a" style="width:9.4%"></span></div>
+        <div class="pct"><span>H 75%</span><span>D 16%</span><span>A 9%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 68%</i></div>
+    </div><div class="match">
+      <div class="ko">13:00</div>
+      <div><div class="tm">Celta <span style="color:var(--mut)">v</span> Malaga</div>
+           <div class="cp">Spain La Liga &nbsp;·&nbsp; 1538 v 1352<span
+             class="tier high">1X 83%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:57.5%"></span><span class="d" style="width:25.2%"></span><span class="a" style="width:17.3%"></span></div>
+        <div class="pct"><span>H 57%</span><span>D 25%</span><span>A 17%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-0 &nbsp;·&nbsp; O2.5 47%</i></div>
+    </div><div class="match">
+      <div class="ko">13:30</div>
+      <div><div class="tm">Heerenveen <span style="color:var(--mut)">v</span> Telstar</div>
+           <div class="cp">Netherlands Eredivisie &nbsp;·&nbsp; 1548 v 1493<span
+             class="tier medium">1X 80%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:57.4%"></span><span class="d" style="width:22.4%"></span><span class="a" style="width:20.3%"></span></div>
+        <div class="pct"><span>H 57%</span><span>D 22%</span><span>A 20%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-1 &nbsp;·&nbsp; O2.5 59%</i></div>
+    </div><div class="match">
+      <div class="ko">14:00</div>
+      <div><div class="tm">Coventry <span style="color:var(--mut)">v</span> Brighton</div>
+           <div class="cp">England Premier League &nbsp;·&nbsp; 1545 v 1679<span
+             class="tier medium">12 75%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:25.4%"></span><span class="d" style="width:24.7%"></span><span class="a" style="width:49.8%"></span></div>
+        <div class="pct"><span>H 25%</span><span>D 25%</span><span>A 50%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">14:00</div>
+      <div><div class="tm">Lille <span style="color:var(--mut)">v</span> Troyes</div>
+           <div class="cp">France Ligue 1 &nbsp;·&nbsp; 1690 v 1378<span
+             class="tier high">1X 90%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:72.4%"></span><span class="d" style="width:17.4%"></span><span class="a" style="width:10.3%"></span></div>
+        <div class="pct"><span>H 72%</span><span>D 17%</span><span>A 10%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 64%</i></div>
+    </div><div class="match">
+      <div class="ko">14:00</div>
+      <div><div class="tm">Lecce <span style="color:var(--mut)">v</span> Monza</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1476 v 1381<span
+             class="tier medium">12 70%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:38.6%"></span><span class="d" style="width:30.0%"></span><span class="a" style="width:31.5%"></span></div>
+        <div class="pct"><span>H 39%</span><span>D 30%</span><span>A 32%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 44%</i></div>
+    </div><div class="match">
+      <div class="ko">14:30</div>
+      <div><div class="tm">RB Leipzig <span style="color:var(--mut)">v</span> Hamburg</div>
+           <div class="cp">Germany Bundesliga &nbsp;·&nbsp; 1647 v 1466<span
+             class="tier high">1X 89%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:71.6%"></span><span class="d" style="width:17.3%"></span><span class="a" style="width:11.0%"></span></div>
+        <div class="pct"><span>H 72%</span><span>D 17%</span><span>A 11%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 60%</i></div>
+    </div><div class="match">
+      <div class="ko">15:00</div>
+      <div><div class="tm">Genk <span style="color:var(--mut)">v</span> Gent</div>
+           <div class="cp">Belgium Pro League &nbsp;·&nbsp; 1629 v 1601<span
+             class="tier medium">1X 75%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:49.4%"></span><span class="d" style="width:25.9%"></span><span class="a" style="width:24.7%"></span></div>
+        <div class="pct"><span>H 49%</span><span>D 26%</span><span>A 25%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 54%</i></div>
+    </div><div class="match">
+      <div class="ko">15:00</div>
+      <div><div class="tm">Genclerbirligi <span style="color:var(--mut)">v</span> Kasimpasa</div>
+           <div class="cp">Turkey Super Lig &nbsp;·&nbsp; 1493 v 1543<span
+             class="tier medium">12 71%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:39.9%"></span><span class="d" style="width:29.0%"></span><span class="a" style="width:31.1%"></span></div>
+        <div class="pct"><span>H 40%</span><span>D 29%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 50%</i></div>
+    </div><div class="match">
+      <div class="ko">15:15</div>
+      <div><div class="tm">Levante <span style="color:var(--mut)">v</span> Barcelona</div>
+           <div class="cp">Spain La Liga &nbsp;·&nbsp; 1502 v 1822<span
+             class="tier high">X2 93%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:6.8%"></span><span class="d" style="width:13.2%"></span><span class="a" style="width:80.1%"></span></div>
+        <div class="pct"><span>H 7%</span><span>D 13%</span><span>A 80%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-2 &nbsp;·&nbsp; O2.5 65%</i></div>
+    </div><div class="match">
+      <div class="ko">15:45</div>
+      <div><div class="tm">Zwolle <span style="color:var(--mut)">v</span> Feyenoord</div>
+           <div class="cp">Netherlands Eredivisie &nbsp;·&nbsp; 1475 v 1727<span
+             class="tier high">X2 85%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:15.1%"></span><span class="d" style="width:17.9%"></span><span class="a" style="width:67.0%"></span></div>
+        <div class="pct"><span>H 15%</span><span>D 18%</span><span>A 67%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-2 &nbsp;·&nbsp; O2.5 67%</i></div>
+    </div><div class="match">
+      <div class="ko">16:00</div>
+      <div><div class="tm">Kalamata <span style="color:var(--mut)">v</span> Volos NFC</div>
+           <div class="cp">Greece Super League &nbsp;·&nbsp; 1487 v 1454<span
+             class="tier medium">12 70%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:39.4%"></span><span class="d" style="width:29.8%"></span><span class="a" style="width:30.7%"></span></div>
+        <div class="pct"><span>H 39%</span><span>D 30%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 44%</i></div>
+    </div><div class="match">
+      <div class="ko">16:15</div>
+      <div><div class="tm">Le Mans <span style="color:var(--mut)">v</span> Lens</div>
+           <div class="cp">France Ligue 1 &nbsp;·&nbsp; 1496 v 1657<span
+             class="tier medium">X2 80%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:20.0%"></span><span class="d" style="width:22.4%"></span><span class="a" style="width:57.6%"></span></div>
+        <div class="pct"><span>H 20%</span><span>D 22%</span><span>A 58%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 61%</i></div>
+    </div><div class="match">
+      <div class="ko">16:30</div>
+      <div><div class="tm">Man United <span style="color:var(--mut)">v</span> Man City</div>
+           <div class="cp">England Premier League &nbsp;·&nbsp; 1740 v 1858<span
+             class="tier medium">12 75%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:29.4%"></span><span class="d" style="width:25.5%"></span><span class="a" style="width:45.2%"></span></div>
+        <div class="pct"><span>H 29%</span><span>D 26%</span><span>A 45%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 54%</i></div>
+    </div><div class="match">
+      <div class="ko">16:30</div>
+      <div><div class="tm">Elversberg <span style="color:var(--mut)">v</span> Bayern Munich</div>
+           <div class="cp">Germany Bundesliga &nbsp;·&nbsp; 1528 v 1853<span
+             class="tier high">X2 90%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:9.5%"></span><span class="d" style="width:12.8%"></span><span class="a" style="width:77.7%"></span></div>
+        <div class="pct"><span>H 10%</span><span>D 13%</span><span>A 78%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-2 &nbsp;·&nbsp; O2.5 78%</i></div>
+    </div><div class="match">
+      <div class="ko">17:00</div>
+      <div><div class="tm">Asteras Tripolis <span style="color:var(--mut)">v</span> AEK</div>
+           <div class="cp">Greece Super League &nbsp;·&nbsp; 1462 v 1797<span
+             class="tier high">X2 88%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:11.6%"></span><span class="d" style="width:20.8%"></span><span class="a" style="width:67.6%"></span></div>
+        <div class="pct"><span>H 12%</span><span>D 21%</span><span>A 68%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-2 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">17:00</div>
+      <div><div class="tm">Napoli <span style="color:var(--mut)">v</span> Bologna</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1703 v 1594<span
+             class="tier medium">1X 80%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:53.4%"></span><span class="d" style="width:26.5%"></span><span class="a" style="width:20.1%"></span></div>
+        <div class="pct"><span>H 53%</span><span>D 26%</span><span>A 20%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-0 &nbsp;·&nbsp; O2.5 46%</i></div>
+    </div><div class="match">
+      <div class="ko">17:30</div>
+      <div><div class="tm">Waregem <span style="color:var(--mut)">v</span> Charleroi</div>
+           <div class="cp">Belgium Pro League &nbsp;·&nbsp; 1534 v 1565<span
+             class="tier medium">12 72%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:38.5%"></span><span class="d" style="width:27.8%"></span><span class="a" style="width:33.7%"></span></div>
+        <div class="pct"><span>H 38%</span><span>D 28%</span><span>A 34%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 49%</i></div>
+    </div><div class="match">
+      <div class="ko">17:30</div>
+      <div><div class="tm">Getafe <span style="color:var(--mut)">v</span> La Coruna</div>
+           <div class="cp">Spain La Liga &nbsp;·&nbsp; 1502 v 1421<span
+             class="tier medium">1X 73%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:41.1%"></span><span class="d" style="width:31.6%"></span><span class="a" style="width:27.3%"></span></div>
+        <div class="pct"><span>H 41%</span><span>D 32%</span><span>A 27%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 44%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Arouca <span style="color:var(--mut)">v</span> Santa Clara</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1555 v 1539<span
+             class="tier medium">12 71%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:37.4%"></span><span class="d" style="width:29.2%"></span><span class="a" style="width:33.4%"></span></div>
+        <div class="pct"><span>H 37%</span><span>D 29%</span><span>A 33%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 43%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Benfica <span style="color:var(--mut)">v</span> Gil Vicente</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1853 v 1525<span
+             class="tier high">1X 96%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:83.3%"></span><span class="d" style="width:12.2%"></span><span class="a" style="width:4.5%"></span></div>
+        <div class="pct"><span>H 83%</span><span>D 12%</span><span>A 4%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 66%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Amedspor <span style="color:var(--mut)">v</span> Buyuksehyr</div>
+           <div class="cp">Turkey Super Lig &nbsp;·&nbsp; 1517 v 1631<span
+             class="tier medium">12 73%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:34.7%"></span><span class="d" style="width:27.3%"></span><span class="a" style="width:38.0%"></span></div>
+        <div class="pct"><span>H 35%</span><span>D 27%</span><span>A 38%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 52%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Galatasaray <span style="color:var(--mut)">v</span> Kocaelispor</div>
+           <div class="cp">Turkey Super Lig &nbsp;·&nbsp; 1845 v 1522<span
+             class="tier high">1X 90%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:73.4%"></span><span class="d" style="width:17.0%"></span><span class="a" style="width:9.6%"></span></div>
+        <div class="pct"><span>H 73%</span><span>D 17%</span><span>A 10%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 62%</i></div>
+    </div><div class="match">
+      <div class="ko">18:15</div>
+      <div><div class="tm">RAAL La Louviere <span style="color:var(--mut)">v</span> Kortrijk</div>
+           <div class="cp">Belgium Pro League &nbsp;·&nbsp; 1448 v 1413<span
+             class="tier medium">12 72%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:40.8%"></span><span class="d" style="width:28.5%"></span><span class="a" style="width:30.7%"></span></div>
+        <div class="pct"><span>H 41%</span><span>D 28%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">19:00</div>
+      <div><div class="tm">Kifisia <span style="color:var(--mut)">v</span> Levadeiakos</div>
+           <div class="cp">Greece Super League &nbsp;·&nbsp; 1470 v 1542<span
+             class="tier medium">12 71%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:40.6%"></span><span class="d" style="width:28.9%"></span><span class="a" style="width:30.4%"></span></div>
+        <div class="pct"><span>H 41%</span><span>D 29%</span><span>A 30%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 42%</i></div>
+    </div><div class="match">
+      <div class="ko">19:00</div>
+      <div><div class="tm">PAOK <span style="color:var(--mut)">v</span> Aris</div>
+           <div class="cp">Greece Super League &nbsp;·&nbsp; 1762 v 1632<span
+             class="tier high">1X 82%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:59.6%"></span><span class="d" style="width:22.0%"></span><span class="a" style="width:18.4%"></span></div>
+        <div class="pct"><span>H 60%</span><span>D 22%</span><span>A 18%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-1 &nbsp;·&nbsp; O2.5 61%</i></div>
+    </div><div class="match">
+      <div class="ko">19:00</div>
+      <div><div class="tm">PSV Eindhoven <span style="color:var(--mut)">v</span> Sparta Rotterdam</div>
+           <div class="cp">Netherlands Eredivisie &nbsp;·&nbsp; 1854 v 1503<span
+             class="tier high">1X 94%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:81.8%"></span><span class="d" style="width:11.7%"></span><span class="a" style="width:6.5%"></span></div>
+        <div class="pct"><span>H 82%</span><span>D 12%</span><span>A 6%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>3-0 &nbsp;·&nbsp; O2.5 78%</i></div>
+    </div><div class="match">
+      <div class="ko">19:30</div>
+      <div><div class="tm">Panathinaikos <span style="color:var(--mut)">v</span> Panetolikos</div>
+           <div class="cp">Greece Super League &nbsp;·&nbsp; 1726 v 1479<span
+             class="tier high">1X 90%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:72.5%"></span><span class="d" style="width:17.8%"></span><span class="a" style="width:9.7%"></span></div>
+        <div class="pct"><span>H 72%</span><span>D 18%</span><span>A 10%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">19:45</div>
+      <div><div class="tm">Brest <span style="color:var(--mut)">v</span> Paris SG</div>
+           <div class="cp">France Ligue 1 &nbsp;·&nbsp; 1539 v 1773<span
+             class="tier high">X2 89%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:10.9%"></span><span class="d" style="width:18.1%"></span><span class="a" style="width:71.1%"></span></div>
+        <div class="pct"><span>H 11%</span><span>D 18%</span><span>A 71%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-2 &nbsp;·&nbsp; O2.5 63%</i></div>
+    </div><div class="match">
+      <div class="ko">19:45</div>
+      <div><div class="tm">Sassuolo <span style="color:var(--mut)">v</span> Juventus</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1517 v 1704<span
+             class="tier high">X2 82%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:18.4%"></span><span class="d" style="width:23.2%"></span><span class="a" style="width:58.3%"></span></div>
+        <div class="pct"><span>H 18%</span><span>D 23%</span><span>A 58%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">20:00</div>
+      <div><div class="tm">Sociedad <span style="color:var(--mut)">v</span> Ath Madrid</div>
+           <div class="cp">Spain La Liga &nbsp;·&nbsp; 1524 v 1642<span
+             class="tier medium">12 73%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:31.6%"></span><span class="d" style="width:27.4%"></span><span class="a" style="width:41.0%"></span></div>
+        <div class="pct"><span>H 32%</span><span>D 27%</span><span>A 41%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 52%</i></div>
+    </div><div class="match">
+      <div class="ko">20:30</div>
+      <div><div class="tm">Famalicao <span style="color:var(--mut)">v</span> Sp Lisbon</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1570 v 1859<span
+             class="tier high">X2 85%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:15.2%"></span><span class="d" style="width:22.1%"></span><span class="a" style="width:62.7%"></span></div>
+        <div class="pct"><span>H 15%</span><span>D 22%</span><span>A 63%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-1 &nbsp;·&nbsp; O2.5 52%</i></div>
+    </div></div></div><div class="daygroup"><h3>Monday 14 September <span style="color:var(--mut)">· 9</span></h3><div class="slate"><div class="match">
+      <div class="ko">17:30</div>
+      <div><div class="tm">Como <span style="color:var(--mut)">v</span> Parma</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1681 v 1498<span
+             class="tier high">1X 93%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:77.4%"></span><span class="d" style="width:15.9%"></span><span class="a" style="width:6.8%"></span></div>
+        <div class="pct"><span>H 77%</span><span>D 16%</span><span>A 7%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 53%</i></div>
+    </div><div class="match">
+      <div class="ko">17:30</div>
+      <div><div class="tm">Torino <span style="color:var(--mut)">v</span> Roma</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1526 v 1718<span
+             class="tier high">X2 85%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:14.8%"></span><span class="d" style="width:21.7%"></span><span class="a" style="width:63.5%"></span></div>
+        <div class="pct"><span>H 15%</span><span>D 22%</span><span>A 64%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>0-2 &nbsp;·&nbsp; O2.5 54%</i></div>
+    </div><div class="match">
+      <div class="ko">18:00</div>
+      <div><div class="tm">Gaziantep <span style="color:var(--mut)">v</span> Fenerbahce</div>
+           <div class="cp">Turkey Super Lig &nbsp;·&nbsp; 1501 v 1788<span
+             class="tier high">X2 83%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:16.6%"></span><span class="d" style="width:22.0%"></span><span class="a" style="width:61.3%"></span></div>
+        <div class="pct"><span>H 17%</span><span>D 22%</span><span>A 61%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 61%</i></div>
+    </div><div class="match">
+      <div class="ko">18:45</div>
+      <div><div class="tm">Rio Ave <span style="color:var(--mut)">v</span> Estrela</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1474 v 1473<span
+             class="tier medium">12 71%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:34.7%"></span><span class="d" style="width:28.7%"></span><span class="a" style="width:36.6%"></span></div>
+        <div class="pct"><span>H 35%</span><span>D 29%</span><span>A 37%</span></div>
+      </div>
+      <div class="pick"><b>AWAY</b><i>1-1 &nbsp;·&nbsp; O2.5 46%</i></div>
+    </div><div class="match">
+      <div class="ko">19:45</div>
+      <div><div class="tm">Inter <span style="color:var(--mut)">v</span> Udinese</div>
+           <div class="cp">Italy Serie A &nbsp;·&nbsp; 1819 v 1532<span
+             class="tier high">1X 92%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:75.0%"></span><span class="d" style="width:16.7%"></span><span class="a" style="width:8.3%"></span></div>
+        <div class="pct"><span>H 75%</span><span>D 17%</span><span>A 8%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>2-0 &nbsp;·&nbsp; O2.5 64%</i></div>
+    </div><div class="match">
+      <div class="ko">20:00</div>
+      <div><div class="tm">Leeds <span style="color:var(--mut)">v</span> Newcastle</div>
+           <div class="cp">England Premier League &nbsp;·&nbsp; 1667 v 1671<span
+             class="tier medium">12 73%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:41.2%"></span><span class="d" style="width:27.4%"></span><span class="a" style="width:31.4%"></span></div>
+        <div class="pct"><span>H 41%</span><span>D 27%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 49%</i></div>
+    </div><div class="match">
+      <div class="ko">20:00</div>
+      <div><div class="tm">Villarreal <span style="color:var(--mut)">v</span> Betis</div>
+           <div class="cp">Spain La Liga &nbsp;·&nbsp; 1625 v 1636<span
+             class="tier medium">12 75%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:49.9%"></span><span class="d" style="width:24.7%"></span><span class="a" style="width:25.4%"></span></div>
+        <div class="pct"><span>H 50%</span><span>D 25%</span><span>A 25%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 58%</i></div>
+    </div><div class="match">
+      <div class="ko">20:15</div>
+      <div><div class="tm">Moreirense <span style="color:var(--mut)">v</span> Maritimo</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1507 v 1437<span
+             class="tier medium">12 71%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:40.5%"></span><span class="d" style="width:29.0%"></span><span class="a" style="width:30.6%"></span></div>
+        <div class="pct"><span>H 40%</span><span>D 29%</span><span>A 31%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-1 &nbsp;·&nbsp; O2.5 48%</i></div>
+    </div><div class="match">
+      <div class="ko">20:45</div>
+      <div><div class="tm">Sp Braga <span style="color:var(--mut)">v</span> Estoril</div>
+           <div class="cp">Portugal Primeira Liga &nbsp;·&nbsp; 1682 v 1487<span
+             class="tier high">1X 86%</span></div></div>
+      <div class="pr">
+        <div class="bar"><span class="h" style="width:63.9%"></span><span class="d" style="width:22.5%"></span><span class="a" style="width:13.5%"></span></div>
+        <div class="pct"><span>H 64%</span><span>D 22%</span><span>A 14%</span></div>
+      </div>
+      <div class="pick"><b>HOME</b><i>1-0 &nbsp;·&nbsp; O2.5 50%</i></div>
+    </div></div></div>
+  <div class="unrated"><b>Not rated &mdash; 6 fixture(s)</b><div>Bayer Leverkusen v Celje &nbsp;&mdash;&nbsp; clubelo unavailable</div><div>AC Milan v Benfica &nbsp;&mdash;&nbsp; clubelo unavailable</div><div>Olympiacos v Jagiellonia Białystok &nbsp;&mdash;&nbsp; clubelo unavailable</div><div>Crystal Palace v Lech Poznań &nbsp;&mdash;&nbsp; clubelo unavailable</div><div>Celtic v Ferencváros &nbsp;&mdash;&nbsp; clubelo unavailable</div><div>Lillestrøm v Torreense &nbsp;&mdash;&nbsp; clubelo unavailable</div></div>
+
+  <div class="note">
+    <b>How to read this.</b> H/D/A are calibrated probabilities for home win, draw and
+    away win &mdash; not tips. The tag beside each competition is the strongest
+    <b>double chance</b> (1X home-or-draw, X2 draw-or-away, 12 either team) and its
+    probability; on our 4,000-match holdout the picks above 80% graded 87.1%, so those
+    are marked. Ratings beside each match are club strength; a bigger gap means a more
+    one-sided tie.
+  </div>
+  <div class="note" style="border-left-color:#B9B3A6">
+    <b>Where the numbers come from.</b> Domestic fixtures are rated by our trained engine
+    and anchored on real bookmaker prices. Cup ties across divisions, and clubs outside our
+    12 leagues, fall through to clubelo strength ratings. Anything neither can rate is listed
+    as <b>not rated</b> rather than guessed at. Rows marked <b>model only</b> have no odds
+    attached yet and are the least reliable on the page.
+  </div>
+</div></main>
+<footer>
+  <strong>AstroPitch</strong> &mdash; probabilistic model output for information and
+  entertainment, not betting advice. 18+. Please gamble responsibly.<br>
+  <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="today.html">Today</a>
+  &nbsp;·&nbsp; <a href="https://astropitch-api.onrender.com/docs">API</a>
+</footer>
+</body></html>

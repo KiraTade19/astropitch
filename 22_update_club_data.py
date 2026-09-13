@@ -10,12 +10,14 @@ run so ELO, form and promotion/relegation are up to date.
   2. FIXTURES: downloads fixtures.csv -> club_fixtures.csv (the matches we
                actually predict next).
 
-Season code format is football-data's: 2025-26 -> "2526". Add the new code
-each August when the season rolls over.
+Season codes are football-data's (2025-26 -> "2526") and are derived from
+today's date, so a new season is picked up on 1 July without anyone having to
+remember to add it.
 
 Run:  python 22_update_club_data.py
 ============================================================================
 """
+import datetime as dt
 import io
 import urllib.request
 import pandas as pd
@@ -25,8 +27,22 @@ warnings.filterwarnings("ignore")
 
 # our 12 divisions (football-data.co.uk codes)
 DIVS = ["E0", "E1", "SP1", "I1", "D1", "F1", "N1", "B1", "P1", "SC0", "T1", "G1"]
-# seasons to (re)fetch. current season first; add "2627" when it starts.
-SEASONS = ["2526"]
+
+
+def season_code(d):
+    """football-data's code for the season containing date d:
+    2026-09-13 -> "2627". Seasons roll over on 1 July."""
+    start = d.year if d.month >= 7 else d.year - 1
+    return f"{start % 100:02d}{(start + 1) % 100:02d}"
+
+
+# Seasons to (re)fetch: the current one plus the previous, so late results and
+# corrections at the turn of a season still land. Derived from the date rather
+# than hand-kept: the hand-kept list was not updated in August 2026, the whole
+# 2026-27 season went un-ingested, and every live prediction logged from July
+# onward sat ungradeable while the daily run reported success.
+_today = dt.date.today()
+SEASONS = [season_code(_today), season_code(_today - dt.timedelta(days=365))]
 
 RESULTS_URL = "https://www.football-data.co.uk/mmz4281/{season}/{div}.csv"
 FIXTURES_URL = "https://www.football-data.co.uk/fixtures.csv"

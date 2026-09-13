@@ -80,6 +80,19 @@ def implied(oh, od, oa):
     return inv / inv.sum()
 
 
+def score_outputs(p, lam, mu):
+    """(projected matrix, P(over 2.5), modal scoreline) for one match.
+
+    The track record must grade exactly what the API and the slates publish, so
+    this goes through the same gpc helpers they do: the Dixon-Coles matrix
+    projected onto the 1X2, with O/U and the scoreline pick read off it. Before
+    this, the logger took O/U from the retired `ou` classifier and the pick from
+    the unprojected matrix — grading numbers nobody had been shown."""
+    M = gpc.project_onto_1x2(gpc.dc_matrix(lam, mu, E["rho"], maxg=8), p)
+    bi, bj = np.unravel_index(M.argmax(), M.shape)
+    return M, gpc.over25(M), (int(bi), int(bj))
+
+
 # ---------------------------------------------------------------------------
 # BACKFILL: honest out-of-sample record over the last N matches
 # ---------------------------------------------------------------------------
@@ -97,14 +110,13 @@ def backfill(n=BACKFILL_N):
     y = test["result"].map(cls).values
 
     p = E["model_1x2"].predict_proba(X)               # model 1X2
-    p_over = E["ou"].predict_proba(X)[:, 1]
     lam = np.clip(E["reg_h"].predict(X), 0.15, 6)
     mu = np.clip(E["reg_a"].predict(X), 0.15, 6)
+    p_over = np.empty(len(test))            # read off each match's matrix below
 
     rows = []
     for k in range(len(test)):
-        M = gpc.dc_matrix(lam[k], mu[k], E["rho"], maxg=8)
-        bi, bj = np.unravel_index(M.argmax(), M.shape)
+        M, p_over[k], (bi, bj) = score_outputs(p[k], lam[k], mu[k])
         t = test.iloc[k]
         hg, ag = int(t["home_goals"]), int(t["away_goals"])
         pick = int(np.argmax(p[k]))
@@ -203,8 +215,11 @@ def _build_row_live(home, away, date, div):
     lc = st["league_codes"]
     if div not in lc:
         return None
-    R = st["elo"]
-    he, ae = R.get(home, gpc.BASE_ELO), R.get(away, gpc.BASE_ELO)
+    # Same stale-rating decay the API and the weekly slate apply, so what we
+    # log and later grade is the number we actually published. A no-op for any
+    # club that played inside the grace window, which is every normal fixture.
+    he, _, _ = gpc.decayed_elo(st, home, date, div)
+    ae, _, _ = gpc.decayed_elo(st, away, date, div)
     exp_h = 1.0 / (1.0 + 10 ** ((ae - (he + gpc.HOME_ADV)) / 400.0))
 
     def roll(team, nn):
@@ -266,11 +281,10 @@ def predict_upcoming():
         if X is None:
             continue
         pH, pD, pA = E["model_1x2"].predict_proba(X)[0]
-        p_over = E["ou"].predict_proba(X)[0, 1]
         lam = float(np.clip(E["reg_h"].predict(X)[0], 0.15, 6))
         mu = float(np.clip(E["reg_a"].predict(X)[0], 0.15, 6))
-        M = gpc.dc_matrix(lam, mu, E["rho"], maxg=8)
-        bi, bj = np.unravel_index(M.argmax(), M.shape)
+        # log exactly what the API and the slates publish (see score_outputs)
+        _, p_over, (bi, bj) = score_outputs(np.array([pH, pD, pA]), lam, mu)
         out.append(dict(
             logged_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
             date=r.d.date(), div=r.Div, home=r.HomeTeam, away=r.AwayTeam,

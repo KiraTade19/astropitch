@@ -42,6 +42,53 @@ npx localtunnel --port 8000     # or: ngrok http 8000
 
 ---
 
+# Deploying the public site (docs/) to Netlify
+
+The site is plain static HTML in `docs/`. **Netlify runs no build** — GitHub
+Actions builds the pages and commits them, and Netlify just serves the result.
+That is why [netlify.toml](netlify.toml) sets `command = ""`; Netlify needs
+neither Python nor the `.pkl` engines.
+
+## Connect it (one time)
+
+1. Push this repo to GitHub (see "Git setup" below) — Netlify deploys *from*
+   GitHub, so the repo must exist first.
+2. Netlify → **Add new site → Import an existing project** → GitHub → pick the repo.
+3. Leave the build settings alone. `netlify.toml` already sets
+   *publish directory* = `docs` and an empty build command. If the UI pre-fills
+   a build command, clear it.
+4. **Deploy site.** First deploy is a few seconds — it is only copying files.
+5. **Site configuration → Change site name** → set it to the subdomain you want,
+   e.g. `astropridict`, giving `https://astropridict.netlify.app`.
+
+> That subdomain currently returns Netlify's bare `Not Found` for every path,
+> which is what Netlify serves for a name with no successful deploy behind it.
+> Step 5 is what claims it.
+
+Every later `git push` to `main` — including the bot's automated commits —
+triggers a redeploy, so the site tracks the model with no extra wiring.
+
+## What gets published
+
+| Page | Built by | Refreshed |
+|---|---|---|
+| `index.html` | `26_build_site.py` → `build()` | every workflow run |
+| `today.html` | `26_build_site.py` → `build_today()` | 4× daily (`daily.yml`) |
+| `week.html` | `26_build_site.py` → `build_week()` | Mon + Thu (`weekly.yml`) |
+
+`/week` and `/today` are redirected to the `.html` pages, so both forms work.
+
+## Checking a deploy without pushing
+
+```bash
+python 22_update_club_data.py     # refresh results + upcoming fixtures
+python 36_weekly_slate.py         # -> week_slate.json
+python 26_build_site.py           # -> docs/
+python -m http.server -d docs 8080   # open http://127.0.0.1:8080/week.html
+```
+
+---
+
 ## Turning on auth + the free tier
 
 By default the API is **open** (dev mode). To require keys and cap free usage,
