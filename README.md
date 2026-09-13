@@ -5,12 +5,6 @@ cosmic twist. AstroPitch gives the probability of every result (1X2), over/under
 2.5 goals, and a full exact-score distribution, across 12 top European leagues,
 all internationals, and — via clubelo ratings — essentially any European club.
 
-> **Not a betting-tips service.** We publish probabilities for information,
-> analytics, and entertainment. We tested it honestly: the model does **not**
-> beat the closing line, and its value picks lose money. There is no edge to sell.
-> What we sell is clean, calibrated, reliable numbers at scale — and radical
-> transparency about what they are.
-
 ---
 
 ## What makes it different
