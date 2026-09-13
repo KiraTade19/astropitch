@@ -179,6 +179,21 @@ def test_decay_leaves_every_club_from_last_season_alone(api):
         assert w == 1.0 and rating == st["elo"][team], team
 
 
+def test_an_unretrained_engine_does_not_decay_active_clubs(api):
+    """Regression: absence was first measured from the fixture date, so an
+    engine nobody retrained would, 150 days after its data ended, begin
+    decaying every club in every league. Nothing in CI retrains. A year past
+    the cutoff, every club active at the end of training must be untouched."""
+    st = api.CLUB["state"]
+    cutoff = api.gpc.data_cutoff(st)
+    date = cutoff + dt.timedelta(days=400)
+    active = [t for t, d in st["last_date"].items() if (cutoff - d).days <= 30]
+    assert len(active) > 150
+    for team in active:
+        rating, _, w = api.gpc.decayed_elo(st, team, date)
+        assert w == 1.0 and rating == st["elo"][team], team
+
+
 def test_long_absent_club_regresses_to_its_division_mean(api):
     st = api.CLUB["state"]
     mean = api.gpc.division_mean_elo(st)[st["team_league"]["Malaga"]]
@@ -215,3 +230,60 @@ def test_updater_always_fetches_the_current_season(updater):
     assert updater.season_code(dt.date(2026, 6, 30)) == "2526"
     assert updater.season_code(dt.date(2026, 7, 1)) == "2627"
     assert updater.season_code(dt.date(1999, 8, 1)) == "9900"
+
+
+# ---------------------------------------------------------------------------
+# the HTTP API itself — what the deployed product actually serves
+# ---------------------------------------------------------------------------
+@pytest.fixture(scope="module")
+def client(api):
+    from fastapi.testclient import TestClient
+    keys = set(api._KEYS)
+    api._KEYS.clear()              # exercise open (dev) mode whatever the env says
+    yield TestClient(api.app)
+    api._KEYS.update(keys)
+
+
+@pytest.fixture
+def offline(monkeypatch):
+    """Block every outbound request, so a test that reaches the clubelo
+    fallback fails fast and deterministically instead of hitting the network."""
+    import urllib.request
+
+    def blocked(*args, **kwargs):
+        raise ValueError("network disabled in tests")
+    monkeypatch.setattr(urllib.request, "urlopen", blocked)
+
+
+def test_http_health(client):
+    r = client.get("/health")
+    assert r.status_code == 200 and r.json()["status"] == "ok"
+
+
+@pytest.mark.parametrize("home,away,div", FIXTURES)
+def test_http_predict_serves_what_predict_core_computes(client, api, home, away, div):
+    r = client.get("/v1/predict", params=dict(home=home, away=away, date="2026-09-20",
+                                              kind="club", division=div))
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["covered"] is True
+    assert sum(body["one_x_two"].values()) == pytest.approx(1.0, abs=1e-3)
+    X, _ = api.build_row_club(home, away, dt.datetime(2026, 9, 20), div)
+    ref = api.predict_core(api.CLUB, X, "club", None)
+    assert body["one_x_two"] == ref["one_x_two"]
+    assert body["over_under_2_5"] == ref["over_under_2_5"]
+    assert body["likely_scores"][0] == ref["likely_scores"][0]
+
+
+@pytest.mark.parametrize("home,away,why", [
+    ("Arsenal", "Nowhere Rovers", "Nowhere Rovers"),
+    ("Man City", "Coventry", "cross-competition")])
+def test_http_refuses_what_it_cannot_rate(client, offline, home, away, why):
+    """An unknown club, or a cup tie across divisions whose ratings are not
+    comparable, must come back covered:false rather than as a confident guess."""
+    r = client.get("/v1/predict", params=dict(home=home, away=away,
+                                              date="2026-09-20", kind="club"))
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["covered"] is False and body["prediction"] is None
+    assert why in body["reason"]

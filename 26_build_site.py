@@ -577,8 +577,9 @@ def build_week():
             # a rating years out of date is shown as such rather than quietly used
             sd = m.get("stale_days", 0)
             if sd > 150:
-                noodds += (f'<span class="noodds" title="Rating last updated '
-                           f'{sd} days ago; regressed toward the division mean">'
+                noodds += (f'<span class="noodds" title="This club had not played in '
+                           f'a league we cover for {sd} days before our latest data; '
+                           f'its rating is regressed toward the league average">'
                            f'stale {sd // 30}mo</span>')
             rows += f"""<div class="match">
       <div class="ko">{m['kickoff'] or '&nbsp;&mdash;'}</div>

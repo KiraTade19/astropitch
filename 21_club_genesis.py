@@ -93,14 +93,32 @@ def division_mean_elo(state):
     return cache
 
 
+def data_cutoff(state):
+    """The latest match date anywhere in the engine's training data."""
+    cut = state.get("_cutoff")
+    if cut is None and state.get("last_date"):
+        cut = max(state["last_date"].values())
+        state["_cutoff"] = cut
+    return cut
+
+
 def decayed_elo(state, team, date, div=None):
     """(rating, days_out, weight) with staleness regressed toward the division
-    mean. days_out is None when the club has never been seen."""
+    mean. days_out is None when the club has never been seen.
+
+    days_out is how long the club had been absent AS FAR AS THE ENGINE'S DATA
+    CAN KNOW: from its last match to the training cutoff (or to the fixture
+    date, if that is earlier). The first version measured to the fixture date,
+    which conflates "this club left the covered leagues" with "nobody has
+    retrained the engine". Nothing in CI retrains, so once the pickle aged past
+    the grace window every club in every league would have started regressing
+    toward its mean — from 30 Sep 2026 for the Championship, whose last match
+    in the data is 2 May, and in every league by 22 Oct."""
     raw = state["elo"].get(team, BASE_ELO)
     ld = state.get("last_date", {}).get(team)
     if ld is None or date is None:
         return raw, None, 1.0
-    days_out = (date - ld).days
+    days_out = max((min(date, data_cutoff(state)) - ld).days, 0)
     w = stale_weight(days_out)
     if w >= 1.0:
         return raw, days_out, 1.0

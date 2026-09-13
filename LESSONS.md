@@ -314,3 +314,22 @@ A smaller fourth: the weekly slate crashed on a Windows console (cp1252)
 printing "Jagiellonia Białystok" before it wrote its output, so the site
 silently rebuilt from the previous week's file. CI's Linux runners are UTF-8
 and never showed it. stdout is now reconfigured to UTF-8.
+
+**A fifth, found while writing this up — in our own change.** The first version
+of the stale-rating decay measured a club's absence from the *fixture date*. But
+the engine's `last_date` is frozen at training time and nothing in CI retrains,
+so every club's "absence" grew by a day per day. 150 days after the data ended,
+every club in every league would have started regressing toward its division
+mean — beginning **30 Sep 2026** for the Championship (last match 2 May) and
+reaching every league by 22 Oct — and the "high" tier would have been
+suppressed league by league from 22 Dec to 13 Jan. Measured against the
+committed code, the regression test below fails on all 216 clubs active at the
+cutoff. Absence is now measured up to the
+engine's data cutoff, so it means what was intended — *this club left the
+covered leagues* — not *nobody has retrained the engine*. The earlier test used
+a mid-September date and could not see it; a new one checks a year past the
+cutoff.
+
+That also names the next gap. Ingesting results lets predictions be **graded**,
+but the engine's ratings still date from May: nothing in CI retrains, so this
+season's form is not in any prediction until `21_club_genesis.py` is run.
