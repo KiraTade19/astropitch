@@ -49,7 +49,16 @@ Actions builds the pages and commits them, and Netlify just serves the result.
 That is why [netlify.toml](netlify.toml) sets `command = ""`; Netlify needs
 neither Python nor the `.pkl` engines.
 
-## Connect it (one time)
+## Live site
+
+**https://astr0predict.netlify.app** — connected to this repo, deploying from
+`main`. Every push — including the bot's automated commits — triggers a
+redeploy, so the site tracks the model with no extra wiring.
+
+## Connecting a *new* Netlify site to this repo
+
+Only needed if the site above is ever disconnected or you're standing up a
+second one (e.g. a staging site from a branch):
 
 1. Push this repo to GitHub (see "Git setup" below) — Netlify deploys *from*
    GitHub, so the repo must exist first.
@@ -58,15 +67,9 @@ neither Python nor the `.pkl` engines.
    *publish directory* = `docs` and an empty build command. If the UI pre-fills
    a build command, clear it.
 4. **Deploy site.** First deploy is a few seconds — it is only copying files.
-5. **Site configuration → Change site name** → set it to the subdomain you want,
-   e.g. `astropridict`, giving `https://astropridict.netlify.app`.
-
-> That subdomain currently returns Netlify's bare `Not Found` for every path,
-> which is what Netlify serves for a name with no successful deploy behind it.
-> Step 5 is what claims it.
-
-Every later `git push` to `main` — including the bot's automated commits —
-triggers a redeploy, so the site tracks the model with no extra wiring.
+5. **Site configuration → Change site name** to whatever subdomain you want.
+   A name with no successful deploy behind it returns Netlify's "Site not
+   found" page for every path; this step is what claims it.
 
 ## What gets published
 
