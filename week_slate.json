@@ -1,11 +1,60 @@
 {
- "start": "2026-10-05",
- "end": "2026-10-11",
- "generated_at": "2026-10-05T14:57:38+00:00",
+ "start": "2026-10-08",
+ "end": "2026-10-14",
+ "generated_at": "2026-10-08T13:36:49+00:00",
  "n": 0,
- "unrated": 0,
+ "unrated": 6,
  "competitions": [],
  "n_anchored": 0,
  "matches": [],
- "unrated_list": []
+ "unrated_list": [
+  {
+   "date": "2026-10-13",
+   "kickoff": "16:45",
+   "comp": "Champions League",
+   "home": "Lens",
+   "away": "Sporting CP",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-10-13",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Arsenal",
+   "away": "Lille",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-10-13",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "RB Leipzig",
+   "away": "PSV Eindhoven",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-10-14",
+   "kickoff": "16:45",
+   "comp": "Champions League",
+   "home": "Feyenoord",
+   "away": "Como",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-10-14",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Manchester City",
+   "away": "Paris Saint-Germain",
+   "reason": "clubelo unavailable"
+  },
+  {
+   "date": "2026-10-14",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Aston Villa",
+   "away": "Fenerbahçe",
+   "reason": "clubelo unavailable"
+  }
+ ]
 }
