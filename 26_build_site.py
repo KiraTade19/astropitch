@@ -558,7 +558,11 @@ WEEK_CSS = """
 
 def build_week():
     """Render docs/week.html from week_slate.json (the full weekly card)."""
-    if not WEEK or not WEEK.get("matches"):
+    # Only a MISSING slate skips the page. An empty one must still be written:
+    # skipping it left the previous file in place, so in the week of 8 Oct
+    # 2026 — when every fixture came back unrated — the site kept serving
+    # September's 43-fixture card as if it were this week's.
+    if not WEEK:
         print("no week_slate.json - skipping week.html")
         return
 
@@ -608,6 +612,10 @@ def build_week():
     span = f'{s.strftime("%d %b")} &ndash; {e.strftime("%d %b %Y")}'
     upd = WEEK["generated_at"].replace("T", " ")[:16]
     n_comp = len(WEEK["competitions"])
+    EMPTY_WEEK = ('<div class="note"><b>No fixtures we can rate this week.</b> Either '
+                  'nothing is scheduled in the leagues we cover (an international break) or '
+                  'every fixture involves a club we have no rating for &mdash; those are '
+                  'listed below rather than guessed at.</div>')
     anch = WEEK["n_anchored"]
     high = sum(1 for m in WEEK["matches"] if m["dc_tier"] == "high")
 
@@ -635,7 +643,7 @@ def build_week():
     <div class="c"><b>{WEEK['unrated']}</b><span>Refused to guess</span></div>
   </div>
 
-  {groups}
+  {groups or EMPTY_WEEK}
   {unrated_html}
 
   <div class="note">
