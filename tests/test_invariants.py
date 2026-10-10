@@ -91,6 +91,21 @@ def test_projection_leaves_its_input_alone(gpc):
     assert np.array_equal(M, before)
 
 
+def test_predict_1x2_blends_when_the_engine_carries_a_logistic_model(gpc):
+    class Fixed:
+        def __init__(self, p):
+            self.p = np.array([p])
+
+        def predict_proba(self, X):
+            return self.p
+
+    xgb_only = {"model_1x2": Fixed([0.5, 0.3, 0.2])}
+    assert np.allclose(gpc.predict_1x2(xgb_only, None), [[0.5, 0.3, 0.2]])
+    ens = dict(xgb_only, model_1x2_lr=Fixed([0.3, 0.3, 0.4]), ens_weight=0.2)
+    p = gpc.predict_1x2(ens, None)
+    assert np.allclose(p, [[0.46, 0.30, 0.24]]) and p.sum() == pytest.approx(1.0)
+
+
 def test_over25_matches_brute_force(gpc):
     M = gpc.dc_matrix(1.7, 0.9, -0.05, maxg=8)
     brute = sum(M[a, b] for a in range(9) for b in range(9) if a + b >= 3)
@@ -131,7 +146,7 @@ def test_track_record_logs_what_we_publish(api, tracker, home, away, div):
     It logs model-only probabilities, so compare against the no-odds output."""
     _, published = _published(api, home, away, div, None)
     Xl = tracker._build_row_live(home, away, DATE, div)
-    p = tracker.E["model_1x2"].predict_proba(Xl)[0]
+    p = tracker.gpc.predict_1x2(tracker.E, Xl)[0]
     lam = float(np.clip(tracker.E["reg_h"].predict(Xl)[0], 0.15, 6))
     mu = float(np.clip(tracker.E["reg_a"].predict(Xl)[0], 0.15, 6))
     _, p_over, (bi, bj) = tracker.score_outputs(p, lam, mu)
@@ -253,14 +268,17 @@ def client(api):
 
 
 @pytest.fixture
-def offline(monkeypatch):
-    """Block every outbound request, so a test that reaches the clubelo
-    fallback fails fast and deterministically instead of hitting the network."""
+def offline(monkeypatch, api):
+    """clubelo entirely unavailable: no network, and no cached rating or
+    homepage snapshot left on disk by an earlier run can answer either. Without
+    the second half these tests would pass or fail depending on what files
+    happened to be lying around."""
     import urllib.request
 
     def blocked(*args, **kwargs):
-        raise ValueError("network disabled in tests")
+        raise ValueError("clubelo disabled in tests")
     monkeypatch.setattr(urllib.request, "urlopen", blocked)
+    monkeypatch.setattr(api.euro, "fetch_elo", blocked)
 
 
 def test_http_health(client):
@@ -315,3 +333,83 @@ def test_http_refuses_a_cross_division_tie(client, api, offline):
     body = r.json()
     assert body["covered"] is False and body["prediction"] is None
     assert "cross-competition" in body["reason"]
+
+
+# ---------------------------------------------------------------------------
+# clubelo homepage fallback (the API has returned 502 since mid-2026)
+# ---------------------------------------------------------------------------
+def _row(cc, api_name, name, elo, link=True):
+    a = f'<a href="/{api_name}">' if link else ""
+    return (f'<tr><td class="l"><a href="/{cc}"><img alt="{cc}"/></a> <small> 1 </small> {a}'
+            f'<span class="NonAst">XXX</span><span class="Ast">{name}</span>'
+            f'{"</a>" if link else ""}</td><td class="r">{elo}</td></tr>')
+
+
+SNAPSHOT_HTML = "".join([
+    _row("ENG", "Liverpool", "Liverpool", 1937), _row("URU", "LiverpoolMVD", "Liverpool", 1600),
+    _row("ENG", "ManCity", "Man City", 2028), _row("GRE", "Kalamata", "PS Kalamata", 1476, False),
+    _row("GRE", "Volos", "NFC Volos", 1372, False),
+    _row("POR", "Nacional", "Nacional", 1500), _row("ESP", "NacionalX", "Nacional", 1450),
+])
+
+
+def test_snapshot_parses_api_names_display_names_and_elo(api):
+    snap = api.euro.parse_snapshot(SNAPSHOT_HTML)
+    assert api.euro.pick_club(snap, "ManCity")["elo"] == 2028      # API-style name
+    assert api.euro.pick_club(snap, "Man City")["elo"] == 2028     # display name
+
+
+def test_snapshot_prefers_the_european_club_when_a_name_is_ambiguous(api):
+    """'Liverpool' is in England and Uruguay; this predictor rates European
+    fixtures, so it must resolve to England — not refuse, and not guess."""
+    snap = api.euro.parse_snapshot(SNAPSHOT_HTML)
+    club = api.euro.pick_club(snap, "Liverpool")
+    assert club["cc"] == "ENG" and club["elo"] == 1937
+
+
+def test_snapshot_refuses_a_name_still_ambiguous_inside_europe(api):
+    snap = api.euro.parse_snapshot(SNAPSHOT_HTML)
+    assert api.euro.pick_club(snap, "Nacional") is None             # POR and ESP
+
+
+def test_snapshot_matches_through_club_type_tokens_and_word_order(api):
+    snap = api.euro.parse_snapshot(SNAPSHOT_HTML)
+    assert api.euro.pick_club(snap, "Kalamata")["elo"] == 1476      # "PS Kalamata"
+    assert api.euro.pick_club(snap, "Volos NFC")["elo"] == 1372     # "NFC Volos"
+    assert api.euro.pick_club(snap, "Nowhere Rovers") is None
+
+
+@pytest.mark.parametrize("raw,folded", [
+    ("FC Nordsjælland", "FC Nordsjaelland"), ("Lillestrøm", "Lillestrom"),
+    ("Jagiellonia Białystok", "Jagiellonia Bialystok"), ("Fenerbahçe", "Fenerbahce"),
+    ("Mönchengladbach", "Monchengladbach")])
+def test_ascii_fold_transliterates_rather_than_drops(api, raw, folded):
+    """Regression: a plain NFKD fold deletes letters it cannot decompose, so
+    'FC Nordsjælland' became 'Nordsjlland' and never matched clubelo's
+    'Nordsjaelland'."""
+    assert api.euro.ascii_fold(raw) == folded
+
+
+def test_dead_api_falls_back_to_the_snapshot(api, monkeypatch, tmp_path):
+    """Regression for the week of 8 Oct 2026: api.clubelo.com returned 502, the
+    fallback path silently switched off, and the weekly slate published ZERO
+    rated fixtures. With the API down, a near-dated fixture must be rated from
+    the homepage snapshot — and a far-dated one must still be refused, because
+    the snapshot only knows today's ratings."""
+    import json
+    euro = api.euro
+    snap = dict(date=dt.datetime.now(dt.UTC).date().isoformat(),
+                **euro.parse_snapshot(SNAPSHOT_HTML))
+    path = tmp_path / "snap.json"
+    path.write_text(json.dumps(snap), encoding="utf-8")
+    monkeypatch.setattr(euro, "SNAPSHOT", str(path))
+    monkeypatch.setattr(euro, "CACHE", str(tmp_path / "cache.json"))
+
+    def dead_api(*a, **k):
+        raise OSError("HTTP Error 502: Bad Gateway")
+    monkeypatch.setattr(euro, "_fetch_elo_api", dead_api)
+
+    today = dt.date.today().isoformat()
+    assert euro.fetch_elo("ManCity", today) == 2028
+    with pytest.raises(ValueError):
+        euro.fetch_elo("ManCity", "2026-01-01")

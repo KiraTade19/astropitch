@@ -21,7 +21,6 @@ import json
 import os
 import sys
 import time
-import unicodedata
 import urllib.error
 import urllib.request
 import datetime as dt
@@ -64,6 +63,10 @@ ALIAS = {
     "Leicester City": "Leicester", "FSV Mainz": "Mainz",
     "Bayer Leverkusen": "Leverkusen", "FC Bayern Munchen": "Bayern",
     "FC Ingolstadt 04": "Ingolstadt", "POT Iraklis": "Iraklis",
+    # verified against the clubelo.com homepage snapshot 2026-10-10
+    "Manchester City": "ManCity", "Manchester United": "ManUnited",
+    "Olympiacos": "Olympiakos", "Olympiacos Piraeus": "Olympiakos",
+    "Amedspor": "Amed SK", "Heart of Midlothian": "Hearts",
 }
 # tokens too generic to be a safe last-resort match on their own: "Sporting Gijon"
 # must never fall back to "Sporting" (=Sporting CP), nor "Hull City" to "City".
@@ -79,7 +82,7 @@ STRIP = ("fc ", " fc", "sk ", "fk ", "sc ", "cf ", "ac ", "as ", "nk ", "hnk ",
 
 
 def _ascii(s):
-    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+    return euro.ascii_fold(s)       # transliterates æ/ø/ł/ß rather than dropping them
 
 
 def candidates(name):

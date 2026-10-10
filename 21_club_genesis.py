@@ -32,7 +32,10 @@ import joblib
 import warnings
 from scipy.optimize import minimize_scalar
 from scipy.stats import poisson
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss, accuracy_score, brier_score_loss
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 warnings.filterwarnings("ignore")
 
@@ -275,6 +278,23 @@ def dc_matrix(lam, mu, rho, maxg=8):
     return M / M.sum()
 
 
+ENSEMBLE_WEIGHT = 0.2        # share of the logistic model in the 1X2 ensemble
+
+
+def predict_1x2(engine, X):
+    """The published 1X2 for feature rows X: the XGBoost classifier, blended
+    with the logistic model when the engine carries one. Every path that
+    publishes or logs a 1X2 goes through here, so they cannot drift apart.
+    Engines without `model_1x2_lr` (older pickles, the international engine)
+    fall back to XGBoost alone."""
+    p = engine["model_1x2"].predict_proba(X)
+    lr = engine.get("model_1x2_lr")
+    if lr is not None:
+        a = engine.get("ens_weight", ENSEMBLE_WEIGHT)
+        p = (1 - a) * p + a * lr.predict_proba(X)
+    return p
+
+
 def project_onto_1x2(M, p):
     """Rescale a scoreline matrix so its home-win / draw / away-win regions sum
     to the published 1X2 `p`. Afterwards 1X2, over/under and the exact scores
@@ -425,10 +445,25 @@ def main():
                                   eval_metric="mlogloss", tree_method="hist",
                                   verbosity=0, **best)
     model_1x2.fit(Xtr, ytr)
-    p_te = model_1x2.predict_proba(Xte)
+    p_xgb = model_1x2.predict_proba(Xte)
+    xgb_acc = accuracy_score(yte, p_xgb.argmax(1))
+    xgb_ll = log_loss(yte, p_xgb, labels=[0, 1, 2])
+    print(f"      HOLDOUT XGBoost : acc={xgb_acc:6.3f}  logloss={xgb_ll:6.3f}")
+
+    # Ensemble: a regularised multinomial logistic regression on the same
+    # features, mixed in at ENSEMBLE_WEIGHT. The weight was chosen on a separate
+    # validation slice (the 4,000 matches before this holdout) and only then
+    # scored on the holdout: +0.00046 nats, t=1.87, P(better) 97% — small, but
+    # the one tuning change in Oct 2026 that held up out of sample (LESSONS.md).
+    model_1x2_lr = make_pipeline(StandardScaler(),
+                                 LogisticRegression(max_iter=3000, C=0.5))
+    model_1x2_lr.fit(Xtr, ytr)
+    engine_1x2 = dict(model_1x2=model_1x2, model_1x2_lr=model_1x2_lr,
+                      ens_weight=ENSEMBLE_WEIGHT)
+    p_te = predict_1x2(engine_1x2, Xte)
     acc = accuracy_score(yte, p_te.argmax(1))
     ll = log_loss(yte, p_te, labels=[0, 1, 2])
-    print(f"      HOLDOUT 1X2     : acc={acc:6.3f}  logloss={ll:6.3f}")
+    print(f"      HOLDOUT ensemble: acc={acc:6.3f}  logloss={ll:6.3f}  (published)")
 
     # O/U 2.5
     ou = xgb.XGBClassifier(objective="binary:logistic", eval_metric="logloss",
@@ -480,7 +515,7 @@ def main():
 
     # ---------- save ----------
     print("\n[6/6] Saving models...")
-    joblib.dump(dict(model_1x2=model_1x2, ou=ou, reg_h=reg_h, reg_a=reg_a,
+    joblib.dump(dict(**engine_1x2, ou=ou, reg_h=reg_h, reg_a=reg_a,
                      rho=rho, features=FEATURES, cls=cls, state=state,
                      best_params=best, div_names=DIV_NAMES),
                 "club_engine.pkl")
@@ -495,7 +530,8 @@ Holdout window: {test.date.min().date()} -> {test.date.max().date()}
   Always-Home baseline : acc {home_rate:.3f}
   ELO-only baseline    : acc {elo_acc:.3f}  logloss {elo_ll:.3f}
   Market (closing line): acc {mkt_acc:.3f}  logloss {mkt_ll:.3f}   <- the bar
-  XGBoost (tuned)      : acc {acc:.3f}  logloss {ll:.3f}
+  XGBoost (tuned)      : acc {xgb_acc:.3f}  logloss {xgb_ll:.3f}
+  XGB+logistic ensemble: acc {acc:.3f}  logloss {ll:.3f}   <- published
   Dixon-Coles derived  : acc {dc_acc:.3f}  logloss {dc_ll:.3f}
 
 OVER/UNDER 2.5

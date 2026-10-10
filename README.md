@@ -75,19 +75,24 @@ per-key daily free-tier quota (`ASTROPITCH_FREE_DAILY`, default 100).
 | `36_weekly_slate.py`                      | the week-ahead card across every league we can rate                |
 | `.github/workflows/daily.yml`             | 4× daily: refresh → grade → predict → rebuild site                 |
 | `.github/workflows/weekly.yml`            | Mon + Thu: refresh → weekly slate → rebuild site                   |
+| `.github/workflows/retrain.yml`           | monthly: retrain → test gate → backfill → rebuild site             |
 
 ## Honest track record (rolling 4,000-match holdout, refreshed on each retrain)
 
-Current window: 2025-09-14 → 2026-09-10.
+Current window: 2025-09-28 → 2026-09-20 (engine retrained 10 Oct 2026).
 
 | Metric             | Model     | Closing line (the bar) |
 | ------------------ | --------- | ----------------------- |
-| 1X2 accuracy       | 50.5%     | 51.9%                    |
-| 1X2 log-loss       | 0.994     | 0.982                    |
-| Over/under 2.5     | 56.1%     | —                        |
-| Exact score top-1  | 12.6%     | —                        |
-| Value-bet ROI      | **−8.9%** | —                        |
-| Closing line value | **−0.68%**| beat the close 38.9%     |
+| 1X2 accuracy       | 50.5%     | 51.8%                    |
+| 1X2 log-loss       | 0.995     | 0.982                    |
+| Over/under 2.5     | 55.5%     | —                        |
+| Exact score top-1  | 12.3%     | —                        |
+| Value-bet ROI      | **−6.5%** | —                        |
+| Closing line value | **−0.60%**| beat the close 39.5%     |
+
+These are the engine's **own** numbers, with no odds. What we publish when odds
+exist is the engine blended at 0.95 onto the pre-match price, which on this
+holdout scores 51.8% / 0.9836 — level with the market alone (0.9837).
 
 The market wins. We say so.
 
