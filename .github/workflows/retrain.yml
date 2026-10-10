@@ -1,0 +1,66 @@
+name: Monthly retrain
+
+# Results are ingested every day, but until now nothing retrained the engine:
+# predictions kept using ELO and form frozen at whenever someone last ran
+# 21_club_genesis.py by hand. This retrains once a month on everything
+# ingested so far, re-derives the honest backfill so the published track record
+# describes the engine actually deployed, and rebuilds the site.
+#
+# The test suite is the gate. If the retrained engine breaks any published-
+# number invariant, the job fails before anything is committed and the
+# previous engine stays live.
+on:
+  schedule:
+    - cron: "0 3 1 * *"         # 03:00 UTC on the 1st; clear of the daily runs
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: retrain-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install training + test dependencies
+        run: pip install -r requirements-train.txt
+
+      - name: Refresh results + fixtures
+        run: python 22_update_club_data.py
+
+      - name: Retrain the club engine
+        run: python 21_club_genesis.py
+
+      - name: Gate - published-number invariants must still hold
+        run: python -m pytest tests -q
+
+      - name: Re-derive the backfill track record for the new engine
+        run: python 23_track_record.py backfill
+
+      - name: Rebuild public site
+        run: python 26_build_site.py
+
+      - name: Commit the retrained engine
+        run: |
+          git config user.name  "astropitch-bot"
+          git config user.email "astropitch-bot@users.noreply.github.com"
+          git add club_engine.pkl club_report.txt club_raw.csv \
+                  track_record.csv track_record.txt docs/
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Automated: monthly retrain + backfill [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi

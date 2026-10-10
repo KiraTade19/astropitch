@@ -46,7 +46,13 @@ CLUB = joblib.load("club_engine.pkl")
 INTL = joblib.load("pro_engine.pkl")
 BASE_ELO = 1500.0
 HOME_ADV = 68.0                 # matches both engines' training constant
-W_MARKET = {"club": 0.75, "international": 0.70}   # market anchor weight if odds given
+# Market anchor weight when odds are supplied. Club raised 0.75 -> 0.95 in Oct
+# 2026: tuned against the PRE-MATCH odds we actually blend with (not the closing
+# line), the best weight was 0.95 on a validation slice and 0.95-1.0 on the
+# untouched holdout, matching the closing-line optimum found twice before
+# (0.886, 0.883). The engine is subsumed by the market wherever a price exists;
+# it carries the prediction only where none does. See LESSONS.md.
+W_MARKET = {"club": 0.95, "international": 0.70}
 
 DIV_NAMES = CLUB.get("div_names", {})
 # team -> "club"/"international" lookup, plus club team -> division
@@ -184,7 +190,7 @@ def cards_predict(home, away, div):
 
 
 def predict_core(engine, X, kind, odds):
-    pH, pD, pA = engine["model_1x2"].predict_proba(X)[0]
+    pH, pD, pA = gpc.predict_1x2(engine, X)[0]
     lam = float(np.clip(engine["reg_h"].predict(X)[0], 0.15, 6))
     mu = float(np.clip(engine["reg_a"].predict(X)[0], 0.15, 6))
     M = dc_matrix(lam, mu, engine["rho"], maxg=8)

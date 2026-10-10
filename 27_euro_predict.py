@@ -15,8 +15,11 @@ back to for unknown teams.
 Ratings are cached to clubelo_cache.json so we don't re-hit the API.
 ============================================================================
 """
+import datetime as dt
 import os
 import json
+import re
+import unicodedata
 import urllib.request
 import numpy as np
 import importlib.util
@@ -39,12 +42,133 @@ def _load_cache():
     return json.load(open(CACHE)) if os.path.exists(CACHE) else {}
 
 
+# ---------------------------------------------------------------------------
+# Fallback source: the clubelo.com homepage.
+# api.clubelo.com has returned 502 since at least July 2026 (from here and from
+# GitHub Actions alike), which silently switched off every clubelo-rated row:
+# all UEFA ties and every cross-division cup tie came back "unrated" — the week
+# of 8 Oct 2026 published ZERO rated fixtures. The homepage is still up and
+# embeds the full current ranking table (~1,700 clubs: API-style link, display
+# name, federation, Elo), so one request a day restores the whole fallback.
+# It carries CURRENT ratings only, so it is used just for fixtures within
+# SNAPSHOT_WINDOW_DAYS of today; anything older still needs the API.
+# ---------------------------------------------------------------------------
+SNAPSHOT = "clubelo_snapshot.json"
+SNAPSHOT_URL = "https://clubelo.com/"
+SNAPSHOT_WINDOW_DAYS = 21
+UEFA = set("ALB AND ARM AUT AZE BEL BIH BLR BUL CRO CYP CZE DEN ENG ESP EST FIN FRA "
+           "FRO GEO GER GIB GRE HUN IRL ISL ISR ITA KAZ KOS LTU LUX LVA MDA MKD MLT "
+           "MNE NED NIR NOR POL POR ROU RUS SCO SMR SRB SUI SVK SVN SWE TUR UKR WAL".split())
+# club-type tokens that differ between sources ("PS Kalamata" vs "Kalamata",
+# "NFC Volos" vs "Volos NFC"); matched only as a second resort
+_CLUB_TOKENS = {"fc", "sk", "ps", "nfc", "ac", "as", "cf", "cd", "sc", "fk", "nk", "if",
+                "bk", "afc", "sv", "rc", "ud", "sd", "ca", "cs", "kv", "kf", "ks", "pfc"}
+
+
+# Letters Unicode normalisation does NOT decompose, so a plain ASCII fold just
+# deletes them: "FC Nordsjælland" became "Nordsjlland" and never matched
+# clubelo's "Nordsjaelland". Transliterate first, the way sources spell them.
+TRANSLIT = str.maketrans({"æ": "ae", "Æ": "Ae", "ø": "o", "Ø": "O", "œ": "oe", "Œ": "Oe",
+                          "ß": "ss", "ł": "l", "Ł": "L", "đ": "d", "Đ": "D", "ð": "d",
+                          "Ð": "D", "þ": "th", "Þ": "Th", "ı": "i"})
+
+
+def ascii_fold(s):
+    s = str(s).translate(TRANSLIT)
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+
+
+def _norm(s):
+    return re.sub(r"[^a-z0-9]", "", ascii_fold(s).lower())
+
+
+def _loose_keys(name):
+    """Second-resort keys: club-type tokens dropped, and word order ignored."""
+    toks = [_norm(t) for t in re.split(r"[\s\-./]+", name) if _norm(t)]
+    core = [t for t in toks if t not in _CLUB_TOKENS] or toks
+    return {"".join(core), "".join(sorted(core)), "".join(sorted(toks))} - {""}
+
+
+def parse_snapshot(html):
+    """{"exact": {key: [club, ...]}, "loose": {...}} from the homepage table."""
+    exact, loose = {}, {}
+    for row in re.findall(r"<tr>(.*?)</tr>", html, re.S):
+        elo = re.findall(r'<td class="r">\s*(\d{3,4})\s*</td>', row)
+        cc = re.search(r'<a href="/([A-Z]{3})">', row)
+        disp = re.search(r'<span class="(?:Ast|min641)">([^<]+)</span>', row)
+        if not (elo and cc and disp):
+            continue
+        links = [a for a in re.findall(r'<a href="/([A-Za-z0-9]+)">', row) if a != cc.group(1)]
+        club = dict(api=links[0] if links else None, name=disp.group(1).strip(),
+                    cc=cc.group(1), elo=int(elo[-1]))
+        for index, keys in ((exact, {_norm(club["name"]), _norm(club["api"] or "")}),
+                            (loose, _loose_keys(club["name"]))):
+            for k in keys - {""}:
+                index.setdefault(k, []).append(club)
+    return {"exact": exact, "loose": loose}
+
+
+def _load_snapshot():
+    today = dt.datetime.now(dt.UTC).date().isoformat()
+    if os.path.exists(SNAPSHOT):
+        snap = json.load(open(SNAPSHOT, encoding="utf-8"))
+        if snap.get("date") == today:
+            return snap
+    req = urllib.request.Request(SNAPSHOT_URL, headers={"User-Agent": "Mozilla/5.0"})
+    html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "ignore")
+    snap = dict(date=today, **parse_snapshot(html))
+    if len({c["name"] for v in snap["exact"].values() for c in v}) < 500:
+        raise ValueError("clubelo homepage parsed to too few clubs; layout changed?")
+    json.dump(snap, open(SNAPSHOT, "w", encoding="utf-8"))
+    return snap
+
+
+def pick_club(snap, team):
+    """The one club `team` names, or None. Ambiguity is settled in favour of a
+    European federation (this predictor rates European fixtures: 'Liverpool'
+    is ENG, not URU); anything still ambiguous is refused, not guessed."""
+    for index, keys in (("exact", {_norm(team)}), ("loose", _loose_keys(team))):
+        found = {}
+        for k in keys:
+            for c in snap[index].get(k, []):
+                found[(c["cc"], c["elo"], _norm(c["name"]))] = c
+        clubs = list(found.values())
+        if len(clubs) > 1:
+            clubs = [c for c in clubs if c["cc"] in UEFA] or clubs
+        if len({(c["cc"], _norm(c["name"])) for c in clubs}) == 1:
+            return clubs[0]
+        if clubs:
+            return None          # genuinely ambiguous: refuse
+    return None
+
+
+def snapshot_elo(team, on_date):
+    day = dt.date.fromisoformat(str(on_date)[:10])
+    if abs((day - dt.datetime.now(dt.UTC).date()).days) > SNAPSHOT_WINDOW_DAYS:
+        raise ValueError(f"snapshot only covers fixtures near today, not {on_date}")
+    club = pick_club(_load_snapshot(), team)
+    if club is None:
+        raise ValueError(f"clubelo snapshot has no unambiguous rating for '{team}'")
+    return float(club["elo"])
+
+
 def fetch_elo(team, on_date):
-    """clubelo ELO for `team` as of on_date (ISO). Cached by (team,date)."""
+    """clubelo ELO for `team` as of on_date (ISO). Cached by (team,date).
+    Uses the API when it answers, else the homepage snapshot (see above)."""
     cache = _load_cache()
     key = f"{team}@{on_date}"
     if key in cache:
         return cache[key]
+    try:
+        rating = _fetch_elo_api(team, on_date)
+    except Exception:
+        rating = snapshot_elo(team, on_date)
+    cache[key] = rating
+    json.dump(cache, open(CACHE, "w"))
+    return rating
+
+
+def _fetch_elo_api(team, on_date):
     req = urllib.request.Request(f"http://api.clubelo.com/{team.replace(' ', '%20')}",
                                  headers={"User-Agent": "Mozilla/5.0"})
     raw = urllib.request.urlopen(req, timeout=20).read().decode()
@@ -62,8 +186,6 @@ def fetch_elo(team, on_date):
             break
     if rating is None:
         raise ValueError(f"clubelo has no rating for '{team}'")
-    cache[key] = rating
-    json.dump(cache, open(CACHE, "w"))
     return rating
 
 

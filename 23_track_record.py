@@ -109,7 +109,7 @@ def backfill(n=BACKFILL_N):
     cls = {"H": 0, "D": 1, "A": 2}
     y = test["result"].map(cls).values
 
-    p = E["model_1x2"].predict_proba(X)               # model 1X2
+    p = gpc.predict_1x2(E, X)                         # published 1X2 (ensemble)
     lam = np.clip(E["reg_h"].predict(X), 0.15, 6)
     mu = np.clip(E["reg_a"].predict(X), 0.15, 6)
     p_over = np.empty(len(test))            # read off each match's matrix below
@@ -280,7 +280,7 @@ def predict_upcoming():
         X = _build_row_live(r.HomeTeam, r.AwayTeam, r.d, r.Div)
         if X is None:
             continue
-        pH, pD, pA = E["model_1x2"].predict_proba(X)[0]
+        pH, pD, pA = gpc.predict_1x2(E, X)[0]
         lam = float(np.clip(E["reg_h"].predict(X)[0], 0.15, 6))
         mu = float(np.clip(E["reg_a"].predict(X)[0], 0.15, 6))
         # log exactly what the API and the slates publish (see score_outputs)

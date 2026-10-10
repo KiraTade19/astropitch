@@ -16,7 +16,7 @@ week?", across every competition we have a defensible rating for:
                than guessed at, same rule as the API's coverage().
 
 Where odds exist the model is anchored on them at the repo's own weights
-(W_MARKET 0.75 core / 0.85 clubelo). Where they don't, the model stands alone
+(W_MARKET 0.95 core / 0.85 clubelo). Where they don't, the model stands alone
 and the row is flagged `anchored: false`, because those are the rows most
 likely to be wrong.
 
@@ -66,7 +66,7 @@ ST = CLUB["state"]
 ELO, TEAM_DIV, LEAGUE_CODES = ST["elo"], ST["team_league"], ST["league_codes"]
 DIV_NAMES = CLUB.get("div_names", {})
 CLUB_TEAMS = set(ELO)
-W_MARKET_CORE = 0.75                    # matches 24_api.py's W_MARKET["club"]
+W_MARKET_CORE = 0.95                    # matches 24_api.py's W_MARKET["club"]; see there
 
 # bookmaker columns in football-data's fixtures.csv, in preference order
 ODDS_COLS = [("B365H", "B365D", "B365A"), ("PSH", "PSD", "PSA"),
@@ -143,7 +143,7 @@ def _cards(home, away, div):
 def predict_core(home, away, date, div, odds):
     """Returns the same shape as predict_euro so the renderer needs one path."""
     X = _row(home, away, date, div)
-    model = np.array(CLUB["model_1x2"].predict_proba(X)[0], dtype=float)
+    model = np.array(gpc.predict_1x2(CLUB, X)[0], dtype=float)
     lam = float(np.clip(CLUB["reg_h"].predict(X)[0], 0.15, 6))
     mu = float(np.clip(CLUB["reg_a"].predict(X)[0], 0.15, 6))
     M = gpc.dc_matrix(lam, mu, CLUB["rho"], maxg=8)

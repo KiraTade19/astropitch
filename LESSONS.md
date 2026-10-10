@@ -356,3 +356,62 @@ new data against ~10 years of history: 1X2 log-loss 0.994 (was 0.995), 366
 covered clubs (was 355, from the promotion/relegation churn), and the
 market-subsumption finding reproduced almost exactly — optimal blend weight
 0.883 (was 0.886), engine contribution +0.0002 nats both times.
+
+---
+
+## "Make it much better" (Oct 2026): what tuning can and cannot do
+
+Asked to make the predictions much better, we tested three changes under a
+strict protocol: every choice made on a **validation** slice (the 4,000
+matches before the holdout), then scored **once** on the untouched holdout.
+
+| Change | Validation | Holdout | Verdict |
+|---|---|---|---|
+| Newcomer prior (promoted clubs start 225 below the division mean, not 1500) | −0.0013 | **+0.0017 worse**, CI [−0.0039, +0.0005] | ❌ dropped |
+| Recency weighting (half-life 3 yrs) | −0.0008 | +0.0005, CI spans zero | ❌ dropped |
+| XGBoost + 20% logistic-regression ensemble | best mix 0.2 | +0.00046, t=1.87, P(better) 97% | ✅ kept |
+| Market weight 0.75 → 0.95 vs **pre-match** odds | best 0.95 | best 0.95–1.0; +0.00038, P(better) 79% | ✅ kept |
+
+The newcomer prior is the instructive one: the textbook ELO fix looked good on
+validation and **hurt** out of sample. Same lesson as the shot ELO — a
+validation gain is a hypothesis, not a result.
+
+After retraining with both kept changes, the published configuration
+(ensemble at w=0.95) against the previous one (XGBoost at w=0.75), on the same
+4,000 holdout matches neither had trained on:
+
+| | Log-loss | Accuracy |
+|---|---|---|
+| before — XGBoost @ 0.75 | 0.98399 | 51.62% |
+| **after — ensemble @ 0.95** | **0.98361** | **51.82%** |
+| market alone | 0.98368 | 51.92% |
+
++0.00038 nats, P(better) 78% — real in direction, not significant. The model
+alone moved +0.00009 (P 59%): effectively neutral. **Where a price exists, the
+best thing the engine can do is stay out of the market's way, and it now
+does.** No amount of re-tuning these features changes that; only new
+information (lineups, injuries) could.
+
+### The improvement that mattered was coverage, not accuracy
+
+`api.clubelo.com` has returned **502 since at least July 2026** — from here
+and from GitHub Actions alike. Every clubelo-rated row (all UEFA ties, every
+cross-division cup tie) silently came back "unrated", and the week of 8 Oct
+the public slate published **0 rated fixtures** while every run went green.
+`clubelo.com` itself is up and embeds the full current table (~1,700 clubs:
+API-style name, display name, federation, Elo), so `27_euro_predict.py` now
+falls back to one homepage request a day for fixtures within 21 days of today.
+Ambiguous names prefer the European club ("Liverpool" → ENG, not URU); names
+still ambiguous inside Europe are refused. Result for 13–15 Oct: **12 of 12
+fixtures rated**, from 0.
+
+Two naming bugs surfaced on the way: letters Unicode cannot decompose were
+being *deleted* rather than transliterated ("FC Nordsjælland" → "Nordsjlland",
+never matching clubelo's "Nordsjaelland"); and a few clubs needed aliases
+(Man City, Olympiacos, Amedspor, Hearts).
+
+Two things remain upstream and are not ours to fix: football-data.co.uk has
+published no result since **20 Sep 2026**, so the newest training data is
+three weeks old; and the engine still has no information the market lacks.
+`retrain.yml` now retrains monthly, gated on the test suite, so it at least
+never falls further behind than the data does.
