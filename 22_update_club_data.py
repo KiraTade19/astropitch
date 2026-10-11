@@ -75,8 +75,13 @@ def update_results():
     # fold any BOM-prefixed duplicate Div column into Div
     for a in [c for c in old.columns if "Div" in c and c != "Div"]:
         old["Div"] = old["Div"].where(old["Div"].notna(), old[a])
-    old_keys = set(norm_key(old).tolist())
-    print(f"  existing rows: {len(old):,}  ({len(old_keys):,} unique matches)")
+    # Rows filled in from ESPN (37_espn_results.py) are placeholders: when
+    # football-data publishes the same match, its richer row (closing odds,
+    # referee) must REPLACE the ESPN one, so ESPN keys are not "already have".
+    espn = old["Source"].eq("espn") if "Source" in old.columns else pd.Series(False, index=old.index)
+    old_keys = set(norm_key(old[~espn]).tolist())
+    print(f"  existing rows: {len(old):,}  ({len(old_keys):,} unique from football-data, "
+          f"{int(espn.sum())} ESPN placeholders)")
 
     new_frames, added = [], 0
     for season in SEASONS:
@@ -98,11 +103,31 @@ def update_results():
             print(f"  {season}/{div:<3s}: {len(d):3d} rows, {len(fresh):3d} new")
 
     if new_frames:
-        combined = pd.concat([old] + new_frames, ignore_index=True)
+        fresh_keys = set(pd.concat([norm_key(f) for f in new_frames]).tolist())
+        superseded = espn & norm_key(old).isin(fresh_keys)
+        combined = pd.concat([old[~superseded]] + new_frames, ignore_index=True)
         combined.to_csv(CLUB_CSV, index=False, encoding="latin-1")
-        print(f"\n  ADDED {added:,} new matches -> {len(combined):,} total. Wrote {CLUB_CSV}")
+        print(f"\n  ADDED {added:,} new matches ({int(superseded.sum())} replacing ESPN "
+              f"placeholders) -> {len(combined):,} total. Wrote {CLUB_CSV}")
     else:
         print("\n  No new matches (already up to date).")
+
+
+def update_from_espn():
+    """Fill results football-data has not published yet (see 37_espn_results.py).
+    A feed outage must never take down the daily run, so failures are reported
+    and swallowed."""
+    print("\n" + "=" * 70)
+    print(" FILLING THE GAP FROM ESPN")
+    print("=" * 70)
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("espn_results", "37_espn_results.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.main()
+    except Exception as e:
+        print(f"  [skip] ESPN supplement: {e}")
 
 
 def update_fixtures():
@@ -138,5 +163,6 @@ def update_fixtures():
 
 if __name__ == "__main__":
     update_results()
+    update_from_espn()
     update_fixtures()
     print("\nDone. Re-run 21_club_genesis.py to retrain on the refreshed data.")

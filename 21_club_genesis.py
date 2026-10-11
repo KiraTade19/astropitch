@@ -338,6 +338,45 @@ def timeseries_logloss(make_model, X, y, n_splits=4):
     return np.mean(scores)
 
 
+def load_club_data():
+    """club_raw.csv cleaned exactly as training sees it."""
+    df = pd.read_csv(CLUB_CSV, encoding="latin-1", low_memory=False)
+    for altdiv in [c for c in df.columns if "Div" in c and c != "Div"]:
+        df["Div"] = df["Div"].where(df["Div"].notna(), df[altdiv])
+    d1 = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
+    d2 = pd.to_datetime(df["Date"], format="%d/%m/%y", errors="coerce")
+    df["Date"] = d1.where(d1.notna(), d2)
+    for c in ["HST", "AST"]:
+        df[c] = pd.to_numeric(df.get(c), errors="coerce")
+    df = df.dropna(subset=["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "Div"])
+    return df.sort_values("Date").reset_index(drop=True)
+
+
+def refresh_state(engine_path="club_engine.pkl"):
+    """Bring the engine's ratings and form up to the latest results WITHOUT
+    refitting any model.
+
+    Predictions read every feature (ELO, rolling form, shots, rest, H2H) from
+    the `state` stored in the pickle at training time, so results ingested
+    afterwards change nothing until something rebuilds it. A full retrain
+    re-tunes the classifiers too and takes minutes; this replays the same
+    leak-free feature pass over all data and swaps in the new state only.
+    The models are unchanged, so the holdout report stays valid.
+    """
+    E = joblib.load(engine_path)
+    lc = E["state"]["league_codes"]
+    df = load_club_data()
+    df = df[df["Div"].isin(lc)]
+    before = max(E["state"]["last_date"].values())
+    _, state = build_elo_and_features(df, lc)
+    E["state"] = state
+    joblib.dump(E, engine_path)
+    after = max(state["last_date"].values())
+    print(f"State refreshed: ratings/form now through {after.date()} (was {before.date()}), "
+          f"{len(state['elo'])} clubs. Models unchanged.")
+    return before, after
+
+
 def main():
     print("=" * 78)
     print(" ASTROPITCH V12 CLUB GENESIS  -  leak-free club-football engine")
@@ -553,4 +592,8 @@ Saved: club_engine.pkl
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--state-only" in sys.argv:
+        refresh_state()
+    else:
+        main()
