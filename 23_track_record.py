@@ -318,6 +318,13 @@ def grade_pending():
         print("\nNo pending predictions to grade.")
         return
     res = load_clean_club()
+    # Grade only against football-data rows. ESPN placeholders (37_espn_results.py)
+    # carry no closing price, and a prediction graded against one would leave the
+    # pending list with its CLV permanently blank — CLV being the one number the
+    # live record exists to measure. ESPN rows still feed ratings and form; the
+    # prediction simply waits a few days for football-data's row.
+    if "Source" in res.columns:
+        res = res[res["Source"].ne("espn")]
 
     graded, still = [], []
     for p in pend.itertuples(index=False):

@@ -73,6 +73,7 @@ per-key daily free-tier quota (`ASTROPITCH_FREE_DAILY`, default 100).
 | `27_euro_predict.py`                      | clubelo-powered European coverage                                  |
 | `30_daily_slate.py`                       | today's card (UEFA fixtures, clubelo-rated)                        |
 | `36_weekly_slate.py`                      | the week-ahead card across every league we can rate                |
+| `37_espn_results.py`                      | fills results football-data hasn't published yet (ESPN)            |
 | `.github/workflows/daily.yml`             | 4× daily: refresh → grade → predict → rebuild site                 |
 | `.github/workflows/weekly.yml`            | Mon + Thu: refresh → weekly slate → rebuild site                   |
 | `.github/workflows/retrain.yml`           | monthly: retrain → test gate → backfill → rebuild site             |

@@ -413,3 +413,51 @@ def test_dead_api_falls_back_to_the_snapshot(api, monkeypatch, tmp_path):
     assert euro.fetch_elo("ManCity", today) == 2028
     with pytest.raises(ValueError):
         euro.fetch_elo("ManCity", "2026-01-01")
+
+
+# ---------------------------------------------------------------------------
+# ESPN supplement (fills results until football-data publishes them)
+# ---------------------------------------------------------------------------
+@pytest.fixture(scope="module")
+def espn():
+    return _load("37_espn_results.py", "espn_under_test")
+
+
+@pytest.mark.parametrize("espn_names,expected", [
+    (("Nottingham Forest", "Nottm Forest"), "Nott'm Forest"),      # alias
+    (("Leeds United", "Leeds"), "Leeds"),                          # generic suffix
+    (("Hull City", "Hull"), "Hull"),
+    (("Manchester City", "Man City"), "Man City"),
+    (("Brighton & Hove Albion", "Brighton"), "Brighton"),
+])
+def test_espn_names_map_onto_football_data(espn, espn_names, expected):
+    clubs = {"Nott'm Forest", "Leeds", "Hull", "Man City", "Man United", "Brighton", "Burnley"}
+    assert espn.map_name(espn_names, clubs) == expected
+
+
+def test_espn_mapping_refuses_rather_than_guesses(espn):
+    """A wrong match would credit one club's result to another and corrupt both
+    ratings, so anything not uniquely identified must be skipped."""
+    clubs = {"Man City", "Man United"}
+    assert espn.map_name(("Manchester",), clubs) is None
+    assert espn.map_name(("Nowhere Rovers",), clubs) is None
+
+
+def test_football_data_replaces_an_espn_placeholder(updater, monkeypatch, tmp_path):
+    """Regression guard: the old duplicate check would have treated the ESPN
+    row as 'already have it' and thrown away football-data's richer row with
+    the closing odds, leaving that match without a price forever."""
+    import pandas as pd
+    csv = tmp_path / "club_raw.csv"
+    pd.DataFrame([dict(Div="E0", Date="10/10/2026", HomeTeam="Arsenal", AwayTeam="Leeds",
+                       FTHG=2, FTAG=1, FTR="H", HST=6, AST=5, Source="espn")]).to_csv(csv, index=False)
+    fd = pd.DataFrame([dict(Div="E0", Date="10/10/2026", HomeTeam="Arsenal", AwayTeam="Leeds",
+                            FTHG=2, FTAG=1, FTR="H", HST=6, AST=5, PSCH=1.45, PSCD=4.6, PSCA=7.0)])
+    monkeypatch.setattr(updater, "CLUB_CSV", str(csv))
+    monkeypatch.setattr(updater, "SEASONS", ["2627"])
+    monkeypatch.setattr(updater, "DIVS", ["E0"])
+    monkeypatch.setattr(updater, "fetch", lambda url: fd.copy())
+    updater.update_results()
+    out = pd.read_csv(csv)
+    assert len(out) == 1
+    assert out["Source"].isna().all() and out["PSCH"].iloc[0] == 1.45

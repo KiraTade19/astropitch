@@ -410,8 +410,47 @@ being *deleted* rather than transliterated ("FC Nordsjælland" → "Nordsjlland"
 never matching clubelo's "Nordsjaelland"); and a few clubs needed aliases
 (Man City, Olympiacos, Amedspor, Hearts).
 
-Two things remain upstream and are not ours to fix: football-data.co.uk has
-published no result since **20 Sep 2026**, so the newest training data is
-three weeks old; and the engine still has no information the market lacks.
-`retrain.yml` now retrains monthly, gated on the test suite, so it at least
-never falls further behind than the data does.
+One thing remains that is not ours to fix: the engine still has no information
+the market lacks. `retrain.yml` now retrains monthly, gated on the test suite,
+so it at least never falls further behind than the data does.
+
+*Correction, 11 Oct:* this section first said football-data.co.uk had
+"published no result since 20 Sep, so the training data is three weeks old".
+Wrong. Every one of the 12 leagues was on a break from 21 Sep to 8 Oct;
+football-data was missing only the 63 matches played on 9–10 Oct, which is its
+normal lag of a few days. See below.
+
+---
+
+## "Stale data" was a fixture break — and the real lag is now filled
+
+Checking every league against ESPN's scoreboard showed **zero** matches played
+between 21 Sep and 8 Oct, so the files' 21 Sep timestamp was not a stalled
+feed. The genuine gap was football-data's ordinary publishing lag: 63 results
+from 9–10 Oct. Lesson: before calling a source stale, check whether anything
+happened that it could have published.
+
+That lag still matters, so it is now filled:
+
+- **`37_espn_results.py`** pulls completed matches in our 12 divisions from
+  ESPN's public scoreboard, maps ESPN names onto football-data's ("Nottingham
+  Forest" → "Nott'm Forest") against the clubs actually in that division this
+  season, and **skips any name it cannot map uniquely** rather than guess — a
+  wrong match would corrupt two clubs' ratings. First run: 63 of 63 mapped.
+  Rows are tagged `Source=espn` and carry shots on target but no odds.
+- **football-data replaces them.** `22_update_club_data.py` treats ESPN rows
+  as placeholders, so football-data's richer row (closing odds, referee) wins
+  when it arrives. The old duplicate check would have kept the ESPN row and
+  dropped the price forever.
+- **Live grading waits for football-data.** A prediction graded against an
+  ESPN row would leave the pending list with its CLV permanently blank, so
+  ESPN rows feed ratings and form but never the track record.
+- **`21_club_genesis.py --state-only`** replays the feature pass over the
+  latest results and swaps in the new ratings and form *without* refitting any
+  model. Ingesting results alone changes no prediction: every feature is read
+  from the state stored in the pickle at training time.
+
+On 11 Oct this moved the engine's ratings and form from 20 Sep to 10 Oct. It
+changed none of that day's 18 published predictions — none of the 36 clubs
+had played on 9–10 Oct — which is exactly right: the new results feed the
+fixtures where those clubs meet sides that did.
