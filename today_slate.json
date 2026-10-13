@@ -1,6 +1,6 @@
 {
  "date": "2026-10-13",
- "generated_at": "2026-10-13T12:27:54+00:00",
+ "generated_at": "2026-10-13T20:31:32+00:00",
  "n": 3,
  "matches": [
   {
@@ -9,24 +9,24 @@
    "kickoff": "16:45",
    "home": "Lens",
    "away": "Sporting CP",
-   "home_elo": 1817,
-   "away_elo": 1877,
+   "home_elo": 1808,
+   "away_elo": 1885,
    "probs": [
-    0.37,
-    0.271,
-    0.359
+    0.356,
+    0.262,
+    0.382
    ],
    "model_probs": [
-    0.37,
-    0.271,
-    0.359
+    0.356,
+    0.262,
+    0.382
    ],
    "market": null,
-   "pick": "HOME",
-   "over25": 0.485,
+   "pick": "AWAY",
+   "over25": 0.49,
    "top_score": "1-1",
    "dc": "12",
-   "dc_prob": 0.729,
+   "dc_prob": 0.738,
    "dc_tier": "medium",
    "dc_reliability": "lower - excludes the draw",
    "cosmic": "♏ Waxing crescent in Scorpio · Mars's day · Year of the Fire Horse"
