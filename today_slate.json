@@ -1,7 +1,92 @@
 {
- "date": "2026-10-12",
- "generated_at": "2026-10-12T22:22:07+00:00",
- "n": 0,
- "matches": [],
+ "date": "2026-10-13",
+ "generated_at": "2026-10-13T12:27:54+00:00",
+ "n": 3,
+ "matches": [
+  {
+   "id": "2594564",
+   "comp": "Champions League",
+   "kickoff": "16:45",
+   "home": "Lens",
+   "away": "Sporting CP",
+   "home_elo": 1817,
+   "away_elo": 1877,
+   "probs": [
+    0.37,
+    0.271,
+    0.359
+   ],
+   "model_probs": [
+    0.37,
+    0.271,
+    0.359
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.485,
+   "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.729,
+   "dc_tier": "medium",
+   "dc_reliability": "lower - excludes the draw",
+   "cosmic": "♏ Waxing crescent in Scorpio · Mars's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594543",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Arsenal",
+   "away": "Lille",
+   "home_elo": 2043,
+   "away_elo": 1782,
+   "probs": [
+    0.711,
+    0.18,
+    0.109
+   ],
+   "model_probs": [
+    0.711,
+    0.18,
+    0.109
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.679,
+   "top_score": "2-0",
+   "dc": "1X",
+   "dc_prob": 0.891,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♏ Waxing crescent in Scorpio · Mars's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594581",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "RB Leipzig",
+   "away": "PSV Eindhoven",
+   "home_elo": 1825,
+   "away_elo": 1787,
+   "probs": [
+    0.461,
+    0.284,
+    0.255
+   ],
+   "model_probs": [
+    0.461,
+    0.284,
+    0.255
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.554,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.745,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♏ Waxing crescent in Scorpio · Mars's day · Year of the Fire Horse"
+  }
+ ],
  "unrated": 0
 }
