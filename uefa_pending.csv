@@ -1,0 +1,4 @@
+id,date,comp,home,away,pH,pD,pA,pick,p_over,score_pick,logged_at
+2594590,2026-10-14,Champions League,Feyenoord,Como,0.353,0.26,0.387,AWAY,0.493,1-1,2026-10-14T15:43:26+00:00
+2594547,2026-10-14,Champions League,Manchester City,Paris Saint-Germain,0.512,0.262,0.226,HOME,0.579,1-1,2026-10-14T15:43:26+00:00
+2594553,2026-10-14,Champions League,Aston Villa,Fenerbahçe,0.552,0.245,0.203,HOME,0.6,1-1,2026-10-14T15:43:26+00:00

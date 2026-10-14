@@ -1,7 +1,92 @@
 {
  "date": "2026-10-14",
- "generated_at": "2026-10-14T10:04:07+00:00",
- "n": 0,
- "matches": [],
- "unrated": 3
+ "generated_at": "2026-10-14T15:43:26+00:00",
+ "n": 3,
+ "matches": [
+  {
+   "id": "2594590",
+   "comp": "Champions League",
+   "kickoff": "16:45",
+   "home": "Feyenoord",
+   "away": "Como",
+   "home_elo": 1724,
+   "away_elo": 1805,
+   "probs": [
+    0.353,
+    0.26,
+    0.387
+   ],
+   "model_probs": [
+    0.353,
+    0.26,
+    0.387
+   ],
+   "market": null,
+   "pick": "AWAY",
+   "over25": 0.493,
+   "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.74,
+   "dc_tier": "medium",
+   "dc_reliability": "lower - excludes the draw",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594547",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Manchester City",
+   "away": "Paris Saint-Germain",
+   "home_elo": 2034,
+   "away_elo": 1957,
+   "probs": [
+    0.512,
+    0.262,
+    0.226
+   ],
+   "model_probs": [
+    0.512,
+    0.262,
+    0.226
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.579,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.774,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594553",
+   "comp": "Champions League",
+   "kickoff": "19:00",
+   "home": "Aston Villa",
+   "away": "Fenerbahçe",
+   "home_elo": 1893,
+   "away_elo": 1784,
+   "probs": [
+    0.552,
+    0.245,
+    0.203
+   ],
+   "model_probs": [
+    0.552,
+    0.245,
+    0.203
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.6,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.797,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
+  }
+ ],
+ "unrated": 0
 }
