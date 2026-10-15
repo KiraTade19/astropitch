@@ -1,750 +1,16 @@
 {
- "start": "2026-10-12",
- "end": "2026-10-18",
- "generated_at": "2026-10-12T15:44:54+00:00",
- "n": 19,
- "unrated": 0,
+ "start": "2026-10-15",
+ "end": "2026-10-21",
+ "generated_at": "2026-10-15T11:36:40+00:00",
+ "n": 11,
+ "unrated": 1,
  "competitions": [
   "Champions League",
   "Conference League",
-  "England Premier League",
-  "Europa League",
-  "Greece Super League",
-  "Italy Serie A",
-  "Portugal Primeira Liga",
-  "Spain La Liga",
-  "Turkey Super Lig"
+  "Europa League"
  ],
- "n_anchored": 7,
+ "n_anchored": 0,
  "matches": [
-  {
-   "date": "2026-10-12",
-   "kickoff": "16:00",
-   "comp": "Greece Super League",
-   "kind": "domestic",
-   "home": "PAOK",
-   "away": "Kalamata",
-   "source": "engine",
-   "elo": [
-    1770,
-    1487
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 20,
-   "model": [
-    0.689,
-    0.194,
-    0.117
-   ],
-   "market": [
-    0.791,
-    0.132,
-    0.077
-   ],
-   "final": [
-    0.786,
-    0.135,
-    0.079
-   ],
-   "over25": 0.555,
-   "xg": [
-    1.86,
-    0.86
-   ],
-   "scores": [
-    {
-     "score": "1-0",
-     "prob": 0.154
-    },
-    {
-     "score": "2-0",
-     "prob": 0.149
-    },
-    {
-     "score": "2-1",
-     "prob": 0.127
-    }
-   ],
-   "cards": null,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.921,
-   "dc_tier": "high",
-   "top_score": "1-0"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "17:30",
-   "comp": "Italy Serie A",
-   "kind": "domestic",
-   "home": "Atalanta",
-   "away": "Venezia",
-   "source": "engine",
-   "elo": [
-    1635,
-    1399
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.657,
-    0.217,
-    0.126
-   ],
-   "market": [
-    0.607,
-    0.227,
-    0.166
-   ],
-   "final": [
-    0.61,
-    0.227,
-    0.164
-   ],
-   "over25": 0.505,
-   "xg": [
-    2.1,
-    0.68
-   ],
-   "scores": [
-    {
-     "score": "2-0",
-     "prob": 0.119
-    },
-    {
-     "score": "1-0",
-     "prob": 0.11
-    },
-    {
-     "score": "1-1",
-     "prob": 0.107
-    }
-   ],
-   "cards": 3.1,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.837,
-   "dc_tier": "high",
-   "top_score": "2-0"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "18:00",
-   "comp": "Turkey Super Lig",
-   "kind": "domestic",
-   "home": "Eyupspor",
-   "away": "Goztep",
-   "source": "engine",
-   "elo": [
-    1483,
-    1553
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 20,
-   "model": [
-    0.29,
-    0.262,
-    0.448
-   ],
-   "market": [
-    0.247,
-    0.261,
-    0.492
-   ],
-   "final": [
-    0.249,
-    0.261,
-    0.489
-   ],
-   "over25": 0.476,
-   "xg": [
-    1.08,
-    1.48
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.125
-    },
-    {
-     "score": "0-1",
-     "prob": 0.116
-    },
-    {
-     "score": "1-2",
-     "prob": 0.098
-    }
-   ],
-   "cards": 5.2,
-   "anchored": true,
-   "pick": "AWAY",
-   "dc": "X2",
-   "dc_prob": 0.75,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "19:45",
-   "comp": "Italy Serie A",
-   "kind": "domestic",
-   "home": "Torino",
-   "away": "Udinese",
-   "source": "engine",
-   "elo": [
-    1524,
-    1518
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.357,
-    0.288,
-    0.354
-   ],
-   "market": [
-    0.414,
-    0.298,
-    0.289
-   ],
-   "final": [
-    0.411,
-    0.297,
-    0.292
-   ],
-   "over25": 0.463,
-   "xg": [
-    1.27,
-    1.28
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.142
-    },
-    {
-     "score": "1-0",
-     "prob": 0.107
-    },
-    {
-     "score": "2-1",
-     "prob": 0.093
-    }
-   ],
-   "cards": 3.9,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.708,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "20:00",
-   "comp": "England Premier League",
-   "kind": "domestic",
-   "home": "Coventry",
-   "away": "Newcastle",
-   "source": "engine",
-   "elo": [
-    1550,
-    1666
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.341,
-    0.266,
-    0.393
-   ],
-   "market": [
-    0.289,
-    0.258,
-    0.454
-   ],
-   "final": [
-    0.291,
-    0.258,
-    0.451
-   ],
-   "over25": 0.456,
-   "xg": [
-    1.16,
-    1.31
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.123
-    },
-    {
-     "score": "0-1",
-     "prob": 0.12
-    },
-    {
-     "score": "1-2",
-     "prob": 0.096
-    }
-   ],
-   "cards": 4.0,
-   "anchored": true,
-   "pick": "AWAY",
-   "dc": "12",
-   "dc_prob": 0.742,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "20:00",
-   "comp": "Spain La Liga",
-   "kind": "domestic",
-   "home": "Levante",
-   "away": "Sevilla",
-   "source": "engine",
-   "elo": [
-    1494,
-    1521
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.366,
-    0.284,
-    0.349
-   ],
-   "market": [
-    0.346,
-    0.293,
-    0.362
-   ],
-   "final": [
-    0.347,
-    0.292,
-    0.361
-   ],
-   "over25": 0.501,
-   "xg": [
-    1.43,
-    1.28
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.139
-    },
-    {
-     "score": "0-1",
-     "prob": 0.086
-    },
-    {
-     "score": "1-2",
-     "prob": 0.085
-    }
-   ],
-   "cards": 5.3,
-   "anchored": true,
-   "pick": "AWAY",
-   "dc": "12",
-   "dc_prob": 0.708,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-12",
-   "kickoff": "20:15",
-   "comp": "Portugal Primeira Liga",
-   "kind": "domestic",
-   "home": "Famalicao",
-   "away": "Alverca",
-   "source": "engine",
-   "elo": [
-    1585,
-    1498
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.54,
-    0.27,
-    0.19
-   ],
-   "market": [
-    0.521,
-    0.283,
-    0.196
-   ],
-   "final": [
-    0.522,
-    0.282,
-    0.196
-   ],
-   "over25": 0.437,
-   "xg": [
-    1.54,
-    0.9
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.133
-    },
-    {
-     "score": "1-0",
-     "prob": 0.129
-    },
-    {
-     "score": "2-0",
-     "prob": 0.104
-    }
-   ],
-   "cards": 4.5,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.804,
-   "dc_tier": "high",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-13",
-   "kickoff": "16:45",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "Lens",
-   "away": "Sporting CP",
-   "source": "clubelo",
-   "elo": [
-    1817,
-    1877
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.37,
-    0.271,
-    0.359
-   ],
-   "market": null,
-   "final": [
-    0.37,
-    0.271,
-    0.359
-   ],
-   "over25": 0.485,
-   "xg": [
-    1.32,
-    1.29
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.131
-    },
-    {
-     "score": "1-0",
-     "prob": 0.091
-    },
-    {
-     "score": "0-1",
-     "prob": 0.089
-    },
-    {
-     "score": "2-1",
-     "prob": 0.083
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "HOME",
-   "dc": "12",
-   "dc_prob": 0.729,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-13",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "Arsenal",
-   "away": "Lille",
-   "source": "clubelo",
-   "elo": [
-    2043,
-    1783
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.71,
-    0.18,
-    0.109
-   ],
-   "market": null,
-   "final": [
-    0.71,
-    0.18,
-    0.109
-   ],
-   "over25": 0.679,
-   "xg": [
-    2.61,
-    0.89
-   ],
-   "scores": [
-    {
-     "score": "2-0",
-     "prob": 0.103
-    },
-    {
-     "score": "2-1",
-     "prob": 0.092
-    },
-    {
-     "score": "3-0",
-     "prob": 0.089
-    },
-    {
-     "score": "3-1",
-     "prob": 0.08
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.89,
-   "dc_tier": "high",
-   "top_score": "2-0"
-  },
-  {
-   "date": "2026-10-13",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "RB Leipzig",
-   "away": "PSV Eindhoven",
-   "source": "clubelo",
-   "elo": [
-    1826,
-    1787
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.463,
-    0.283,
-    0.254
-   ],
-   "market": null,
-   "final": [
-    0.463,
-    0.283,
-    0.254
-   ],
-   "over25": 0.554,
-   "xg": [
-    1.72,
-    1.18
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.117
-    },
-    {
-     "score": "2-1",
-     "prob": 0.096
-    },
-    {
-     "score": "1-0",
-     "prob": 0.09
-    },
-    {
-     "score": "2-0",
-     "prob": 0.082
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.746,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-14",
-   "kickoff": "16:45",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "Feyenoord",
-   "away": "Como",
-   "source": "clubelo",
-   "elo": [
-    1724,
-    1807
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.351,
-    0.259,
-    0.39
-   ],
-   "market": null,
-   "final": [
-    0.351,
-    0.259,
-    0.39
-   ],
-   "over25": 0.495,
-   "xg": [
-    1.28,
-    1.37
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.129
-    },
-    {
-     "score": "0-1",
-     "prob": 0.091
-    },
-    {
-     "score": "1-2",
-     "prob": 0.085
-    },
-    {
-     "score": "1-0",
-     "prob": 0.085
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "AWAY",
-   "dc": "12",
-   "dc_prob": 0.741,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-14",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "Manchester City",
-   "away": "Paris Saint-Germain",
-   "source": "clubelo",
-   "elo": [
-    2035,
-    1958
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.512,
-    0.262,
-    0.226
-   ],
-   "market": null,
-   "final": [
-    0.512,
-    0.262,
-    0.226
-   ],
-   "over25": 0.579,
-   "xg": [
-    1.88,
-    1.13
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.109
-    },
-    {
-     "score": "2-1",
-     "prob": 0.098
-    },
-    {
-     "score": "1-0",
-     "prob": 0.088
-    },
-    {
-     "score": "2-0",
-     "prob": 0.087
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.774,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-14",
-   "kickoff": "19:00",
-   "comp": "Champions League",
-   "kind": "uefa",
-   "home": "Aston Villa",
-   "away": "Fenerbahçe",
-   "source": "clubelo",
-   "elo": [
-    1894,
-    1785
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.552,
-    0.245,
-    0.203
-   ],
-   "market": null,
-   "final": [
-    0.552,
-    0.245,
-    0.203
-   ],
-   "over25": 0.6,
-   "xg": [
-    2.01,
-    1.09
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.103
-    },
-    {
-     "score": "2-1",
-     "prob": 0.099
-    },
-    {
-     "score": "2-0",
-     "prob": 0.091
-    },
-    {
-     "score": "1-0",
-     "prob": 0.086
-    }
-   ],
-   "cards": null,
-   "anchored": false,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.797,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
   {
    "date": "2026-10-15",
    "kickoff": "16:45",
@@ -754,25 +20,25 @@
    "away": "Crystal Palace",
    "source": "clubelo",
    "elo": [
-    1796,
+    1795,
     1830
    ],
    "rating_weight": 1.0,
    "stale_days": 0,
    "model": [
-    0.389,
+    0.388,
     0.286,
-    0.325
+    0.326
    ],
    "market": null,
    "final": [
-    0.389,
+    0.388,
     0.286,
-    0.325
+    0.326
    ],
-   "over25": 0.504,
+   "over25": 0.503,
    "xg": [
-    1.43,
+    1.42,
     1.26
    ],
    "scores": [
@@ -790,7 +56,7 @@
     },
     {
      "score": "0-1",
-     "prob": 0.08
+     "prob": 0.081
     }
    ],
    "cards": null,
@@ -811,7 +77,7 @@
    "source": "clubelo",
    "elo": [
     1896,
-    1391
+    1390
    ],
    "rating_weight": 1.0,
    "stale_days": 0,
@@ -838,11 +104,11 @@
     },
     {
      "score": "2-0",
-     "prob": 0.16
+     "prob": 0.161
     },
     {
      "score": "4-0",
-     "prob": 0.141
+     "prob": 0.142
     },
     {
      "score": "1-0",
@@ -866,25 +132,25 @@
    "away": "Jablonec",
    "source": "clubelo",
    "elo": [
-    1792,
-    1548
+    1793,
+    1547
    ],
    "rating_weight": 1.0,
    "stale_days": 0,
    "model": [
-    0.696,
-    0.186,
-    0.118
+    0.698,
+    0.185,
+    0.117
    ],
    "market": null,
    "final": [
-    0.696,
-    0.186,
-    0.118
+    0.698,
+    0.185,
+    0.117
    ],
-   "over25": 0.678,
+   "over25": 0.679,
    "xg": [
-    2.56,
+    2.57,
     0.93
    ],
    "scores": [
@@ -902,14 +168,14 @@
     },
     {
      "score": "3-1",
-     "prob": 0.079
+     "prob": 0.08
     }
    ],
    "cards": null,
    "anchored": false,
    "pick": "HOME",
    "dc": "1X",
-   "dc_prob": 0.882,
+   "dc_prob": 0.883,
    "dc_tier": "high",
    "top_score": "2-0"
   },
@@ -978,8 +244,8 @@
    "away": "Sturm Graz",
    "source": "clubelo",
    "elo": [
-    1851,
-    1638
+    1850,
+    1637
    ],
    "rating_weight": 1.0,
    "stale_days": 0,
@@ -1080,7 +346,296 @@
    "dc_prob": 0.749,
    "dc_tier": "medium",
    "top_score": "1-1"
+  },
+  {
+   "date": "2026-10-20",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "kind": "uefa",
+   "home": "Liverpool",
+   "away": "Villarreal",
+   "source": "clubelo",
+   "elo": [
+    1932,
+    1805
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 0,
+   "model": [
+    0.574,
+    0.237,
+    0.19
+   ],
+   "market": null,
+   "final": [
+    0.574,
+    0.237,
+    0.19
+   ],
+   "over25": 0.611,
+   "xg": [
+    2.08,
+    1.07
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.1
+    },
+    {
+     "score": "2-1",
+     "prob": 0.099
+    },
+    {
+     "score": "2-0",
+     "prob": 0.092
+    },
+    {
+     "score": "1-0",
+     "prob": 0.084
+    }
+   ],
+   "cards": null,
+   "anchored": false,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.811,
+   "dc_tier": "high",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-10-20",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "kind": "uefa",
+   "home": "Paris Saint-Germain",
+   "away": "Barcelona",
+   "source": "clubelo",
+   "elo": [
+    1969,
+    2032
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 0,
+   "model": [
+    0.367,
+    0.27,
+    0.363
+   ],
+   "market": null,
+   "final": [
+    0.367,
+    0.27,
+    0.363
+   ],
+   "over25": 0.483,
+   "xg": [
+    1.31,
+    1.3
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.131
+    },
+    {
+     "score": "1-0",
+     "prob": 0.091
+    },
+    {
+     "score": "0-1",
+     "prob": 0.09
+    },
+    {
+     "score": "2-1",
+     "prob": 0.082
+    }
+   ],
+   "cards": null,
+   "anchored": false,
+   "pick": "HOME",
+   "dc": "12",
+   "dc_prob": 0.73,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-10-21",
+   "kickoff": "16:45",
+   "comp": "Champions League",
+   "kind": "uefa",
+   "home": "Lille",
+   "away": "Galatasaray",
+   "source": "clubelo",
+   "elo": [
+    1780,
+    1792
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 0,
+   "model": [
+    0.403,
+    0.299,
+    0.297
+   ],
+   "market": null,
+   "final": [
+    0.403,
+    0.299,
+    0.297
+   ],
+   "over25": 0.519,
+   "xg": [
+    1.52,
+    1.24
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.125
+    },
+    {
+     "score": "1-0",
+     "prob": 0.091
+    },
+    {
+     "score": "2-1",
+     "prob": 0.091
+    },
+    {
+     "score": "1-2",
+     "prob": 0.074
+    }
+   ],
+   "cards": null,
+   "anchored": false,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.702,
+   "dc_tier": "medium",
+   "top_score": "1-1"
+  },
+  {
+   "date": "2026-10-21",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "kind": "uefa",
+   "home": "Aston Villa",
+   "away": "Viking",
+   "source": "clubelo",
+   "elo": [
+    1899,
+    1707
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 0,
+   "model": [
+    0.646,
+    0.207,
+    0.147
+   ],
+   "market": null,
+   "final": [
+    0.646,
+    0.207,
+    0.147
+   ],
+   "over25": 0.649,
+   "xg": [
+    2.35,
+    1.0
+   ],
+   "scores": [
+    {
+     "score": "2-0",
+     "prob": 0.097
+    },
+    {
+     "score": "2-1",
+     "prob": 0.097
+    },
+    {
+     "score": "1-1",
+     "prob": 0.086
+    },
+    {
+     "score": "1-0",
+     "prob": 0.079
+    }
+   ],
+   "cards": null,
+   "anchored": false,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.853,
+   "dc_tier": "high",
+   "top_score": "2-0"
+  },
+  {
+   "date": "2026-10-21",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "kind": "uefa",
+   "home": "Bayern Munich",
+   "away": "Arsenal",
+   "source": "clubelo",
+   "elo": [
+    2038,
+    2045
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 0,
+   "model": [
+    0.407,
+    0.302,
+    0.291
+   ],
+   "market": null,
+   "final": [
+    0.407,
+    0.302,
+    0.291
+   ],
+   "over25": 0.523,
+   "xg": [
+    1.54,
+    1.23
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.124
+    },
+    {
+     "score": "2-1",
+     "prob": 0.091
+    },
+    {
+     "score": "1-0",
+     "prob": 0.091
+    },
+    {
+     "score": "2-0",
+     "prob": 0.074
+    }
+   ],
+   "cards": null,
+   "anchored": false,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.709,
+   "dc_tier": "medium",
+   "top_score": "1-1"
   }
  ],
- "unrated_list": []
+ "unrated_list": [
+  {
+   "date": "2026-10-20",
+   "kickoff": "19:00",
+   "comp": "Champions League",
+   "home": "Manchester City",
+   "away": "AEK Athens",
+   "reason": "no rating for AEK Athens"
+  }
+ ]
 }
