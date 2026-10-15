@@ -1,91 +1,175 @@
 {
- "date": "2026-10-14",
- "generated_at": "2026-10-14T22:01:10+00:00",
- "n": 3,
+ "date": "2026-10-15",
+ "generated_at": "2026-10-15T09:35:15+00:00",
+ "n": 6,
  "matches": [
   {
-   "id": "2594590",
-   "comp": "Champions League",
+   "id": "2594820",
+   "comp": "Europa League",
    "kickoff": "16:45",
-   "home": "Feyenoord",
-   "away": "Como",
-   "home_elo": 1730,
-   "away_elo": 1799,
+   "home": "Lyon",
+   "away": "Crystal Palace",
+   "home_elo": 1795,
+   "away_elo": 1830,
    "probs": [
-    0.363,
-    0.266,
-    0.371
+    0.388,
+    0.286,
+    0.326
    ],
    "model_probs": [
-    0.363,
-    0.266,
-    0.371
+    0.388,
+    0.286,
+    0.326
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.503,
+   "top_score": "1-1",
+   "dc": "12",
+   "dc_prob": 0.714,
+   "dc_tier": "medium",
+   "dc_reliability": "lower - excludes the draw",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594815",
+   "comp": "Europa League",
+   "kickoff": "19:00",
+   "home": "Bournemouth",
+   "away": "Sturm Graz",
+   "home_elo": 1850,
+   "away_elo": 1637,
+   "probs": [
+    0.667,
+    0.198,
+    0.135
+   ],
+   "model_probs": [
+    0.667,
+    0.198,
+    0.135
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.661,
+   "top_score": "2-0",
+   "dc": "1X",
+   "dc_prob": 0.865,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594825",
+   "comp": "Europa League",
+   "kickoff": "19:00",
+   "home": "Marseille",
+   "away": "Olympiacos",
+   "home_elo": 1767,
+   "away_elo": 1724,
+   "probs": [
+    0.468,
+    0.281,
+    0.251
+   ],
+   "model_probs": [
+    0.468,
+    0.281,
+    0.251
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.557,
+   "top_score": "1-1",
+   "dc": "1X",
+   "dc_prob": 0.749,
+   "dc_tier": "medium",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594706",
+   "comp": "Conference League",
+   "kickoff": "19:00",
+   "home": "Brighton and Hove Albion",
+   "away": "Kauno Žalgiris",
+   "home_elo": 1896,
+   "away_elo": 1390,
+   "probs": [
+    0.859,
+    0.109,
+    0.032
+   ],
+   "model_probs": [
+    0.859,
+    0.109,
+    0.032
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.677,
+   "top_score": "3-0",
+   "dc": "1X",
+   "dc_prob": 0.968,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594712",
+   "comp": "Conference League",
+   "kickoff": "19:00",
+   "home": "Freiburg",
+   "away": "Jablonec",
+   "home_elo": 1793,
+   "away_elo": 1547,
+   "probs": [
+    0.698,
+    0.185,
+    0.117
+   ],
+   "model_probs": [
+    0.698,
+    0.185,
+    0.117
+   ],
+   "market": null,
+   "pick": "HOME",
+   "over25": 0.679,
+   "top_score": "2-0",
+   "dc": "1X",
+   "dc_prob": 0.883,
+   "dc_tier": "high",
+   "dc_reliability": "higher",
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
+  },
+  {
+   "id": "2594720",
+   "comp": "Conference League",
+   "kickoff": "19:00",
+   "home": "Heart of Midlothian",
+   "away": "FC Nordsjælland",
+   "home_elo": 1552,
+   "away_elo": 1640,
+   "probs": [
+    0.347,
+    0.256,
+    0.396
+   ],
+   "model_probs": [
+    0.347,
+    0.256,
+    0.396
    ],
    "market": null,
    "pick": "AWAY",
-   "over25": 0.484,
+   "over25": 0.498,
    "top_score": "1-1",
    "dc": "12",
-   "dc_prob": 0.734,
+   "dc_prob": 0.743,
    "dc_tier": "medium",
    "dc_reliability": "lower - excludes the draw",
-   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
-  },
-  {
-   "id": "2594547",
-   "comp": "Champions League",
-   "kickoff": "19:00",
-   "home": "Manchester City",
-   "away": "Paris Saint-Germain",
-   "home_elo": 2023,
-   "away_elo": 1969,
-   "probs": [
-    0.482,
-    0.275,
-    0.243
-   ],
-   "model_probs": [
-    0.482,
-    0.275,
-    0.243
-   ],
-   "market": null,
-   "pick": "HOME",
-   "over25": 0.564,
-   "top_score": "1-1",
-   "dc": "1X",
-   "dc_prob": 0.757,
-   "dc_tier": "medium",
-   "dc_reliability": "higher",
-   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
-  },
-  {
-   "id": "2594553",
-   "comp": "Champions League",
-   "kickoff": "19:00",
-   "home": "Aston Villa",
-   "away": "Fenerbahçe",
-   "home_elo": 1899,
-   "away_elo": 1778,
-   "probs": [
-    0.566,
-    0.239,
-    0.194
-   ],
-   "model_probs": [
-    0.566,
-    0.239,
-    0.194
-   ],
-   "market": null,
-   "pick": "HOME",
-   "over25": 0.607,
-   "top_score": "1-1",
-   "dc": "1X",
-   "dc_prob": 0.805,
-   "dc_tier": "high",
-   "dc_reliability": "higher",
-   "cosmic": "♐ Waxing crescent in Sagittarius · Mercury's day · Year of the Fire Horse"
+   "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
   }
  ],
  "unrated": 0
