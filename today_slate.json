@@ -1,6 +1,6 @@
 {
  "date": "2026-10-15",
- "generated_at": "2026-10-15T15:28:49+00:00",
+ "generated_at": "2026-10-15T21:56:19+00:00",
  "n": 6,
  "matches": [
   {
@@ -9,24 +9,24 @@
    "kickoff": "16:45",
    "home": "Lyon",
    "away": "Crystal Palace",
-   "home_elo": 1795,
-   "away_elo": 1830,
+   "home_elo": 1800,
+   "away_elo": 1825,
    "probs": [
-    0.388,
-    0.286,
-    0.326
+    0.395,
+    0.291,
+    0.314
    ],
    "model_probs": [
-    0.388,
-    0.286,
-    0.326
+    0.395,
+    0.291,
+    0.314
    ],
    "market": null,
    "pick": "HOME",
-   "over25": 0.503,
+   "over25": 0.51,
    "top_score": "1-1",
    "dc": "12",
-   "dc_prob": 0.714,
+   "dc_prob": 0.709,
    "dc_tier": "medium",
    "dc_reliability": "lower - excludes the draw",
    "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
@@ -37,24 +37,24 @@
    "kickoff": "19:00",
    "home": "Bournemouth",
    "away": "Sturm Graz",
-   "home_elo": 1850,
-   "away_elo": 1637,
+   "home_elo": 1853,
+   "away_elo": 1632,
    "probs": [
-    0.667,
-    0.198,
-    0.135
+    0.675,
+    0.195,
+    0.13
    ],
    "model_probs": [
-    0.667,
-    0.198,
-    0.135
+    0.675,
+    0.195,
+    0.13
    ],
    "market": null,
    "pick": "HOME",
-   "over25": 0.661,
+   "over25": 0.665,
    "top_score": "2-0",
    "dc": "1X",
-   "dc_prob": 0.865,
+   "dc_prob": 0.87,
    "dc_tier": "high",
    "dc_reliability": "higher",
    "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
@@ -65,24 +65,24 @@
    "kickoff": "19:00",
    "home": "Marseille",
    "away": "Olympiacos",
-   "home_elo": 1767,
-   "away_elo": 1724,
+   "home_elo": 1759,
+   "away_elo": 1733,
    "probs": [
-    0.468,
-    0.281,
-    0.251
+    0.445,
+    0.291,
+    0.264
    ],
    "model_probs": [
-    0.468,
-    0.281,
-    0.251
+    0.445,
+    0.291,
+    0.264
    ],
    "market": null,
    "pick": "HOME",
-   "over25": 0.557,
+   "over25": 0.545,
    "top_score": "1-1",
    "dc": "1X",
-   "dc_prob": 0.749,
+   "dc_prob": 0.736,
    "dc_tier": "medium",
    "dc_reliability": "higher",
    "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"
@@ -93,7 +93,7 @@
    "kickoff": "19:00",
    "home": "Brighton and Hove Albion",
    "away": "Kauno Žalgiris",
-   "home_elo": 1896,
+   "home_elo": 1897,
    "away_elo": 1390,
    "probs": [
     0.859,
@@ -121,24 +121,24 @@
    "kickoff": "19:00",
    "home": "Freiburg",
    "away": "Jablonec",
-   "home_elo": 1793,
-   "away_elo": 1547,
+   "home_elo": 1794,
+   "away_elo": 1544,
    "probs": [
-    0.698,
-    0.185,
-    0.117
+    0.702,
+    0.184,
+    0.114
    ],
    "model_probs": [
-    0.698,
-    0.185,
-    0.117
+    0.702,
+    0.184,
+    0.114
    ],
    "market": null,
    "pick": "HOME",
    "over25": 0.679,
    "top_score": "2-0",
    "dc": "1X",
-   "dc_prob": 0.883,
+   "dc_prob": 0.886,
    "dc_tier": "high",
    "dc_reliability": "higher",
    "cosmic": "♐ Waxing crescent in Sagittarius · Jupiter's day · Year of the Fire Horse"

@@ -851,3 +851,9 @@ date,div,home,away,pH,pD,pA,pick,p_over,score_pick,actual,result,hit_1x2,hit_sco
 2026-10-14,Champions League,Feyenoord,Como,0.353,0.26,0.387,A,0.493,1-1,3-2,H,0,0,0,1.0413,,,,2026-10-14T22:01:00+00:00
 2026-10-14,Champions League,Manchester City,Paris Saint-Germain,0.512,0.262,0.226,H,0.579,1-1,2-4,A,0,0,1,1.4872,,,,2026-10-14T22:01:00+00:00
 2026-10-14,Champions League,Aston Villa,Fenerbahçe,0.552,0.245,0.203,H,0.6,1-1,6-0,H,1,0,1,0.5942,,,,2026-10-14T22:01:00+00:00
+2026-10-15,Europa League,Lyon,Crystal Palace,0.388,0.286,0.326,H,0.503,1-1,3-2,H,1,0,1,0.9467,,,,2026-10-15T21:55:43+00:00
+2026-10-15,Europa League,Bournemouth,Sturm Graz,0.667,0.198,0.135,H,0.661,2-0,3-0,H,1,0,1,0.405,,,,2026-10-15T21:55:43+00:00
+2026-10-15,Europa League,Marseille,Olympiacos,0.468,0.281,0.251,H,0.557,1-1,0-1,A,0,0,0,1.3823,,,,2026-10-15T21:55:43+00:00
+2026-10-15,Conference League,Brighton and Hove Albion,Kauno Žalgiris,0.859,0.109,0.032,H,0.677,3-0,4-0,H,1,0,1,0.152,,,,2026-10-15T21:55:43+00:00
+2026-10-15,Conference League,Freiburg,Jablonec,0.698,0.185,0.117,H,0.679,2-0,3-1,H,1,0,1,0.3595,,,,2026-10-15T21:55:43+00:00
+2026-10-15,Conference League,Heart of Midlothian,FC Nordsjælland,0.347,0.256,0.396,A,0.498,1-1,1-0,H,0,0,1,1.0584,,,,2026-10-15T21:55:43+00:00
