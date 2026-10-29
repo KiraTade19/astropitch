@@ -1,352 +1,125 @@
 {
- "start": "2026-10-26",
- "end": "2026-11-01",
- "generated_at": "2026-10-26T13:18:50+00:00",
- "n": 6,
+ "start": "2026-10-29",
+ "end": "2026-11-04",
+ "generated_at": "2026-10-29T13:08:49+00:00",
+ "n": 2,
  "unrated": 0,
  "competitions": [
-  "France Ligue 1",
-  "Portugal Primeira Liga",
-  "Spain La Liga",
-  "Turkey Super Lig"
+  "Italy Serie A"
  ],
- "n_anchored": 6,
+ "n_anchored": 2,
  "matches": [
   {
-   "date": "2026-10-26",
-   "kickoff": "16:00",
-   "comp": "Turkey Super Lig",
+   "date": "2026-10-29",
+   "kickoff": "17:30",
+   "comp": "Italy Serie A",
    "kind": "domestic",
-   "home": "Besiktas",
-   "away": "Buyuksehyr",
+   "home": "Frosinone",
+   "away": "Lecce",
    "source": "engine",
    "elo": [
-    1662,
-    1621
+    1454,
+    1478
    ],
    "rating_weight": 1.0,
-   "stale_days": 21,
+   "stale_days": 20,
    "model": [
-    0.545,
-    0.246,
-    0.209
+    0.452,
+    0.263,
+    0.286
    ],
    "market": [
-    0.692,
-    0.18,
-    0.128
+    0.574,
+    0.237,
+    0.189
    ],
    "final": [
-    0.685,
-    0.183,
-    0.132
+    0.568,
+    0.238,
+    0.194
    ],
-   "over25": 0.593,
+   "over25": 0.436,
    "xg": [
-    1.74,
-    1.21
+    1.34,
+    1.01
    ],
    "scores": [
     {
+     "score": "1-0",
+     "prob": 0.158
+    },
+    {
      "score": "2-1",
-     "prob": 0.133
+     "prob": 0.112
+    },
+    {
+     "score": "1-1",
+     "prob": 0.112
+    }
+   ],
+   "cards": 4.1,
+   "anchored": true,
+   "pick": "HOME",
+   "dc": "1X",
+   "dc_prob": 0.806,
+   "dc_tier": "high",
+   "top_score": "1-0"
+  },
+  {
+   "date": "2026-10-29",
+   "kickoff": "19:45",
+   "comp": "Italy Serie A",
+   "kind": "domestic",
+   "home": "Fiorentina",
+   "away": "Atalanta",
+   "source": "engine",
+   "elo": [
+    1544,
+    1635
+   ],
+   "rating_weight": 1.0,
+   "stale_days": 20,
+   "model": [
+    0.297,
+    0.27,
+    0.434
+   ],
+   "market": [
+    0.431,
+    0.263,
+    0.306
+   ],
+   "final": [
+    0.424,
+    0.264,
+    0.312
+   ],
+   "over25": 0.475,
+   "xg": [
+    1.1,
+    1.48
+   ],
+   "scores": [
+    {
+     "score": "1-1",
+     "prob": 0.126
     },
     {
      "score": "1-0",
      "prob": 0.119
     },
     {
-     "score": "2-0",
-     "prob": 0.11
-    }
-   ],
-   "cards": 5.0,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.868,
-   "dc_tier": "high",
-   "top_score": "2-1"
-  },
-  {
-   "date": "2026-10-26",
-   "kickoff": "16:00",
-   "comp": "Turkey Super Lig",
-   "kind": "domestic",
-   "home": "Rizespor",
-   "away": "Trabzonspor",
-   "source": "engine",
-   "elo": [
-    1550,
-    1690
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 0,
-   "model": [
-    0.227,
-    0.252,
-    0.521
-   ],
-   "market": [
-    0.261,
-    0.247,
-    0.492
-   ],
-   "final": [
-    0.259,
-    0.247,
-    0.493
-   ],
-   "over25": 0.566,
-   "xg": [
-    1.21,
-    1.75
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.116
-    },
-    {
-     "score": "1-2",
-     "prob": 0.096
-    },
-    {
-     "score": "0-1",
-     "prob": 0.085
-    }
-   ],
-   "cards": 4.5,
-   "anchored": true,
-   "pick": "AWAY",
-   "dc": "12",
-   "dc_prob": 0.752,
-   "dc_tier": "medium",
-   "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-26",
-   "kickoff": "18:30",
-   "comp": "Turkey Super Lig",
-   "kind": "domestic",
-   "home": "Galatasaray",
-   "away": "Fenerbahce",
-   "source": "engine",
-   "elo": [
-    1833,
-    1792
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 1,
-   "model": [
-    0.434,
-    0.275,
-    0.291
-   ],
-   "market": [
-    0.426,
-    0.241,
-    0.333
-   ],
-   "final": [
-    0.426,
-    0.243,
-    0.331
-   ],
-   "over25": 0.55,
-   "xg": [
-    1.76,
-    1.14
-   ],
-   "scores": [
-    {
-     "score": "1-1",
-     "prob": 0.114
-    },
-    {
-     "score": "1-2",
-     "prob": 0.086
-    },
-    {
      "score": "2-1",
-     "prob": 0.081
+     "prob": 0.104
     }
    ],
-   "cards": 5.6,
+   "cards": 4.2,
    "anchored": true,
    "pick": "HOME",
    "dc": "12",
-   "dc_prob": 0.757,
+   "dc_prob": 0.736,
    "dc_tier": "medium",
    "top_score": "1-1"
-  },
-  {
-   "date": "2026-10-26",
-   "kickoff": "18:45",
-   "comp": "Portugal Primeira Liga",
-   "kind": "domestic",
-   "home": "Santa Clara",
-   "away": "Benfica",
-   "source": "engine",
-   "elo": [
-    1562,
-    1848
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 20,
-   "model": [
-    0.139,
-    0.181,
-    0.68
-   ],
-   "market": [
-    0.103,
-    0.213,
-    0.684
-   ],
-   "final": [
-    0.104,
-    0.212,
-    0.684
-   ],
-   "over25": 0.537,
-   "xg": [
-    0.91,
-    1.86
-   ],
-   "scores": [
-    {
-     "score": "0-1",
-     "prob": 0.129
-    },
-    {
-     "score": "0-2",
-     "prob": 0.125
-    },
-    {
-     "score": "1-2",
-     "prob": 0.114
-    }
-   ],
-   "cards": 4.6,
-   "anchored": true,
-   "pick": "AWAY",
-   "dc": "X2",
-   "dc_prob": 0.896,
-   "dc_tier": "high",
-   "top_score": "0-1"
-  },
-  {
-   "date": "2026-10-26",
-   "kickoff": "19:30",
-   "comp": "France Ligue 1",
-   "kind": "domestic",
-   "home": "Paris SG",
-   "away": "Lyon",
-   "source": "engine",
-   "elo": [
-    1790,
-    1643
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 1,
-   "model": [
-    0.595,
-    0.216,
-    0.188
-   ],
-   "market": [
-    0.654,
-    0.2,
-    0.146
-   ],
-   "final": [
-    0.651,
-    0.201,
-    0.148
-   ],
-   "over25": 0.656,
-   "xg": [
-    2.17,
-    1.18
-   ],
-   "scores": [
-    {
-     "score": "2-1",
-     "prob": 0.107
-    },
-    {
-     "score": "2-0",
-     "prob": 0.091
-    },
-    {
-     "score": "1-1",
-     "prob": 0.09
-    }
-   ],
-   "cards": 3.6,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.852,
-   "dc_tier": "high",
-   "top_score": "2-1"
-  },
-  {
-   "date": "2026-10-26",
-   "kickoff": "20:00",
-   "comp": "Spain La Liga",
-   "kind": "domestic",
-   "home": "Sevilla",
-   "away": "Osasuna",
-   "source": "engine",
-   "elo": [
-    1521,
-    1488
-   ],
-   "rating_weight": 1.0,
-   "stale_days": 21,
-   "model": [
-    0.415,
-    0.297,
-    0.289
-   ],
-   "market": [
-    0.487,
-    0.288,
-    0.226
-   ],
-   "final": [
-    0.483,
-    0.288,
-    0.229
-   ],
-   "over25": 0.423,
-   "xg": [
-    1.25,
-    1.12
-   ],
-   "scores": [
-    {
-     "score": "1-0",
-     "prob": 0.139
-    },
-    {
-     "score": "1-1",
-     "prob": 0.136
-    },
-    {
-     "score": "2-1",
-     "prob": 0.102
-    }
-   ],
-   "cards": 5.6,
-   "anchored": true,
-   "pick": "HOME",
-   "dc": "1X",
-   "dc_prob": 0.771,
-   "dc_tier": "medium",
-   "top_score": "1-0"
   }
  ],
  "unrated_list": []
